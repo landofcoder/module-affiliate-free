@@ -1,0 +1,20 @@
+<?php 
+	$extra_payments = $this->getPayments();
+	$default_payments = $this->getDefaultPayments();
+	$payments = array_merge($extra_payments, $default_payments);
+	if($payments) {
+		foreach($payments as $payment) {
+			if(isset($payment['enabled']) && !$payment['enabled'])
+                continue;
+            ?>
+			<div class="field payment <?php echo $payment['name']; ?>" id="<?php echo 'payment-'.$payment['name']; ?>">
+                <label for="<?php $payment['name']; ?>" class="label"><span><?php /* @escapeNotVerified */ echo __($payment['label']) ?></span></label>
+                <div class="control">
+                    <?php echo $payment['html']; ?>
+                </div>
+            </div>
+			<?php
+        }
+	}
+	echo $this->getChildHtml();
+?>

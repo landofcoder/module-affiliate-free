@@ -1,0 +1,47 @@
+<?php 
+$_helper = $this->getHelper();
+$collection  = $block->getTransactionCollection();
+$count       = $collection->count();
+$size        = $collection->getSize();
+$limit       = $block->getLimit();
+$currentPage = $block->getCurrentPage();
+$start       = $size - (($currentPage - 1) * $limit);
+?>
+<div class="aff-main-content col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+<?php if ($collection && count($collection)): ?>
+    <div class="affiliate-order">
+         <table class="data table table-order-items history" id="my-orders-table">
+            <caption class="table-caption"><?php /* @escapeNotVerified */ echo __('Orders') ?></caption>
+            <thead>
+                <tr>
+                    <th scope="col" class="col date"><?php /* @escapeNotVerified */ echo __('Date') ?></th>
+                    <th scope="col" class="col shipping"><?php /* @escapeNotVerified */ echo __('Description') ?></th>
+                    <th scope="col" class="col total"><?php /* @escapeNotVerified */ echo __('Order Total') ?></th>
+                    <th scope="col" class="col total"><?php /* @escapeNotVerified */ echo __('Commission Total') ?></th>
+                    <th scope="col" class="col status"><?php /* @escapeNotVerified */ echo __('Order Status') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php 
+            $total = 0;
+            foreach ($collection as $_collection) : ?>
+                <tr>
+                    <td data-th="<?php echo $block->escapeHtml(__('Date')) ?>" class="col date"><?php /* @escapeNotVerified */ echo $_collection->getCreatedAt() ?></td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Description')) ?>" class="col shipping"><?php echo $_collection->getDescription(); ?></td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Order Total')) ?>" class="col total"><?php /* @escapeNotVerified */ echo $block->formatCurrency($_collection->getOrderTotal()) ?></td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Commission Total')) ?>" class="col total"><?php /* @escapeNotVerified */ echo $block->formatCurrency($_collection->getCommissionTotal()) ?></td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Order Status')) ?>" class="col status"><?php /* @escapeNotVerified */ echo $_collection->getOrderStatus() ?></td>
+                </tr>
+                <?php $total += $_collection->getCommissionTotal();?>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div><strong>Total: <?php echo $block->formatCurrency($total);?></strong></div>
+        <?php echo $block->getChildHtml('toolbar'); ?>
+    </div>
+
+<?php else: ?>
+    <div class="message info empty"><span><?php /* @escapeNotVerified */ echo __('You have placed no transactions.'); ?></span></div>
+<?php endif ?>
+</div>

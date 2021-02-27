@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="affiliate_customer_account"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Lof\Affiliate\Block\Account\Form\Lead" name="affiliate_account_lead" template="form/lead.phtml" cacheable="false">
+                <arguments>
+                    <argument name="limit" xsi:type="string">10</argument>
+                </arguments>
+                <block class="Lof\Affiliate\Block\Toolbar" name="lof_toolbar" template="toolbar.phtml">
+                    <block class="Magento\Theme\Block\Html\Pager" name="lof_pager"/>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

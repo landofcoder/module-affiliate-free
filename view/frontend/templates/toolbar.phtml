@@ -1,0 +1,11 @@
+<?php
+$size = $this->getCollection()->getSize();
+?>
+<?php if($size){ ?>
+    <div class="toolbar">
+        <div class="pager">
+            <p class="toolbar-amount"><span class="toolbar-number"><?php echo __('%1 Item(s)', $size); ?></span></p>
+            <?php echo $block->getPagerHtml() ?>
+        </div>
+    </div>
+<?php } ?>

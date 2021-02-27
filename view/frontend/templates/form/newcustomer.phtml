@@ -1,0 +1,36 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * New Customer block template
+ *
+ * @var $block \Magento\Customer\Block\Form\Login\Info
+ */
+?>
+<?php if ($block->getRegistration()->isAllowed()): ?>
+<div class="aff-main-content col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="affiiate-page-title">
+        <h1><?php echo __('Register')?></h1>
+    </div>
+    <div class="block block-new-customer">
+        <div class="block-title">
+            <strong id="block-new-customer-heading" role="heading" aria-level="2"><?php /* @escapeNotVerified */ echo __('New Account') ?></strong>
+        </div>
+        <div class="block-content" aria-labelledby="block-new-customer-heading">
+            <p><?php /* @escapeNotVerified */ echo __('If you have not had an affiliate account yet, please choose Signup to create a new account quickly.') ?></p>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <a href="<?php /* @escapeNotVerified */ echo $block->getCreateAccountUrl() ?>" class="action create primary"><span><?php /* @escapeNotVerified */ echo __('Create an Account') ?></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Landofcoder
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the landofcoder.com license that is
+ * available through the world-wide-web at this URL:
+ * http://landofcoder.com/license
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Landofcoder
+ * @package    Lof_FAQ
+ * @copyright  Copyright (c) 2016 Landofcoder (http://www.landofcoder.com/)
+ * @license    http://www.landofcoder.com/LICENSE-1.0.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="lofaffiliate" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Affiliate</label>
+            <tab>landofcoder</tab>
+            <resource>Lof_Affiliate::config_affiliate</resource>
+            <group id="general_settings" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="cookie_lifetime" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label comment" type="text">
+                    <label>Cookie lifetime</label>
+                    <comment>Cookie lifetime in weeks (2 - 6240)</comment>
+                    <validate>validate-digits validate-not-negative-number</validate>
+                </field>
+                <field id="sender_email_identity" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                
+
+                <field id="withdrawal_start" translate="label" type="text" sortOrder="40" showInDefault="1" showInStore="1" showInWebsite="1">
+                    <label>Withdrawal Min</label>
+                    <comment>Min transaction to withdrawal</comment>
+                </field>
+
+                <field id="withdrawal_limits" translate="label" type="text" sortOrder="45" showInDefault="1" showInStore="1" showInWebsite="1">
+                    <label>Withdrawal limits</label>
+                    <comment>Limit transaction to withdrawal</comment>
+                </field>
+
+
+
+                <field id="auto_create" translate="label comment" type="select" sortOrder='50' showInWebsite="1" showInStore="1" showInDefault="1">
+                    <label>Auto create Affiliate account when customer register</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="order_status" translate="label" type="text" sortOrder="55" showInDefault="1" showInStore="1" showInWebsite="1">
+                    <label>Order Status</label>
+                    <comment>Order Status to calculate commission</comment>
+                </field>
+
+                <!-- url_heading -->
+                <field id="url_heading" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Affiliate URL</label>
+                    <frontend_model>Lof\Affiliate\Block\Adminhtml\System\Config\Form\Field\Heading</frontend_model>
+                </field>
+
+                <field id="url_param" translate="label" type="text" sortOrder="70" showInDefault="1" showInStore="1" showInWebsite="1">
+                    <label>Parameter</label>
+                    <comment>Please don't use parameter as id because it will overried default parameter of system. Leave blank for default value (code).</comment>
+                </field>
+                <field id="url_param_value" translate="label comment" type="select" sortOrder='80' showInWebsite="1" showInStore="1" showInDefault="1">
+                    <label>Value</label>
+                    <source_model>Lof\Affiliate\Model\Config\Source\UrlParam</source_model>
+                </field>
+
+                <!-- url_heading -->
+                <field id="url_heading_campaign" translate="label comment" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Campaign URL</label>
+                    <frontend_model>Lof\Affiliate\Block\Adminhtml\System\Config\Form\Field\Heading</frontend_model>
+                </field>
+                <field id="url_campaign_param" translate="label" type="text" sortOrder="91" showInDefault="1" showInStore="1" showInWebsite="1">
+                    <label>Parameter</label>
+                    <comment>Please don't use parameter as id because it will overried default parameter of system. Leave blank for default value (code).</comment>
+                </field>
+                <field id="url_campaign_param_value" translate="label comment" type="select" sortOrder='92' showInWebsite="1" showInStore="1" showInDefault="1">
+                    <label>Value</label>
+                    <source_model>Lof\Affiliate\Model\Config\Source\UrlCampaignParam</source_model>
+                </field>
+
+            </group>
+
+            <group id="email_settings" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Email Settings</label>
+            </group>
+            <group id="trackingcode_settings" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Tracking Code Settings</label>
+                <field id="use_customcode" translate="label comment" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Use custom tracking code?</label>
+                    <comment>Enable to use custom tracking code, Disabled to use default php function uniqid() to generate code.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="prefix" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Code Prefix</label>
+                    <depends><field id="use_customcode">1</field></depends>
+                </field>
+                <field id="surfix" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Code Surfix</label>
+                    <depends><field id="use_customcode">1</field></depends>
+                </field>
+                <field id="chunks" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Number Chunks</label>
+                    <comment><![CDATA[is number of chunks, default = 1.<br/>If you just want to generate random string, set this to 1. It required at least number 1.<br/>Example: If number of chunk is 3. XXXXX-XXXXX-XXXXX]]></comment>
+                    <depends><field id="use_customcode">1</field></depends>
+                </field>
+                <field id="letters" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Number Letters Per Chunk</label>
+                    <comment><![CDATA[is number of letters per chunk, default = 9.<br/>Example: If number of letters per chunk is 2 and number of chunk is 3. XX-XX-XX]]></comment>
+                    <depends><field id="use_customcode">1</field></depends>
+                </field>
+                <field id="separate_text" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Separate Chunk Text</label>
+                    <comment><![CDATA[is separator text to separate chunks, default = -.<br/>Example: If separator is colon. XXXXX:XXXXX:XXXXX:XXXXX:XXXXX]]></comment>
+                    <depends><field id="use_customcode">1</field></depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

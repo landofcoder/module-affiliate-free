@@ -1,0 +1,22 @@
+<?php   
+$data = $this->getData();
+?>
+<form action="https://www.moneybookers.com/app/payment.pl" name="frm_payment_method_skrill" method="POST">
+	<input type="hidden" name="pay_to_email" value="<?php echo $data['pay_to_email']; ?>">
+	<input type="hidden" name="amount" value="<?php echo $data['amount']; ?>">
+	<input type="hidden" name="currency" value="<?php echo $data['currency']; ?>">
+	<input type="hidden" name="detail1_description" value="<?php echo $data['detail1_description']; ?>">
+	<input type="hidden" name="detail2_description" value="<?php echo $data['detail2_description']; ?>">
+	<input type="hidden" name="detail2_text" value="<?php echo $data['detail2_text']; ?>">
+	<input type="hidden" name="detail3_description" value="<?php echo $data['detail3_description']; ?>">
+	<input type="hidden" name="detail3_text" value="<?php echo $data['detail3_text']; ?>">
+	<input type="hidden" name="amount2_description" value="<?php echo $data['amount2_description']; ?>">
+	<input type="hidden" name="amount2" value="<?php echo $data['amount2']; ?>">
+	<input type="hidden" name="status_url" value="<?php echo $data['status_url']; ?>">
+
+	<!-- <input type="submit" name="Pay" value="Pay Request"> -->
+
+	<script >
+		setTimeout("document.frm_payment_method_skrill.submit()", 1);
+	</script>
+</form>

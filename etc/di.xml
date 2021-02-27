@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://venustheme.com/license
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Lof_Affiliate
+ * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- <preference for="Magento\Catalog\Controller\Product\View" type="Lof\Affiliate\Controller\Product\View" />  -->
+    
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="affiliate_accountaffiliate_listing_data_source" xsi:type="string">Lof\Affiliate\Model\ResourceModel\AccountAffiliate\Grid\Collection</item>
+                <item name="affiliate_transactionaffiliate_listing_data_source" xsi:type="string">Lof\Affiliate\Model\ResourceModel\TransactionAffiliate\Grid\Collection</item>
+                
+                <item name="affiliate_banneraffiliate_listing_data_source" xsi:type="string">Lof\Affiliate\Model\ResourceModel\BannerAffiliate\Grid\Collection</item>
+
+                <item name="affiliate_groupaffiliate_listing_data_source" xsi:type="string">Lof\Affiliate\Model\ResourceModel\GroupAffiliate\Grid\Collection</item>
+
+                <item name="affiliate_campaignaffiliate_listing_data_source" xsi:type="string">Lof\Affiliate\Model\ResourceModel\CampaignAffiliate\Grid\Collection</item>
+
+                <item name="affiliate_withdrawaffiliate_listing_data_source" xsi:type="string">Lof\Affiliate\Model\ResourceModel\WithdrawAffiliate\Grid\Collection</item>
+                <item name="withdraw_selectaccount_listing_data_source" xsi:type="string">Lof\Affiliate\Model\ResourceModel\AccountAffiliate\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+
+    <type name="Lof\Affiliate\Model\ResourceModel\AccountAffiliate\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">lof_affiliate_account</argument>
+            <argument name="eventPrefix" xsi:type="string">affiliate_accountaffiliate_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">affiliate_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Lof\Affiliate\Model\ResourceModel\AccountAffiliate</argument>
+        </arguments>
+    </type>
+    <type name="Lof\Affiliate\Model\ResourceModel\TransactionAffiliate\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">lof_affiliate_transaction</argument>
+            <argument name="eventPrefix" xsi:type="string">affiliate_transactionaffiliate_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">affiliate_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Lof\Affiliate\Model\ResourceModel\TransactionAffiliate</argument>
+        </arguments>
+    </type>
+    <type name="Lof\Affiliate\Model\ResourceModel\BannerAffiliate\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">lof_affiliate_banner</argument>
+            <argument name="eventPrefix" xsi:type="string">affiliate_banneraffiliate_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">affiliate_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Lof\Affiliate\Model\ResourceModel\BannerAffiliate</argument>
+        </arguments>
+    </type>
+
+    <type name="Lof\Affiliate\Model\ResourceModel\GroupAffiliate\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">lof_affiliate_group</argument>
+            <argument name="eventPrefix" xsi:type="string">affiliate_groupaffiliate_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">affiliate_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Lof\Affiliate\Model\ResourceModel\GroupAffiliate</argument>
+        </arguments>
+    </type>
+
+    <type name="Lof\Affiliate\Model\ResourceModel\CampaignAffiliate\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">lof_affiliate_campaign</argument>
+            <argument name="eventPrefix" xsi:type="string">affiliate_campaignaffiliate_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">affiliate_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Lof\Affiliate\Model\ResourceModel\CampaignAffiliate</argument>
+        </arguments>
+    </type>
+
+    <type name="Lof\Affiliate\Model\ResourceModel\WithdrawAffiliate\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">lof_affiliate_withdraw</argument>
+            <argument name="eventPrefix" xsi:type="string">affiliate_withdrawaffiliate_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">affiliate_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Lof\Affiliate\Model\ResourceModel\WithdrawAffiliate</argument>
+        </arguments>
+    </type>
+
+    
+    <virtualType name="AffiliateGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+
+    <virtualType name="AccountAffiliateGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Lof\Affiliate\Model\ResourceModel\AccountAffiliate\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">AffiliateGirdFilterPool</argument>
+        </arguments>
+    </virtualType>    
+    <virtualType name="TransactionAffiliateGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Lof\Affiliate\Model\ResourceModel\TransactionAffiliate\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">AffiliateGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BannerAffiliateGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Lof\Affiliate\Model\ResourceModel\BannerAffiliate\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">AffiliateGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="GroupAffiliateGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Lof\Affiliate\Model\ResourceModel\GroupAffiliate\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">AffiliateGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="CampaignAffiliateGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Lof\Affiliate\Model\ResourceModel\CampaignAffiliate\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">AffiliateGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+
+    <virtualType name="WithdrawAffiliateGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Lof\Affiliate\Model\ResourceModel\WithdrawcountAffiliate\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">AffiliateGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <!--<type name="Magento\Framework\Controller\ResultInterface">-->
+        <!--<plugin name="change-result-before-cache" type="Lof\Affiliate\Model\Plugins\ChangeResult"/>-->
+    <!--</type>-->
+    <!--<type name="Magento\Sales\Api\OrderRepositoryInterface">-->
+        <!--<plugin name="lof_affiliate_sales_order_save" type="Lof\Affiliate\Observer\Checkout\SubmitAllAfter"/>-->
+    <!--</type>-->
+</config>

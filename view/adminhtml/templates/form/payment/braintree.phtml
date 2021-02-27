@@ -1,0 +1,139 @@
+<?php 
+$data = $this->getData();
+?>
+
+<div id="container">
+    <h1>BrainTree Payment</h1>
+    <div id="paymentGrid">
+        <div style="margin-top:20px"></div>
+        <div style="float:left;widht:450px">
+            <form method="post"  id="paymentForm" action="<?php echo $data['callback'];?>">
+                <div>
+                    <fieldset id="payment_review_review_fieldset" data-ui-id="form-element-">
+                        <legend data-ui-id="form-element-legend">Payment details</legend>
+                        <table class="data table table-order-items history" id="my-orders-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col withdraw_id"><?php /* @escapeNotVerified */ echo __('ID') ?></th>
+                                    <th scope="col" class="col date_request"><?php /* @escapeNotVerified */ echo __('Date Requested') ?></th>
+                                    <th scope="col" class="col withdraw_amount"><?php /* @escapeNotVerified */ echo __('Amount') ?></th>
+                                    <th scope="col" class="col type"><?php /* @escapeNotVerified */ echo __('Payment Type') ?></th>
+                                    <th scope="col" class="col status"><?php /* @escapeNotVerified */ echo __('Status') ?></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 <tr>
+                                     <td data-th="<?php echo $block->escapeHtml(__('ID')) ?>" class="col date"><?php /* @escapeNotVerified */ echo $data['withdraw_id']; ?></td>
+                                    <td data-th="<?php echo $block->escapeHtml(__('Date Requested')) ?>" class="col shipping"><?php echo $data['date_request']; ?></td>
+                                    <td data-th="<?php echo $block->escapeHtml(__('Amount')) ?>" class="col total"><?php /* @escapeNotVerified */ echo $data['amount']; ?></td>
+                                    <td data-th="<?php echo $block->escapeHtml(__('Payment Type')) ?>" class="col total"><?php /* @escapeNotVerified */ echo $data['type']; ?></td>
+                                    <td data-th="<?php echo $block->escapeHtml(__('Status')) ?>" class="col total"><?php /* @escapeNotVerified */ echo $data['status']; ?></td>
+                                 </tr>               
+                            </tbody>
+                        </table>
+                    </fieldset>
+                    <fieldset class="fieldset aff_request">
+                        <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Payment Method') ?></span></legend><br>
+                        <div class="field braintree_id required">
+                            <label class="label" for="braintree_id"><span><?php /* @escapeNotVerified */ echo __('Braintree Id') ?></span></label>
+                            <div class="control">
+                                <input type="text" class="input-text" name="braintree_id" id="braintree_id" autocomplete="off" value="">
+                            </div>
+                        </div>
+                        <div class="actions-toolbar">
+                            <div class="primary">
+                                <button type="submit" class="action save primary" title="<?php /* @escapeNotVerified */ echo __('Pay Request') ?>"><span><?php /* @escapeNotVerified */ echo __('Pay Request') ?></span></button>
+                            </div>
+                            <div class="secondary">
+                                <a class="action back" href="<?php //echo $block->escapeUrl($block->getBackUrl()) ?>"><span><?php /* @escapeNotVerified */ echo __('Go back') ?></span></a>
+                            </div>
+                    </fieldset>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="orderInfo"></div>
+</div>
+<script type="text/javascript">
+require([
+    'jquery',
+    'Lof_Affiliate/js/jquery.creditCardValidator',
+    'Lof_Affiliate/js/braintree_pay'
+    ],function($){   
+        $(document).ready(function($){
+        /* Button Enable*/
+        $("#paymentForm input[type=text]").on("keyup",function(){
+            var cardValid=$("#card_number").attr('rel');
+            var C=$("#card_name").val();
+            var M=$("#expiry_month").val();
+            var Y=$("#expiry_year").val();
+            var CVV=$("#cvv").val();
+            var expName =/^[a-z ,.'-]+$/i;
+            var expMonth = /^01|02|03|04|05|06|07|08|09|10|11|12$/;
+            var expYear = /^16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31$/;
+            var expCVV=/^[0-9]{3,3}$/;
+            var cardCheck=$('#card_number').attr("rel");
+            var url = $(this).attr("action");
+
+            if(cardValid>0 && expName.test(C) && expMonth.test(M) && expYear.test(Y) && expCVV.test(CVV) && parseInt(cardCheck)>0){ 
+                $('#paymentButton').prop('disabled', false);   
+                $('#paymentButton').removeClass('disable');
+            }else{
+                $('#paymentButton').prop('disabled', true);  
+                $('#paymentButton').addClass('disable'); 
+            }
+
+        });
+        cardValidate();
+
+        /*Payment Form */
+        // $("#paymentForm").submit(function() { 
+        //     var datastring = $(this).serialize();
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "<?php //echo $data['callback']; ?>",
+        //         data: datastring,
+        //         dataType: "json",
+        //         beforeSend: function(){  
+        //             $("#paymentButton").val('Processing..');
+        //         },
+        //         complete: function(data) {
+        //             $.each(data.OrderStatus, function(i,data){
+        //                 var HTML;
+        //                 if(data){
+        //                     $("#paymentGrid").slideUp("slow");  
+        //                     $("#orderInfo").fadeIn("slow");
+
+        //                     if(data.status == '1'){
+        //                         HTML="Order <span>"+data.orderID+"</span> has been created successfully."; 
+        //                     }else if(data.status == '2'){
+        //                         HTML="Transaction has been failed, please use other card."; 
+        //                     }else{
+        //                         HTML="Card number is not valid, please use other card."; 
+        //                     }
+
+        //                     $("#orderInfo").html(HTML);
+        //                 }
+        //             });
+        //         },
+        //         error: function(){ alert('error handing here'); }
+        //         });
+        //     return false;
+        // });
+        $("#paymentForm").submit(function(event) { 
+            event.preventDefault();
+            var $form = $(this),
+                customer_id = $("#braintree_id").val(),
+                amount = '<?php echo $data["amount"]?>',
+                url = $form.attr( "action" );
+            var posting = $.post(url, {customer_id:customer_id,amount:amount});
+            posting.done(function(xhr){
+                // alert(xhr.responseText);
+            });
+        });
+    });
+});
+</script>
+
+

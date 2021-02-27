@@ -1,0 +1,40 @@
+<?php
+	$extra_payments = $this->getPayments();
+	$default_payments = $this->getDefaultPayments();
+	$payments = array_merge($extra_payments, $default_payments);
+	if($payments) {
+		?>
+		<div class="field check-list-payments">
+                <label for="payment_method" class="label"><span><?php /* @escapeNotVerified */ echo __('Payment Method') ?></span></label>
+                <div class="control">
+                    <?php foreach($payments as $payment){ 
+                    	if(isset($payment['enabled']) && !$payment['enabled'])
+                    		continue;
+                    	$checked = (isset($payment['checked']) && $payment['checked'])?' checked="checked"':'';
+                   	?>
+                    <div class="radio">
+	                    <label><input type="radio" name="payment" value="<?php echo $payment['name']; ?>" <?php echo $checked; ?>><?php echo $payment['title']; ?></label>
+	                </div>
+                    <?php } ?>
+                    <?php echo $this->getChildHtml(); ?>
+                </div>
+        </div>
+
+        <script type="text/javascript"><!--
+        require([
+		    'jquery',
+		    'mage/mage'
+		], function($){
+			$('.payment').hide();
+			$('input[name=\'payment\']').on('change', function() {
+				$('.payment').hide();
+
+				$('#payment-' + this.value).show();
+			});
+
+			$('input[name=\'payment\']:checked').trigger('change');
+		})
+		//--></script>
+		<?php
+	}
+?>

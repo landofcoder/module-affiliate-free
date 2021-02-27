@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://venustheme.com/license
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Lof_Affiliate
+ * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation=".urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+            	<resource id="Lof_Affiliate::affiliate_elements" title="Lof Affiliate">
+					<resource id="Lof_Affiliate::campaign" title="Manage Campaigns" sortOrder="10">
+						<resource id="Lof_Affiliate::campaign_new" title="New Campaign" sortOrder="5" />
+						<resource id="Lof_Affiliate::campaign_edit" title="Edit Campaign" sortOrder="10" />
+						<resource id="Lof_Affiliate::campaign_delete" title="Delete Campaign" sortOrder="20" />
+						<resource id="Lof_Affiliate::campaign_save" title="Save Campaign" sortOrder="30" />
+					</resource>
+					<resource id="Lof_Affiliate::account" title="Manage Accounts" sortOrder="20">
+						<resource id="Lof_Affiliate::account_new" title="New Account" sortOrder="5" />
+						<resource id="Lof_Affiliate::account_edit" title="Edit Account" sortOrder="10" />
+						<resource id="Lof_Affiliate::account_delete" title="Delete Account" sortOrder="20" />
+						<resource id="Lof_Affiliate::account_save" title="Save Account" sortOrder="30" />
+						<resource id="Lof_Affiliate::account_withdraw" title="Account Withdraw" sortOrder="40" />
+						<resource id="Lof_Affiliate::account_transaction" title="Account Withdraw" sortOrder="41" />
+						<resource id="Lof_Affiliate::account_lead" title="Account Withdraw" sortOrder="42" />
+					</resource>
+					<resource id="Lof_Affiliate::group" title="Manage Group" sortOrder="30">
+						<resource id="Lof_Affiliate::group_new" title="New Group" sortOrder="5" />
+						<resource id="Lof_Affiliate::group_edit" title="Edit Group" sortOrder="10" />
+						<resource id="Lof_Affiliate::group_delete" title="Delete Group" sortOrder="20" />
+						<resource id="Lof_Affiliate::group_save" title="Save Group" sortOrder="30" />
+					</resource>
+					<resource id="Lof_Affiliate::banner" title="Manage Banner" sortOrder="40">
+						<resource id="Lof_Affiliate::banner_new" title="New Banner" sortOrder="5" />
+						<resource id="Lof_Affiliate::banner_edit" title="Edit Banner" sortOrder="10" />
+						<resource id="Lof_Affiliate::banner_delete" title="Delete Banner" sortOrder="20" />
+						<resource id="Lof_Affiliate::banner_save" title="Save Banner" sortOrder="30" />
+					</resource>
+					<resource id="Lof_Affiliate::transaction" title="Manage Transaction" sortOrder="50">
+						<resource id="Lof_Affiliate::transaction_new" title="New Transaction" sortOrder="5" />
+						<resource id="Lof_Affiliate::transaction_edit" title="Edit Transaction" sortOrder="10" />
+						<resource id="Lof_Affiliate::transaction_delete" title="Delete Transaction" sortOrder="20" />
+						<resource id="Lof_Affiliate::transaction_save" title="Save Transaction" sortOrder="30" />
+						<resource id="Lof_Affiliate::transaction_pay" title="Pay Transaction" sortOrder="40" />
+					</resource>
+					<resource id="Lof_Affiliate::withdraw" title="Manage Withdraw" sortOrder="60">
+						<resource id="Lof_Affiliate::withdraw_new" title="New Withdraw" sortOrder="5" />
+						<resource id="Lof_Affiliate::withdraw_edit" title="Edit Withdraw" sortOrder="10" />
+						<resource id="Lof_Affiliate::withdraw_save" title="Save Withdraw" sortOrder="30" />
+						<resource id="Lof_Affiliate::withdraw_pay" title="Pay Withdraw" sortOrder="40" />
+					</resource>
+					<resource id="Lof_Affiliate::report" title="Affiliate Reports" sortOrder="70">
+						<resource id="Lof_Affiliate::report_overview" title="Overview" sortOrder="5" />
+						<resource id="Lof_Affiliate::report_sales" title="Affiliate Sales" sortOrder="10" />
+					</resource>
+				</resource>
+                <resource id="Lof_Affiliate::configuration" title="Lof Affiliate" sortOrder="40">
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

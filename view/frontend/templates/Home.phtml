@@ -1,0 +1,100 @@
+<?php 
+    $_helper = $this->getAffiliateHelper();
+    $campaigns = $_helper->getTableDataCampaigns();
+    $group = $this->getAffiliateInfo();
+?>
+
+<div class="aff-main-content col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="affiiate-page-title">
+        <h1><?php echo __("Welcome To Our Affiliate Network!"); ?></h1>
+    </div>
+    <?php echo $block->getChildHtml("affiliate.content.before"); ?>
+    <?php echo __("<p>Affiliate programs are common throughout the Internet and offer website owners an additional way to spread the word about their websites. Among others, our program is free to join, easy to sign up and requires no technical knowledge! As our affiliates, you will generate traffic and sales for our website and receive attractive commissions in return.</p>");?>
+    <?php echo __("<h3>How Does It Work?</h3>");?>
+    <?php if(!empty($campaigns)){
+        foreach ($campaigns as $campaign) { ?>
+        <p><?php echo $campaign['description']; ?></p>
+       <?php } ?>
+    <?php } else { ?>
+    <?php echo __("<p>When you join our affiliate program, you will be supplied with a range of banners and text links to place wherever you like. When a user clicks on one of your links, they will be brought to our website and their activities will be tracked by our affiliate program. Once this user completes a purchase, you earn commission!</p>");?>
+    <?php } ?>
+    <?php echo __("<h3>Real-Time Statistics and Reports!</h3>");?>
+    <?php echo __("<p>Log in anytime to check your performance with data of sales, traffic generated and your commission balance.</p>");?>
+    <?php echo $block->getChildHtml("affiliate.content.after"); ?>
+    <?php if(!empty($campaigns)){ ?>
+    <div class="affiiate-page-title">
+        <h1><?php echo __('Our Campaigns!'); ?></h1>
+    </div>
+    <div class="table-responsive">
+        <table id="list-campaign-table" class="table table-bordered table-hover no-margin">
+            <tbody>
+                <?php foreach ($campaigns as $campaign): ?>
+                <tr>
+                    <td>
+                        <strong><?php echo $campaign['name']; ?></strong><br>
+                        <?php if ($campaign['enable_ppl']) { ?>
+                            <strong><?php echo __('Pay Per Lead'); ?></strong><br>
+                            <span><?php echo __('Commission for each new account: ') . $_helper->symbolPrice($campaign['signup_commission']); ?></span></br>
+                            <span><?php echo __('Commission for each new subcribe: ') . $_helper->symbolPrice($campaign['subscribe_commission']); ?></span></br>
+                            <span><?php echo __('Maximum quantity of signup new account for each Affiliater: ') . $campaign['limit_account']; ?></span></br>
+                            <span><?php echo __('Maximum pay per lead balance for each Affiliater: ') . $campaign['limit_balance']; ?></span></br>
+                            <span><?php echo __('Maximum new account created from same IP address: ') . $campaign['limit_account_ip']; ?></span></br>
+                        <?php } ?>
+                            <strong><?php echo __('Pay Per Sale'); ?></strong><br>
+                        <span>base commission : <?php echo $campaign['discount_action'] == 'by_percent' ? $campaign['discount_amount'] . '%' : $_helper->symbolPrice($campaign['discount_amount']); ?></span>
+                    </td>
+                    <?php foreach ($_helper->getComissionByCampaignID($campaign['campaign_id']) as $comission): ?>
+                        <td>
+                            <strong><?php echo $comission['label']; ?></strong>
+                        </td>
+                        <td>
+                            <span class="1st-value"><?php echo $comission['typeOrderValue']; ?></span>
+                            <span class="next-value"><?php echo $comission['typeOrderValueNext']; ?></span>
+                        </td>
+                    </br>
+                    <?php endforeach ?>
+                </tr>
+                <?php endforeach ?>
+                <?php echo $block->getChildHtml("affiliate.campaign.list"); ?>
+            </tbody>
+        </table>
+    </div>
+    <?php }else { ?>
+    <div class="affiiate-page-title">
+        <h1><?php echo __('Our Program!'); ?></h1>
+    </div>
+    <div class="table-responsive">
+        <table id="list-campaign-table" class="table table-bordered table-hover no-margin">
+            <tbody>
+                <tr>
+                    <td width="25%" rowspan="20">
+                        <strong><?php echo $group['name']; ?></strong><br>
+                        <?php if ($group['is_active']) {
+                        $group['commission_action'] == 1 ? $unit = '%' : $unit = ''; ?>
+                            <span><?php echo __('PAY PER SALE - commission : ') . $group['commission'] . $unit; ?></span></br>
+                            <?php if ($group['enable_ppl']) {
+                            $group['commission_ppl_action'] == 1 ? $unit1 = '%' : $unit1 = '';  ?>
+                                <span><?php echo __('PAY PER LEAD - commission for each completed order : ') . $group['commission_ppl'] . $unit1; ?></span>
+                            <?php } ?>
+                        <?php } else { ?>
+                            <span><?php echo __('Group is disable'); ?></span>
+                        <?php } ?>
+                    </td>
+                </tr>
+                <?php echo $block->getChildHtml("affiliate.program.list"); ?>
+            </tbody>
+        </table>
+    </div>
+    <?php } ?>
+    <div class="clear">&nbsp;</div>
+    <div class="affiliateplus-account-bottom">
+        <?php if (!$this->checkExistAccount()): ?>
+            <div class="col-button col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <button class="form-button btn-contact" onclick="location.href='<?php echo $_helper->getBaseUrl().'affiliate/account/create';  ?>'">
+                    <span><?php echo __("Join Now");?></span>
+                </button>
+            </div>
+        <?php endif ?>
+    </div>
+    <?php echo $block->getChildHtml("affiliate.joinnow.after"); ?>
+</div>

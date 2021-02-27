@@ -1,0 +1,135 @@
+<?php
+$helper = $this->helper('Lof\Affiliate\Helper\Data'); 
+$collection = $block->getWithdrawCollection();
+$count       = $collection->count();
+$size        = $collection->getSize();
+$limit       = $block->getLimit();
+$currentPage = $block->getCurrentPage();
+$start       = $size - (($currentPage - 1) * $limit);
+$accountInfo = $helper->getLoadAccountInfo();
+
+$withdrawal_limits = $helper->getConfig('general_settings/withdrawal_limits');
+$withdrawal_start = $helper->getConfig('general_settings/withdrawal_start');
+
+?>
+<div class="aff-main-content col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+    <form id="lof_affiliate_payment_request_miniform" action="<?php echo $block->paymentFormLink(); ?>" method="post" novalidate="novalidate">
+        <div class="affiliate_form_request">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-blance">
+                <strong><?php echo __('My Balance:') ?></strong>
+                <span class="price"><?php echo $block->formatCurrency($accountInfo->getBalance()); ?></span>            
+            </div>
+            <div class="input_fields_form form-inline request-amount-money col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 input-blance">
+                    <input id="request_amount" name="amount" placeholder="<?php echo __('Request Amount'); ?>" data-validate="{'required-number':true, 'validate-greater-than-zero':true}" type="text">
+                    <label id="amount-error" style="color:red;font-size: 12px;font-style: italic;" for="amount"></label>
+                    <input type="hidden" id="from_request_page" name="from_request_page" value="1">
+                    <input type="hidden" name="request_page" value="withdraw_request">
+                    <input type="hidden" name="currency_code" id="currency_code" value="<?php echo $block->getCurrentCurrencyCode()?>">
+                </div>
+                <div class="request-withrawal col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="dropdown" id="request_withdraw">
+                    <div data-toggle="dropdown" class="dropdown-toggle" id="withdraw">
+                        <button type="button" class="button button-config request-amount action primary" title="Request Withdrawal">
+                            <span><?php echo __("Payment");?></span>
+                        </button>                                         
+                    </div>
+                    <div class="dropdown switcher-dropdown" id="list_payments" data-mage-init='{"dropdownDialog":{
+                        "appendTo":"#request_withdraw",
+                        "triggerTarget":"#withdraw",
+                        "closeOnMouseLeave": false,
+                        "triggerClass":"active",
+                        "parentClass":"active",
+                        "buttons":null}}'>
+                        <ul class="payment_type">
+                            <li><a href="" id="paypal"><?php echo __("Paypal"); ?></a></li>
+                            <li><a href="" id="banktransfer"><?php echo __("Bank Transfer"); ?></a></li>
+                            <!-- <li><a href="" id="skrill"><?php echo __("Skrill"); ?></a></li> -->
+                            <!-- <li><a href="" id="payoneer"><?php echo __("Payoneer"); ?></a></li> -->
+                            <!-- <li><a href="" id="braintree"><?php echo __("BrainTree"); ?></a></li> -->
+                        </ul>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </form>    
+    <div class="affiliate-withdraw">
+         <table class="data table table-order-items history" id="my-orders-table">
+            <caption class="table-caption"><?php /* @escapeNotVerified */ echo __('Orders') ?></caption>
+            <thead>
+                <tr>
+                    <th scope="col" class="col withdraw_id"><?php /* @escapeNotVerified */ echo __('ID') ?></th>
+                    <th scope="col" class="col date_request"><?php /* @escapeNotVerified */ echo __('Date Requested') ?></th>
+                    <th scope="col" class="col withdraw_amount"><?php /* @escapeNotVerified */ echo __('Amount') ?></th>
+                    <th scope="col" class="col status"><?php /* @escapeNotVerified */ echo __('Payment Method') ?></th>
+                    <th scope="col" class="col status"><?php /* @escapeNotVerified */ echo __('Status') ?></th>
+                </tr>
+            </thead>
+            <tbody>     
+            <?php 
+            $total = '';
+            foreach ($collection as $_collection) : ?>
+                <tr>
+                    <td data-th="<?php echo $block->escapeHtml(__('ID')) ?>" class="col date"><?php /* @escapeNotVerified */ echo $_collection->getWithdrawId() ?></td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Date Requested')) ?>" class="col shipping"><?php echo $_collection->getDateRequest() ?></td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Amount')) ?>" class="col total"><?php /* @escapeNotVerified */ echo $block->formatCurrency($_collection->getWithdrawAmount()) ?></td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Payment Method')) ?>" class="col total"><?php /* @escapeNotVerified */ echo $_collection->getPaymentMethod() ?></td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Status')) ?>" class="col total"><?php /* @escapeNotVerified */ echo $_collection->getStatus() == 0 ? __('Pending') : __('Completed') ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php echo $block->getChildHtml('toolbar'); ?>
+</div>
+<script type="text/javascript">
+    require(
+            [
+                'jquery',
+                'prototype'
+            ], function($){
+                $(document).ready(function(){
+                    var balance = Number('<?php echo $accountInfo->getBalance(); ?>');
+                    var limit = Number('<?php echo $withdrawal_limits; ?>');
+                    var start = Number('<?php echo $withdrawal_start; ?>');
+
+                    $("#request_amount").on("change",function(){
+                        var input = $("#request_amount").val();
+                        var offset =  balance - input;
+                        $("#amount-error").text('');
+
+                        if($.isNumeric($("#request_amount").val()) == false){
+                            $("#amount-error").text('Please Enter a value number !');
+                            $("#list_payments").css("display", "none");
+                        }
+                        else if( input < start || input > limit ){
+                            $("#amount-error").text('Please Enter a value between $' + start + ' and $' + limit + '');
+                            $("#list_payments").css("display", "none");
+                        } 
+                        else if( offset < 0){
+                            $("#amount-error").text('Please Enter a value <= $' + balance + '');
+                            $("#list_payments").css("display", "none");
+                        }
+                        else {
+                            $("#request_amount").val(input);
+                            $("#list_payments").css("display", "block");
+                        }
+
+                    });
+                    $(".payment_type li a").on("click",function(){
+                        var request = $("#request_amount").val();
+                        if (request >= start && request <= limit) {
+                            var type = $(this).attr('id');
+                            var form_action = $('#lof_affiliate_payment_request_miniform').attr('action');
+                            var currency_code = $("#currency_code").val();
+                            var new_form_action = form_action + 'type/' + type + '/request/' + request + '/currency_code/' + currency_code;
+                            $(this).attr('href',new_form_action);
+                        } else {
+                            $("#amount-error").text('Request Amount invalid !');
+                        }
+                    });
+                });
+            });
+</script>

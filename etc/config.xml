@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * landofcoder
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the landofcoder.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.landofcoder.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   landofcoder
+ * @package    Lof_Affiliate
+ * @copyright  Copyright (c) 2014 landofcoder (http://www.landofcoder.com/)
+ * @license    http://www.landofcoder.com/LICENSE-1.0.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<lofaffiliate>
+			<general_settings>
+				<enable>1</enable>
+				<cookie_lifetime>4</cookie_lifetime>
+				<sender_email_identity>sales</sender_email_identity>
+
+				<withdrawal_limits>200</withdrawal_limits>
+				<withdrawal_start>50</withdrawal_start>
+
+				<auto_create>0</auto_create>
+				<trackcode>trackcode</trackcode>
+				<order_status>complete</order_status>
+
+
+				<url_param>code</url_param>
+				<url_param_value>1</url_param_value>
+
+				<url_campaign_param>cam</url_campaign_param>
+				<url_campaign_param_value>1</url_campaign_param_value>
+			</general_settings>
+			<trackingcode_settings>
+				<use_customcode>0</use_customcode>
+                <prefix></prefix>
+                <surfix></surfix>
+                <chunks>1</chunks>
+                <letters>9</letters>
+                <separate_text>-</separate_text>
+			</trackingcode_settings>
+		</lofaffiliate>
+	</default>
+</config>

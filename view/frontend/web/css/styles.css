@@ -1,0 +1,73 @@
+.affiliate h1.page-title {
+    background: rgb(235, 82, 2) url("../img/shop.png") no-repeat scroll 15px center / 18px auto;
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding: 8px 15px 8px 40px;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+
+.sidebar.sidebar-main.lof-affiliate{
+    padding: 0px !important;
+    margin: 0px !important;
+}
+.affiliate-nav .block-title-aff{
+    background: rgb(235, 82, 2) url("../img/nav.png") no-repeat scroll 4px center / 35px auto;
+    color: rgb(255, 255, 255);
+}
+.affiliate-nav .block-title-aff h2 {
+    text-transform: none;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 9px 0 8px 40px;
+    width: 100%;
+}
+.affiliate-nav .nav>li>strong{
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    background-color: #eee;
+}
+
+.aff-main-content {
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.affiiate-page-title {
+    background: rgb(157, 157, 157) url("../img/nav.png") no-repeat scroll 4px center / 35px auto;
+    color: rgb(255, 255, 255);
+}
+
+.affiiate-page-title h1 {
+    text-transform: none;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 9px 0 8px 40px;
+    width: 100%;
+    margin: 0px;
+    margin-bottom: 18px;
+}
+
+.affiiate-page-title h2 {
+    background: rgb(235, 82, 2) url("../img/nav.png") no-repeat scroll 4px center / 35px auto;
+    text-transform: none;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 9px 0 8px 40px;
+    width: 100%;
+    margin: 0px;
+    margin-bottom: 18px;
+}
+
+
+#affiliate-please-wait-email{
+    background: #fff url(image/ajax-loader.gif) no-repeat 95%; 
+    height: 35px;
+}
+
+

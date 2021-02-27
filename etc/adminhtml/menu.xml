@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme 
+ * @package    Lof_Affiliate
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="Lof_Affiliate::theme" title="Lof Affiliate" module="Lof_Affiliate" sortOrder="1000" resource="Lof_Affiliate::affiliate_elements" parent="Magento_Backend::marketing"/>
+		
+		<!-- campaign -->
+		<add id="Lof_Affiliate::campaign_settings" title="Manage Campaigns" module="Lof_Affiliate" sortOrder="10" parent="Lof_Affiliate::theme" action="affiliate/campaignaffiliate/" resource="Lof_Affiliate::campaign"/>
+
+		<!-- accounts -->
+		<add id="Lof_Affiliate::account_settings" title="Affiliate Accounts" module="Lof_Affiliate" sortOrder="20" parent="Lof_Affiliate::theme" action="affiliate/accountaffiliate/" resource="Lof_Affiliate::account"/>
+
+		<add id="Lof_Affiliate::group_settings" title="Affiliate Groups" module="Lof_Affiliate" sortOrder="30" parent="Lof_Affiliate::theme" action="affiliate/groupaffiliate/" resource="Lof_Affiliate::group"/>
+		
+		<!-- banners -->
+		<add id="Lof_Affiliate::banner_settings" title="Manage Banners &amp; Links" module="Lof_Affiliate" sortOrder="40" parent="Lof_Affiliate::theme" action="affiliate/banneraffiliate/" resource="Lof_Affiliate::banner"/>
+
+		<!-- transactions -->
+		<add id="Lof_Affiliate::transaction_settings" title="Manage Transactions" module="Lof_Affiliate" sortOrder="50" parent="Lof_Affiliate::theme" action="affiliate/transactionaffiliate/" resource="Lof_Affiliate::transaction"/>
+		
+		<add id="Lof_Affiliate::withdraw_settings" title="Manage Withdraws" module="Lof_Affiliate" sortOrder="60" parent="Lof_Affiliate::theme" action="affiliate/withdrawaffiliate/" resource="Lof_Affiliate::withdraw"/>
+		
+		<!-- <add id="Lof_Affiliate::report_settings" title="Report" module="Lof_Affiliate" sortOrder="60" parent="Lof_Affiliate::theme" action="affiliate/report/" resource="Lof_Affiliate::report_overview"/> -->
+
+		<add id="Lof_Affiliate::general_settings" title="Settings" module="Lof_Affiliate" sortOrder="70" parent="Lof_Affiliate::theme" action="adminhtml/system_config/edit/section/lofaffiliate" resource="Lof_Affiliate::configuration"/>
+	</menu>
+</config>
+

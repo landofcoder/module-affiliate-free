@@ -1,0 +1,178 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/* @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Tier */
+$element = $block->getElement();
+?>
+<?php $_htmlId      = $block->getElement()->getHtmlId() ?>
+<?php $_htmlClass   = $block->getElement()->getClass() ?>
+<?php $_htmlName    = $block->getElement()->getName() ?>
+<?php $_readonly    = $block->getElement()->getReadonly() ?>
+<?php $_typeOrderValue = $block->getElement()->getTypeOrderValue('') ?>
+<?php $_typeOrderValueNext = $block->getElement()->getTypeOrderValueNext('') ?>
+
+<div class="field" id="attribute-<?php /* @escapeNotVerified */ echo $_htmlId?>-container" data-attribute-code="<?php /* @escapeNotVerified */ echo $_htmlId?>"
+     data-apply-to="<?php echo $block->escapeHtml(
+         $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode(
+             $element->hasEntityAttribute() ? $element->getEntityAttribute()->getApplyTo() : []
+         )
+     )?>">
+    <label class="label"><span><?php /* @escapeNotVerified */ echo $block->getElement()->getLabel() ?></span></label>
+    <div class="control" style="width: 100%">
+        <table class="admin__control-table tiers_table" id="tiers_table">
+            <thead>
+                <tr>
+                    <th class="col-tier"><?php /* @escapeNotVerified */ echo __('Tier') ?></th>
+                    <th class="col-type-order"><?php /* @escapeNotVerified */ echo __('Commission Type') ?></th>
+                    <th class="col-type-order-value required"><?php /* @escapeNotVerified */ echo __('Commission Value') ?></th>
+
+                    <th class="col-type-order-next"><?php /* @escapeNotVerified */ echo __('Condition Type') ?></th>
+                    <th class="col-type-order-next-value required"><?php /* @escapeNotVerified */ echo __('Value (Greater Than)') ?></th>
+
+                    <th class="col-delete"><?php /* @escapeNotVerified */ echo __('Action') ?></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="<?php /* @escapeNotVerified */ echo $_htmlId ?>_container"></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="7" class="col-actions-add"><?php echo $block->getAddButtonHtml() ?></td>
+                </tr>
+            </tfoot>
+        </table>
+
+<!-- javascript -->
+<script>
+require([
+    'mage/template',
+    "prototype",
+    "mage/adminhtml/form"
+], function (mageTemplate) {
+//<![CDATA[
+var tierPriceRowTemplate = '<tr>'
+    + '<td class="col-tier">[<%- data.index %>]</td>'
+    
+
+    + '<td class="col-type-order">'
+    + '<select class="<?php /* @escapeNotVerified */ echo $_htmlClass ?> required-entry" name="<?php /* @escapeNotVerified */ echo $_htmlName ?>[<%- data.index %>][typeOrder]" id="tier_price_row_<%- data.index %>_typeOrder">'
+    <?php foreach ($block->getTypeOrders() as $_typeOrderId => $_typeOrderInfo): ?>
+    + '<option value="<?php /* @escapeNotVerified */ echo $_typeOrderId ?>"><?php /* @escapeNotVerified */ echo $block->escapeJsQuote($block->escapeHtml($_typeOrderInfo)) ?></option>'
+    <?php endforeach ?>
+    + '</select></td>'
+
+    + '<td class="col-type-order-value"><input class="<?php /* @escapeNotVerified */ echo $_htmlClass ?> required-entry validate-number <?php /* @escapeNotVerified */ echo $_typeOrderValue ?>" type="text" name="<?php /* @escapeNotVerified */ echo $_htmlName ?>[<%- data.index %>][typeOrderValue]" value="<%- data.typeOrderValue %>" id="tier_price_row_<%- data.index %>_typeOrderValue" /></td>'
+
+
+    + '<td class="col-type-order-next">'
+    + '<select class="<?php /* @escapeNotVerified */ echo $_htmlClass ?> required-entry" name="<?php /* @escapeNotVerified */ echo $_htmlName ?>[<%- data.index %>][typeOrderNext]" id="tier_price_row_<%- data.index %>_typeOrderNext">'
+    <?php foreach ($block->getTypeOrdersNumber() as $_typeOrderId => $_typeOrderInfo): ?>
+    + '<option value="<?php /* @escapeNotVerified */ echo $_typeOrderId ?>"><?php /* @escapeNotVerified */ echo $block->escapeJsQuote($block->escapeHtml($_typeOrderInfo)) ?></option>'
+    <?php endforeach ?>
+    + '</select></td>'
+
+    + '<td class="col-type-order-value-next"><input class="<?php /* @escapeNotVerified */ echo $_htmlClass ?> required-entry validate-number <?php /* @escapeNotVerified */ echo $_typeOrderValueNext ?>" type="text" name="<?php /* @escapeNotVerified */ echo $_htmlName ?>[<%- data.index %>][typeOrderValueNext]" value="<%- data.typeOrderValueNext %>" id="tier_price_row_<%- data.index %>_typeOrderValueNext" /></td>'
+
+
+
+    + '<td class="col-delete"><input type="hidden" name="<?php /* @escapeNotVerified */ echo $_htmlName ?>[<%- data.index %>][delete]" class="delete" value="" id="tier_price_row_<%- data.index %>_delete" />'
+    + '<button title="<?php /* @escapeNotVerified */ echo $block->escapeHtml(__('Delete Tier')); ?>" type="button" class="action- scalable delete icon-btn delete-product-option" id="tier_price_row_<%- data.index %>_delete_button" onclick="return tierPriceControl.deleteItem(event, <%- data.index %>);">'
+    + '<span><?php /* @escapeNotVerified */ echo __("Delete") ?></span></button></td>'
+    + '<td class="col-delete1"><input class="<?php /* @escapeNotVerified */ echo $_htmlClass ?> <?php /* @escapeNotVerified */ echo $_typeOrderValueNext ?>" type="text" name="<?php /* @escapeNotVerified */ echo $_htmlName ?>[<%- data.index %>][is_deleted]" style="display: none;" id="tier_price_row_<%- data.index %>_is_deleted" /></td>'
+    + '</tr>';
+
+var tierPriceControl = {
+    template: mageTemplate(tierPriceRowTemplate),
+    itemsCount: 0,
+    addItem : function () {
+        <?php if ($_readonly): ?>
+        if (arguments.length < 4) {
+            return;
+        }
+        <?php endif; ?>
+        var data = {
+            typeOrder: '0',
+            typeOrderValue: '',
+
+            typeOrderNext: '0',
+            typeOrderValueNext: '',
+
+            readOnly: false,
+            index: this.itemsCount++
+        };
+
+        if(arguments.length >= 4) {
+            data.typeOrder      = arguments[0];
+            data.typeOrderValue = arguments[1];
+
+            data.typeOrderNext      = arguments[2];
+            data.typeOrderValueNext = arguments[3];
+        }
+        if (arguments.length == 4) {
+            data.readOnly = arguments[5];
+        }
+
+        Element.insert($('<?php /* @escapeNotVerified */ echo $_htmlId ?>_container'), {
+            bottom : this.template({
+                data: data
+            })
+        });
+
+        $('tier_price_row_' + data.index + '_typeOrder').value = data.typeOrder;
+        $('tier_price_row_' + data.index + '_typeOrderValue').value = data.typeOrderValue;
+
+        $('tier_price_row_' + data.index + '_typeOrderNext').value = data.typeOrderNext;
+        $('tier_price_row_' + data.index + '_typeOrderValueNext').value = data.typeOrderValueNext;
+
+    
+        if (data.readOnly == '1') {
+            ['typeOrder', 'typeOrderValue', 'typeOrderNext', 'typeOrderValueNext','delete'].each(function(idx){
+                $('tier_price_row_'+data.index+'_'+idx).disabled = true;
+            });
+            $('tier_price_row_'+data.index+'_delete_button').hide();
+        }
+
+        <?php if ($_readonly): ?>
+        $('<?php /* @escapeNotVerified */ echo $_htmlId ?>_container').select('input', 'select').each(this.disableElement);
+        $('<?php /* @escapeNotVerified */ echo $_htmlId ?>_container').up('table').select('button').each(this.disableElement);
+        <?php else: ?>
+        $('<?php /* @escapeNotVerified */ echo $_htmlId ?>_container').select('input', 'select').each(function(el){ Event.observe(el, 'change', el.setHasChanges.bind(el)); });
+        <?php endif; ?>
+    },
+    disableElement: function(el) {
+        el.disabled = true;
+        el.addClassName('disabled');
+    },
+    deleteItem: function(event, index) {
+        var tr = Event.findElement(event, 'tr');
+        if (tr) {
+            Element.select(tr, '.delete').each(function(elem){elem.value='1'});
+            Element.select(tr, ['input', 'select']).each(function(elem){elem.hide()});
+            Element.hide(tr);
+            document.getElementById('tier_price_row_' + index + '_is_deleted').value = "1"
+            //Element.addClassName(tr, 'no-display template');
+        }
+        return false;
+    }
+};
+<?php foreach ($block->getValues() as $_item): ?>
+tierPriceControl.addItem('<?php /* @escapeNotVerified */ echo $_item['typeOrder'] ?>', '<?php /* @escapeNotVerified */ echo $_item['typeOrderValue'] ?>', '<?php /* @escapeNotVerified */ echo $_item['typeOrderNext'] ?>', '<?php /* @escapeNotVerified */ echo $_item['typeOrderValueNext'] ?>',<?php echo (int)!empty($_item['readonly'])?>);
+<?php endforeach; ?>
+<?php if ($_readonly): ?>
+$('<?php /* @escapeNotVerified */ echo $_htmlId ?>_container').up('table').select('button')
+    .each(tierPriceControl.disableElement);
+<?php endif; ?>
+
+window.tierPriceControl = tierPriceControl;
+//]]>
+
+});
+</script>
+<!-- end javascript -->
+
+    </div>
+</div>

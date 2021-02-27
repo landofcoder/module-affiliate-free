@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Lof_All::lib/bootstrap/css/bootstrap.min.css" />
+        <css src="Lof_Affiliate::css/styles.css" />
+    </head>
+    <body>
+        <referenceBlock name="top.links">
+			<block class="Magento\Framework\View\Element\Html\Link\Current" name="affiliate-top-link" after="-" ifconfig="lofaffiliate/general_settings/enable">
+				<arguments>
+					<argument name="label" xsi:type="string">Affiliate</argument>
+					<argument name="path" xsi:type="string">affiliate/index/</argument>
+				</arguments>
+			</block>
+        </referenceBlock>
+        <referenceBlock name="footer_links">
+            <block class="Magento\Framework\View\Element\Html\Link\Current" name="affiliate-footer-link" after="-" ifconfig="lofaffiliate/general_settings/enable">
+                <arguments>
+                    <argument name="label" xsi:type="string">Affiliate</argument>
+                    <argument name="path" xsi:type="string">affiliate/index/</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+        <!--
+        <referenceBlock name="catalog.topnav">
+            <block class="Magento\Framework\View\Element\Html\Link" name="affiliate-navigation-link" ifconfig="lofaffiliate/general_settings/enable">
+                <arguments>
+                    <argument name="label" xsi:type="string" translate="true">Affiliate</argument>
+                    <argument name="path" xsi:type="string" translate="true">affiliate/index/</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    -->
+    </body>
+</page>
+
+

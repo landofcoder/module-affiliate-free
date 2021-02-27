@@ -1,0 +1,21 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/** @var $block \Magento\Framework\View\Element\Html\Links */
+?>
+<?php /** @var $block \Magento\Customer\Block\Account\Navigation */ ?>
+<div class="navbar-default block affiliate-nav">
+    <div class="block-title-aff">
+        <h2><?php /* @escapeNotVerified */ echo __('My Affiliate Account'); ?></h2>
+    </div>
+    <div class="content">
+        <nav class="affiliate-nav">
+            <ul class="nav items">
+                <!-- <li class="nav item"><strong><?php /* @escapeNotVerified */ echo __('Balance: '); ?></strong></li> -->
+                <?php echo $this->getChildHtml();?>
+            </ul>
+        </nav>
+    </div>
+</div>

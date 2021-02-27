@@ -1,0 +1,22 @@
+<form role="form" action="<?php echo $this->getInfoPostLink(); ?>">
+    <div class="affiiate-page-title">
+        <h3><?php echo __('Hi '); echo $fullname.' !'; ?> </h3>
+    </div>
+    <fieldset class="fieldset create account" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>">
+        <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Payment Information') ?></span></legend><br>
+
+        <div class="field paypal_email required">
+            <label for="paypal_email" class="label"><span><?php /* @escapeNotVerified */ echo __('Paypal Email') ?></span></label>
+            <div class="control">
+                <input type="text" name="paypal_email" id="paypal_email" title="<?php /* @escapeNotVerified */ echo __('Paypal Email') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}" autocomplete="off">
+            </div>
+        </div>
+    </fieldset>
+    <div class="affiliateplus-account-bottom">
+        <div class="col-button col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <button class='form-button btn-info' type="submit">
+              <span><?php echo __("Create Account");?></span>
+            </button>
+        </div>
+    </div>
+</form>

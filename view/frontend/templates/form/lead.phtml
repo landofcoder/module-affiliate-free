@@ -1,0 +1,46 @@
+<?php 
+$_helper = $this->getHelper();
+$collection = $this->getLeadCollection();
+$count       = $collection->count();
+$size        = $collection->getSize();
+$limit       = $block->getLimit();
+$currentPage = $block->getCurrentPage();
+$start       = $size - (($currentPage - 1) * $limit);
+?>
+<div class="aff-main-content col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+<?php
+ if ($collection && count($collection) >0): 
+    ?>
+    <div class="affiliate-order">
+         <table class="data table table-order-items history" id="my-orders-table">
+            <caption class="table-caption"><?php /* @escapeNotVerified */ echo __('Lead Details') ?></caption>
+            <thead>
+                <tr>
+                    <th scope="col" class="col total"><?php /* @escapeNotVerified */ echo __('Customer Email') ?></th>
+                    <th scope="col" class="col total"><?php /* @escapeNotVerified */ echo __('Ip address') ?></th>
+                    <th scope="col" class="col total"><?php /* @escapeNotVerified */ echo __('Signup Account Commission') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php 
+            $total = 0; ?>
+            <?php foreach ($collection as $_collection): ?>
+                <?php $total += $_collection->getSignupCommission() + $_collection->getSubscribeCommission(); ?>
+                <tr>
+                    <td data-th="<?php echo $block->escapeHtml(__('Customer Email')) ?>" class="col total"><?php /* @escapeNotVerified */ echo $_collection->getCustomerEmail() ?></td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Ip address')) ?>" class="col total"><?php /* @escapeNotVerified */ echo $_collection->getCustomerIp() ?></td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Commission Paid For Signup Account')) ?>" class="col total"><?php /* @escapeNotVerified */ echo $block->formatCurrency($_collection->getSignupCommission()) ?></td>
+
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div><strong>Total Of PAY PER LEAD Balance: <?php echo $block->formatCurrency($total);?></strong></div>
+        <?php echo $block->getChildHtml('toolbar'); ?>
+    </div>
+    
+<?php else: ?>
+    <div class="message info empty"><span><?php /* @escapeNotVerified */ echo __('You have placed no lead details.'); ?></span></div>
+<?php endif ?>
+</div>

@@ -1,0 +1,246 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Customer\Block\Form\Edit $block */
+?>
+<div class="aff-main-content col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <form class="form form-edit-account" action="<?php /* @escapeNotVerified */ echo $block->getUrl('affiliate/account/editPost') ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>" autocomplete="off">
+        <fieldset class="fieldset info">
+            <?php echo $block->getBlockHtml('formkey')?>
+            <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Account Information') ?></span></legend><br>
+            <?php echo $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($block->getCustomer())->toHtml() ?>
+
+            <?php $_dob = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob') ?>
+            <?php $_taxvat = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Taxvat') ?>
+            <?php $_gender = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Gender') ?>
+            <?php if ($_dob->isEnabled()): ?>
+                <?php echo $_dob->setDate($block->getCustomer()->getDob())->toHtml() ?>
+            <?php endif ?>
+            <?php if ($_taxvat->isEnabled()): ?>
+                <?php echo $_taxvat->setTaxvat($block->getCustomer()->getTaxvat())->toHtml() ?>
+            <?php endif ?>
+            <?php if ($_gender->isEnabled()): ?>
+                <?php echo $_gender->setGender($block->getCustomer()->getGender())->toHtml() ?>
+            <?php endif ?>
+
+            <div class="field choice">
+                <input type="checkbox" name="no_send_email" id="no-send-email" data-role="no-send-email" value="0" title="<?php /* @escapeNotVerified */ echo __('Notification Email') ?>" class="checkbox" />
+                <label class="label" for="no-send-email"><span><?php /* @escapeNotVerified */ echo __('Notification Email') ?></span></label>
+            </div>
+
+            <div class="field choice">
+                <input type="checkbox" name="change_email" id="change-email" data-role="change-email" value="1" title="<?php /* @escapeNotVerified */ echo __('Change Email') ?>" class="checkbox" />
+                <label class="label" for="change-email"><span><?php /* @escapeNotVerified */ echo __('Change Email') ?></span></label>
+            </div>
+            <div class="field choice">
+                <input type="checkbox" name="change_password" id="change-password" data-role="change-password" value="1" title="<?php /* @escapeNotVerified */ echo __('Change Password') ?>"<?php if ($block->getChangePassword()): ?> checked="checked"<?php endif; ?> class="checkbox" />
+                <label class="label" for="change-password"><span><?php /* @escapeNotVerified */ echo __('Change Password') ?></span></label>
+            </div>
+        </fieldset>
+
+        <fieldset class="fieldset password" data-container="change-email-password">
+            <legend class="legend"><span data-title="change-email-password"><?php /* @escapeNotVerified */ echo __('Change Email and Password') ?></span></legend><br>
+            <div class="field email required" data-container="change-email">
+                <label class="label" for="email"><span><?php /* @escapeNotVerified */ echo __('Email') ?></span></label>
+                <div class="control">
+                    <input type="email" name="email" id="email" autocomplete="email" data-input="change-email" value="<?php echo $block->escapeHtml($block->getCustomer()->getEmail()) ?>" title="<?php /* @escapeNotVerified */ echo __('Email') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}" />
+                </div>
+            </div>
+            <div class="field password current required">
+                <label class="label" for="current-password"><span><?php /* @escapeNotVerified */ echo __('Current Password') ?></span></label>
+                <div class="control">
+                    <input type="password" class="input-text" name="current_password" id="current-password" data-input="current-password" autocomplete="off" />
+                </div>
+            </div>
+            <div class="field new password required" data-container="new-password" data-mage-init='{"passwordStrengthIndicator": {}}'>
+                <label class="label" for="password"><span><?php /* @escapeNotVerified */ echo __('New Password') ?></span></label>
+                <div class="control">
+                    <input type="password" class="input-text" name="password" id="password"
+                        data-password-min-length="<?php echo $block->escapeHtml($block->getMinimumPasswordLength()) ?>"
+                        data-password-min-character-sets="<?php echo $block->escapeHtml($block->getRequiredCharacterClassesNumber()) ?>"
+                        data-input="new-password"
+                        data-validate="{required:true, 'validate-customer-password':true}"
+                        autocomplete="off" />
+                    <div id="password-strength-meter-container" data-role="password-strength-meter" >
+                        <div id="password-strength-meter" class="password-strength-meter">
+                            <?php /* @escapeNotVerified */ echo __('Password Strength'); ?>:
+                            <span id="password-strength-meter-label" data-role="password-strength-meter-label" >
+                                <?php /* @escapeNotVerified */ echo __('No Password'); ?>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field confirm password required" data-container="confirm-password">
+                <label class="label" for="password-confirmation"><span><?php /* @escapeNotVerified */ echo __('Confirm New Password') ?></span></label>
+                <div class="control">
+                    <input type="password" class="input-text" name="password_confirmation" id="password-confirmation"
+                        data-input="confirm-password"
+                        autocomplete="off" />
+                </div>
+            </div>
+            <?php echo $block->getChildHtml('form_additional_info'); ?>
+        </fieldset>
+
+        <fieldset class="fieldset affiliate">
+            <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Afiliate Information') ?></span></legend><br>
+            <div class="field refering_website">
+                <label class="label" for="refering_website"><span><?php /* @escapeNotVerified */ echo __('Refering Website') ?></span></label>
+                <div class="control">
+                    <input type="text" class="input-text" name="refering_website" id="refering_website" autocomplete="off" value="<?php echo $block->getAffiliateInfo()->getReferingWebsite()?>">
+                </div>
+            </div>
+                 
+        </fieldset>
+
+        <fieldset class="fieldset affiliate paypal">
+            <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Paypal Information') ?></span></legend><br>
+            <div class="field email required">
+                <label class="label" for="paypal_email"><span><?php /* @escapeNotVerified */ echo __(' Paypal Email') ?></span></label>
+                <div class="control">
+                    <input type="text" class="input-text" name="paypal_email" id="paypal_email" data-validate="{required:true, 'validate-email':true}" data-validate="{required:true, 'validate-email':true}" autocomplete="off" value="<?php echo $block->getAffiliateInfo()->getPaypalEmail()?>" >
+                </div>
+            </div>
+            <!-- <div class="field email required">
+                <label class="label" for="skrill_email"><span><?php /* @escapeNotVerified */ echo __('Skrill Email') ?></span></label>
+                <div class="control">
+                    <input type="text" class="input-text" name="skrill_email" id="Skrill_email" data-validate="{required:true, 'validate-email':true}" autocomplete="off" value="<?php echo $block->getAffiliateInfo()->getPaypalEmail()?>" >
+                </div>
+            </div>   -->         
+        </fieldset>
+
+        <fieldset class="fieldset affiliate bank-transfer">
+            <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Bank Transfer Information') ?></span></legend><br>
+            <div class="field bank_account_name ">
+                <label class="label" for="bank_account_name"><span><?php /* @escapeNotVerified */ echo __("Bank Account Holder's Name") ?></span></label>
+                <div class="control">
+                    <input type="text" class="input-text" name="bank_account_name" id="bank_account_name"  autocomplete="off" value="<?php echo $block->getAffiliateInfo()->getBankAccountName()?>" >
+                    <span class="form__hint"><?php echo __("Your full name that appears on your bank account statement");?></span>
+                </div>
+            </div>
+            <div class="field bank_account_number ">
+                <label class="label" for="bank_account_number"><span><?php /* @escapeNotVerified */ echo __("Bank Account Number/IBAN") ?></span></label>
+                <div class="control">
+                    <input type="text" class="input-text" name="bank_account_number" id="bank_account_number"  autocomplete="off" value="<?php echo $block->getAffiliateInfo()->getBankAccountNumber()?>" >
+                    <span class="form__hint"><?php echo __("Up to 34 letters and numbers. Australian account numbers should include the BSB number.");?></span>
+                </div>
+            </div>
+            <div class="field swift_code">
+                <label class="label" for="swift_code"><span><?php /* @escapeNotVerified */ echo __("SWIFT Code") ?></span></label>
+                <div class="control">
+                    <input type="text" class="input-text" name="swift_code" id="swift_code"  autocomplete="off" value="<?php echo $block->getAffiliateInfo()->getSwiftCode()?>" >
+                    <span class="form__hint"><?php echo __("either 8 or 11 characters e.g. ABNAUS33 or 1234567891");?></span>
+                </div>
+            </div>
+            <div class="field bank_name ">
+                <label class="label" for="bank_name"><span><?php /* @escapeNotVerified */ echo __("Bank Name in Full") ?></span></label>
+                <div class="control">
+                    <input type="text" class="input-text" name="bank_name" id="bank_name"  autocomplete="off" value="<?php echo $block->getAffiliateInfo()->getBankName()?>" >
+                    <span class="form__hint"><?php echo __("Up to 30 letters, numbers or spaces.");?></span>
+                </div>
+            </div>
+            <div class="field bank_branch_city ">
+                <label class="label" for="bank_branch_city"><span><?php /* @escapeNotVerified */ echo __("Bank Branch City") ?></span></label>
+                <div class="control">
+                    <input type="text" class="input-text" name="bank_branch_city" id="bank_branch_city"  autocomplete="off" value="<?php echo $block->getAffiliateInfo()->getBankBranchCity()?>" >
+                    <span class="form__hint"><?php echo __("Up to 12 letters, numbers or spaces.");?></span>
+                </div>
+            </div>
+            <div class="field bank_branch_country_code">
+                <label class="label" for="bank_branch_country"><span><?php /* @escapeNotVerified */ echo __("Bank Branch Country") ?></span></label>
+                <div class="control">
+                    <input type="text" class="input-text" name="bank_branch_country_code" id="bank_branch_country_code"  autocomplete="off" value="<?php echo $block->getAffiliateInfo()->getBankBranchCountryCode()?>" >
+                    
+                </div>
+            </div>
+
+            <div class="field intermediary_bank_code ">
+                <label class="label" for="intermediary_bank_code"><span><?php /* @escapeNotVerified */ echo __("Intermediary Bank - Bank Code") ?></span></label>
+                <div class="control">
+                    <input type="text" class="input-text" name="intermediary_bank_code" id="intermediary_bank_code" autocomplete="off" value="<?php echo $block->getAffiliateInfo()->getIntermediaryBankCode()?>" >
+                    <span class="form__hint"><?php echo __("either 8 or 11 characters e.g. ABNAUS33 or 1234567891");?></span>
+                </div>
+            </div>
+
+            <div class="field intermediary_bank_name">
+                <label class="label" for="intermediary_bank_name"><span><?php /* @escapeNotVerified */ echo __("Intermediary Bank - Name") ?></span></label>
+                <div class="control">
+                    <input type="text" class="input-text" name="intermediary_bank_name" id="intermediary_bank_name" autocomplete="off" value="<?php echo $block->getAffiliateInfo()->getIntermediaryBankName()?>" >
+                    <span class="form__hint"><?php echo __("e.g. Citibank");?></span>
+                </div>
+            </div>
+
+            <div class="field intermediary_bank_city">
+                <label class="label" for="intermediary_bank_city"><span><?php /* @escapeNotVerified */ echo __("Intermediary Bank - City") ?></span></label>
+                <div class="control">
+                    <input type="text" class="input-text" name="intermediary_bank_city" id="intermediary_bank_city" autocomplete="off" value="<?php echo $block->getAffiliateInfo()->getIntermediaryBankCity()?>" >
+                    <span class="form__hint"><?php echo __("Up to 12 letters, numbers or spaces.");?></span>
+                </div>
+            </div>
+            <div class="field intermediary_bank_country_code">
+                <label class="label" for="intermediary_bank_country_code"><span><?php /* @escapeNotVerified */ echo __("Intermediary Bank - Country") ?></span></label>
+                <div class="control">
+                    <input type="text" class="input-text" name="intermediary_bank_country_code" id="intermediary_bank_country_code" autocomplete="off" value="<?php echo $block->getAffiliateInfo()->getIntermediaryBankCountryCode()?>" >
+                </div>
+            </div>
+            <div class="swift-notice alert-notification">
+              <p><?php echo __("Please note that to use Bank Transfer payment you should input correctly of all bank fields.");?></p>
+            </div>
+        </fieldset>
+        
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="submit" class="action save primary" title="<?php /* @escapeNotVerified */ echo __('Save') ?>"><span><?php /* @escapeNotVerified */ echo __('Save') ?></span></button>
+            </div>
+            <div class="secondary">
+                <a class="action back" href="<?php echo $block->escapeUrl($block->getBackUrl()) ?>"><span><?php /* @escapeNotVerified */ echo __('Go back') ?></span></a>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    require([
+        "jquery",
+        "mage/mage"
+    ], function($){
+        var dataForm = $('#form-validate');
+        var ignore = <?php /* @escapeNotVerified */ echo $_dob->isEnabled() ? '\'input[id$="full"]\'' : 'null'; ?>;
+        
+        dataForm.mage('validation', {
+        <?php if ($_dob->isEnabled()): ?>
+            errorPlacement: function(error, element) {
+                if (element.prop('id').search('full') !== -1) {
+                    var dobElement = $(element).parents('.customer-dob'),
+                        errorClass = error.prop('class');
+                    error.insertAfter(element.parent());
+                    dobElement.find('.validate-custom').addClass(errorClass)
+                        .after('<div class="' + errorClass + '"></div>');
+                }
+                else {
+                    error.insertAfter(element);
+                }
+            },
+            ignore: ':hidden:not(' + ignore + ')'
+        <?php else: ?>
+            ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+        <?php endif ?>
+        });
+
+    });
+</script>
+<script type="text/x-magento-init">
+    {
+        "[data-role=change-email], [data-role=change-password]": {
+            "changeEmailPassword": {
+                "titleChangeEmail": "<?php /* @escapeNotVerified */ echo __('Change Email') ?>",
+                "titleChangePassword": "<?php /* @escapeNotVerified */ echo __('Change Password') ?>",
+                "titleChangeEmailAndPassword": "<?php /* @escapeNotVerified */ echo __('Change Email and Password') ?>"
+            }
+        }
+    }
+</script>

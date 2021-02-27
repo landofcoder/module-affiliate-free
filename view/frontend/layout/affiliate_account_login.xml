@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <attribute name="class" value="affiliate"/>
+        <referenceContainer name="columns">
+            <container name="div.sidebar.main" htmlTag="div" htmlClass="sidebar sidebar-main lof-affiliate col-lg-3 col-md-3 hidden-sm hidden-xs" after="main">
+                <container name="sidebar.main" as="sidebar_main" label="Sidebar Main"/>
+            </container>
+        </referenceContainer>
+        <referenceContainer name="sidebar.main">
+            <block class="Magento\Framework\View\Element\Html\Links" name="customer_affiliate_navigation" before="-" template="Lof_Affiliate::affiliate/navigation.phtml">
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="createpost-affiliate-link">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">Create an account</argument>
+                        <argument name="path" xsi:type="string">affiliate/account/create</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="login-affiliate-link">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">Login</argument>
+                        <argument name="path" xsi:type="string">affiliate/account/login</argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceContainer>
+        <referenceBlock name="catalog.compare.sidebar" remove="true"/>
+        <referenceBlock name="wishlist_sidebar" remove="true"/>
+        <referenceContainer name="content">
+            <!-- customer.form.login.extra -->
+            <container name="affiliate.login.container" label="Affiliate Login Container" htmlTag="div" htmlClass="affiliate-login-container">
+                <block class="Lof\Affiliate\Block\Account\Login" name="affiliate_form_login" template="form/login.phtml">
+                    <container name="affiliate.form.additional.info" as="affiliate_form_additional_info"/>
+                </block>
+                <block class="Lof\Affiliate\Block\Account\Login\Info" name="affiliate.new" template="form/newcustomer.phtml"/>
+            </container>
+            <block class="Magento\Cookie\Block\RequireCookie" name="require-cookie" template="Magento_Cookie::require_cookie.phtml">
+                <arguments>
+                    <argument name="triggers" xsi:type="array">
+                        <item name="loginaffiliateButton" xsi:type="string">.action.login</item>
+                    </argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="affiliate.form.additional.info">
+            <block class="Magento\Framework\View\Element\Template" name="form_affiliate_additional_info_customer" template="Lof_Affiliate::additionalinfocustomer.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

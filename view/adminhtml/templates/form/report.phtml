@@ -1,0 +1,105 @@
+ <form id="form_request_report" action="<?php echo $this->getUrl('affiliate/report/filter')?>" title="" method="post">
+ <div class="request-date">
+ 	<div class="aff_report">
+ 		<span><?php echo __("Date From :")?></span>
+ 		<input type="text" id="date_from">
+ 	</div>
+ 	<div class="aff_report">
+ 		<span><?php echo __("Date To :")?></span>
+ 		<input type="text" id="date_to">
+ 	</div>
+ 	<div class="aff_report">
+	  	<label for="account"><?php echo __("Affiliate Account:");?></label>
+	  	<!-- <input id="account"> -->
+	  	<?php echo $this->getAllAccount();?>
+	</div>
+	<div class="aff_report">
+	  	<label for="account"><?php echo __("Report By:");?></label>
+	  	<select id="aff_select">
+		  <option value="sales"><?php echo __("Sales");?></option>
+		  <option value="money"><?php echo __("Money");?></option>
+		</select>
+	</div>
+
+ </div>
+ <button type="button" class="btn btn-default primary" id="submmit_query"><?php echo __("Submit");?></button>
+ </form>
+ <div class="report"></div>
+
+<script type="text/javascript">
+	require([
+                'jquery',
+                'jquery/ui',
+                'Lof_Affiliate/js/highcharts'
+            ], function  ($) {
+            	
+	            $( "#date_from" ).datepicker();
+	            $( "#date_to" ).datepicker();
+    			$(document).ready(function() {
+    				$('#submmit_query').on("click",function(){
+    					var form_url = $('#form_request_report').attr("action"),
+		            	 	dataSend = $('#form_request_report').serialize(),
+		            	 	date_from = $("#date_from").val(),
+		            		date_to = $("#date_to").val(),
+		            		account = $("#aff_email option:selected").val(),
+		            		report_by = $("#aff_select option:selected").val();
+    					$.ajax({
+						   type: 'get',
+						   url: form_url,
+						   data: {date_from: date_from, date_to : date_to, account : account, report_by:report_by},
+						   dataType : 'json',
+						   complete: function (reponse) {
+						   		var json_data = JSON.parse(reponse.responseText);
+						   		var month = JSON.parse(json_data.categories);
+						   		var data = JSON.parse(json_data.data);
+						   		// if (typeof month !== 'undefined' && month.length > 0) {
+
+		                            $('.report').highcharts({
+								        chart: {
+								            type: 'column'
+								        },
+								        title: {
+								            text: 'Affiliate Report'
+								        },
+								        subtitle: {
+								            text: 'Source: WorldClimate.com'
+								        },
+								        xAxis: {
+								            	categories :month,
+								            crosshair: true
+								        },
+								        yAxis: {
+								            min: 0,
+								            tickInterval: 1,
+								            title: {
+								                text: 'Sales'
+								            }
+								        },
+								        tooltip: {
+								            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+								            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+								                '<td style="padding:0"><b>{point.y} </b></td></tr>',
+								            footerFormat: '</table>',
+								            shared: true,
+								            useHTML: true
+								        },
+								        plotOptions: {
+								            column: {
+								                pointPadding: 0.2,
+								                borderWidth: 0
+								            }
+								        },
+								        series : data
+								    });
+	                        	// }
+	                        	// else{
+	                        	// 	$(".report").text('<p>Not Results</p>');
+	                        	// }
+	                        },
+	                        error: function (xhr, status, errorThrown) {
+	                        }
+						}); 
+    				});
+           		});
+		});
+</script>
