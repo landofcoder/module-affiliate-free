@@ -35,8 +35,7 @@
                 </block>
             </block>
         </referenceContainer>
-<!--         <referenceBlock name="catalog.compare.sidebar" remove="true"/>
-        <referenceBlock name="wishlist_sidebar" remove="true"/> -->
+
         <referenceBlock name="head.components">
             <block class="Magento\Framework\View\Element\Js\Components" name="customer_account_create_head_components" template="Magento_Customer::js/components.phtml"/>
         </referenceBlock>

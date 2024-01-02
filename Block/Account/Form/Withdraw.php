@@ -17,19 +17,15 @@ class Withdraw extends \Magento\Framework\View\Element\Template
     /**
     * @var Lof\Affiliate\Model\ResourceModel\WithdrawAffiliate\Collection
     */
-    protected $_withdrawFactory; 
-
+    protected $_withdrawFactory;
     /**
      * @var PriceCurrencyInterface
      */
     protected $priceCurrency;
-
     /**
      * @var Session
      */
     protected $session;
-
-    protected $_currency;
     protected $_storeManager;
     protected $_collection;
 
@@ -38,24 +34,24 @@ class Withdraw extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Lof\Affiliate\Model\ResourceModel\WithdrawAffiliate\CollectionFactory $withdrawFactory,
         Session $customerSession,
-        \Magento\Directory\Model\Currency $currency,
         PriceCurrencyInterface $priceCurrency,
         array $data = []
-        ) {
+    ) {
         $this->_withdrawFactory = $withdrawFactory;
         $this->session = $customerSession;
         $this->_storeManager = $context->getStoreManager();
-        $this->_currency = $currency;
         $this->priceCurrency = $priceCurrency;
         parent::__construct($context, $data);
     }
 
-    public function setCollection($collection){
+    public function setCollection($collection)
+    {
         $this->_collection = $collection;
         return $this;
     }
 
-    public function getCollection(){
+    public function getCollection()
+    {
         return $this->_collection;
     }
 
@@ -63,7 +59,7 @@ class Withdraw extends \Magento\Framework\View\Element\Template
     {
         return $this->_storeManager->getStore()->getCurrentCurrencyCode();
     }
-    
+
     public function paymentFormLink()
     {
         $isSecure = $this->_storeManager->getStore()->isCurrentlySecure();
@@ -148,7 +144,6 @@ class Withdraw extends \Magento\Framework\View\Element\Template
 
     protected function _addBreadcrumbs()
     {
-
         $breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs');
         $baseUrl = $this->_storeManager->getStore()->getBaseUrl();
         $page_title = 'Withdraw';

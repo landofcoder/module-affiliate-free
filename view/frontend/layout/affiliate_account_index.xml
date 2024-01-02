@@ -11,7 +11,6 @@
         <referenceContainer name="content">
             <block class="Magento\Framework\View\Element\Template" name="affiliate_account_dashboard_top" as="top"/>
             <block class="Lof\Affiliate\Block\Account\Dashboard\Info" name="affiliate_account_dashboard_info" as="info" template="account/dashboard/info.phtml" cacheable="false"/>
-            <block class="Lof\Affiliate\Block\Account\Dashboard\Address" name="affiliate_account_dashboard_address" as="address" template="account/dashboard/address.phtml" cacheable="false"/>
         </referenceContainer>
     </body>
 </page>

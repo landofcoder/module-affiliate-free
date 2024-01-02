@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Block\Adminhtml\BannerAffiliate\Edit\Tab;
 
 class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -78,14 +79,10 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
         } else {
             $isElementDisabled = true;
         }
-
         $this->_eventManager->dispatch(
-        'lof_check_license',
-        ['obj' => $this,'ex'=>'Lof_Affiliate']
-        );
-        if(!$this->getData('is_valid') && !$this->getData('local_valid')){
-            $isElementDisabled = true;
-        }
+            'lof_check_license',
+            ['obj' => $this,'ex'=>'Lof_Affiliate']
+            );
 
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
@@ -110,19 +107,7 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'disabled' => $isElementDisabled
             ]
         );
-        $fieldset->addField(
-            'type',
-            'select',
-            [
-                'name' => 'type',
-                'label' => __('Banner Type'),
-                'title' => __('Banner Type'),
-                'required' => true,
-                'disabled' => $isElementDisabled,
-                'options' => $model->getBannerType(),
-            ]
-        );
-        
+
         //Source File
         $fieldset->addField(
             'image',
@@ -168,7 +153,6 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'required' => true,
                 'disabled' => $isElementDisabled,
                 'options' => $model->getRelNofollow(),
-                //'after_element_html' => __('<br><small>Put the rel="nofollow" attribute on the link.</small>'),
             ]
         );
 
@@ -186,7 +170,29 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'disabled' => $isElementDisabled
             ]
         );
-       $fieldset->addField(
+        $fieldset->addField(
+            'click_raw_commission',
+            'text',
+            [
+                'name' => 'click_raw_commission',
+                'label' => __('Commission Per Click'),
+                'title' => __('Commission Per Click'),
+                'required' => true,
+                'disabled' => $isElementDisabled
+            ]
+        );
+        $fieldset->addField(
+            'click_unique_commission',
+            'text',
+            [
+                'name' => 'click_unique_commission',
+                'label' => __('Commission Per Unique Click'),
+                'title' => __('Commission Per Unique Click'),
+                'required' => true,
+                'disabled' => $isElementDisabled
+            ]
+        );
+        $fieldset->addField(
             'is_active',
             'select',
             [
@@ -200,7 +206,7 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
         if (!$model->getId()) {
             $model->setData('is_active', $isElementDisabled ? '0' : '1');
         }
-        
+
         $this->_eventManager->dispatch('adminhtml_affiliate_banneraffiliate_edit_tab_detail_prepare_form', ['form' => $form]);
 
         $form->setValues($model->getData());

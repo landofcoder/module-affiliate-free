@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Ui\Component\Listing\Column;
 
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
@@ -43,13 +44,13 @@ class WithdrawSelectAccountActions extends Column
     private $editUrl;
 
     /**
-     * @param ContextInterface   $context            
-     * @param UiComponentFactory $uiComponentFactory 
-     * @param UrlBuilder         $actionUrlBuilder   
-     * @param UrlInterface       $urlBuilder         
-     * @param array              $components         
-     * @param array              $data               
-     * @param [type]             $editUrl            
+     * @param ContextInterface $context
+     * @param UiComponentFactory $uiComponentFactory
+     * @param UrlBuilder $actionUrlBuilder
+     * @param UrlInterface $urlBuilder
+     * @param array $components
+     * @param array $data
+     * @param [type]             $editUrl
      */
     public function __construct(
         ContextInterface $context,
@@ -59,7 +60,7 @@ class WithdrawSelectAccountActions extends Column
         array $components = [],
         array $data = [],
         $editUrl = self::MENU_URL_PATH_EDIT
-        ) {
+    ) {
         $this->urlBuilder = $urlBuilder;
         $this->actionUrlBuilder = $actionUrlBuilder;
         $this->editUrl = $editUrl;
@@ -79,8 +80,8 @@ class WithdrawSelectAccountActions extends Column
                 $name = $this->getData('name');
                 if (isset($item['accountaffiliate_id'])) {
                     $item[$name]['edit'] = [
-                    'href' => $this->urlBuilder->getUrl($this->editUrl, ['accountaffiliate_id' => $item['accountaffiliate_id']]),
-                    'label' => __('Select')
+                        'href' => $this->urlBuilder->getUrl($this->editUrl, ['accountaffiliate_id' => $item['accountaffiliate_id']]),
+                        'label' => __('Select')
                     ];
                 }
             }

@@ -14,7 +14,7 @@ use Lof\Affiliate\Helper\AffiliateHelper;
  */
 class TrackingCookie
 {
-    const COOKIE_LIFETIME_MP  = AffiliateHelper::CONFIG_COOKIE_LIFETIME_MP;
+    const COOKIE_LIFETIME_MP = AffiliateHelper::CONFIG_COOKIE_LIFETIME_MP;
 
 
     /**
@@ -36,17 +36,17 @@ class TrackingCookie
     /**
      * TrackingCookie constructor.
      *
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface     $scopeConfig
-     * @param \Magento\Framework\Stdlib\CookieManagerInterface       $cookieManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
      * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
      */
     public function __construct(
-        ScopeConfigInterface   $scopeConfig,
+        ScopeConfigInterface $scopeConfig,
         CookieManagerInterface $cookieManager,
-        CookieMetadataFactory  $cookieMetadataFactory
+        CookieMetadataFactory $cookieMetadataFactory
     ) {
-        $this->_scopeConfig           = $scopeConfig;
-        $this->_cookieManager         = $cookieManager;
+        $this->_scopeConfig = $scopeConfig;
+        $this->_cookieManager = $cookieManager;
         $this->_cookieMetadataFactory = $cookieMetadataFactory;
     }
 
@@ -59,7 +59,6 @@ class TrackingCookie
     {
         return $this->_cookieManager->getCookie($cookie_name);
     }
-
     /**
      * @param string $tracking
      *
@@ -67,22 +66,21 @@ class TrackingCookie
      */
     public function set($tracking, $cookie_name)
     {
-        $lifetime = (int) $this->_scopeConfig->getValue(AffiliateHelper::CONFIG_COOKIE_LIFETIME);
+        $lifetime = (int)$this->_scopeConfig->getValue(AffiliateHelper::CONFIG_COOKIE_LIFETIME);
         $lifetimeMin = AffiliateHelper::CONFIG_COOKIE_LIFETIME_MIN;
         $lifetimeMax = AffiliateHelper::CONFIG_COOKIE_LIFETIME_MAX;
-        if ( ! is_numeric($lifetime) || $lifetime < $lifetimeMin) {
+        if (!is_numeric($lifetime) || $lifetime < $lifetimeMin) {
             $lifetime = $lifetimeMin;
         } elseif ($lifetime > $lifetimeMax) {
             $lifetime = $lifetimeMax;
         }
-        $lifetime = (int) $lifetime * self::COOKIE_LIFETIME_MP;
+        $lifetime = (int)$lifetime * self::COOKIE_LIFETIME_MP;
 
         $metadata = $this
             ->_cookieMetadataFactory
             ->createPublicCookieMetadata()
             ->setDuration($lifetime)
-            ->setPath('/')
-        ;
+            ->setPath('/');
 
         $this->_cookieManager->setPublicCookie($cookie_name, $tracking, $metadata);
     }

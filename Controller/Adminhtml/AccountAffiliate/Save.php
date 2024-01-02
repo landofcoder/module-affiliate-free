@@ -1,30 +1,31 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Controller\Adminhtml\AccountAffiliate;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Save extends \Magento\Backend\App\Action
 {
-    
+
     /**
      * @var \Magento\Framework\Filesystem
      */
@@ -49,11 +50,12 @@ class Save extends \Magento\Backend\App\Action
      * @param \Magento\Backend\Helper\Js
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context, 
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Backend\Helper\Js $jsHelper,
         \Magento\Framework\Stdlib\DateTime\Timezone $_stdTimezone
-        ) {
+    )
+    {
         $this->_fileSystem = $filesystem;
         $this->jsHelper = $jsHelper;
         $this->_stdTimezone = $_stdTimezone;
@@ -75,8 +77,8 @@ class Save extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        $data = $this->getRequest()->getPostValue(); 
-        
+        $data = $this->getRequest()->getPostValue();
+
         $dateTimeNow = $this->_stdTimezone->date()->format('Y-m-d H:i:s');
 
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
@@ -88,14 +90,14 @@ class Save extends \Magento\Backend\App\Action
             if ($id) {
                 $model->load($id);
             } else {
-                $data['fullname'] = $data['firstname'] . ' ' . $data['lastname']; 
+                $data['fullname'] = $data['firstname'] . ' ' . $data['lastname'];
             }
 
             /** @var \Magento\Framework\Filesystem\Directory\Read $mediaDirectory */
             $data['create_at'] = $dateTimeNow;
-            
+
             $model->setData($data);
-            try { 
+            try {
                 $model->save();
                 $this->messageManager->addSuccess(__('You saved this Account Affiliate.'));
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);

@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Block\Adminhtml\CampaignAffiliate\Edit\Tab;
 
 class Commissions extends \Magento\Backend\Block\Widget\Form\Generic //implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -78,14 +79,10 @@ class Commissions extends \Magento\Backend\Block\Widget\Form\Generic //implement
         } else {
             $isElementDisabled = true;
         }
-
         $this->_eventManager->dispatch(
-        'lof_check_license',
-        ['obj' => $this,'ex'=>'Lof_Affiliate']
-        );
-        if(!$this->getData('is_valid') && !$this->getData('local_valid')){
-            $isElementDisabled = true;
-        }
+            'lof_check_license',
+            ['obj' => $this,'ex'=>'Lof_Affiliate']
+            );
 
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
@@ -98,17 +95,16 @@ class Commissions extends \Magento\Backend\Block\Widget\Form\Generic //implement
             $fieldset->addField('campaign_id', 'hidden', ['name' => 'campaign_id']);
         }
         // ---------------------
-        
-        $fieldset->addField(    
+
+        $fieldset->addField(
             'commission',
             'text',
             [
                 'label' => __('Add Commission'),
                 'title' => __('Add Commission'),
-                'name' => 'tier_price', 
-                'class' => 'requried-entry', 
-                'value' => $model->getData('commission'),
-                'disabled' => $isElementDisabled
+                'name' => 'tier_price',
+                'class' => 'requried-entry',
+                'value' => $model->getData('commission')
             ]
         );
         $form->getElement(
@@ -116,19 +112,6 @@ class Commissions extends \Magento\Backend\Block\Widget\Form\Generic //implement
         )->setRenderer(
             $this->getLayout()->createBlock('Lof\Affiliate\Block\Adminhtml\CampaignAffiliate\Edit\Tab\Price\Tier')
         );
-        // ----------------
-        
-        // $fieldset->addField(
-        //     'commissions',
-        //     'text',
-        //     [
-        //         'name' => 'commissions',
-        //         'label' => __('Commissions'),
-        //         'title' => __('Commissions'),
-        //         'required' => false,
-        //         'disabled' => $isElementDisabled,
-        //     ]
-        // );
         $this->_eventManager->dispatch('adminhtml_affiliate_campaignaffiliate_edit_tab_detail_prepare_form', ['form' => $form]);
         $form->setValues($model->getData());
         $this->setForm($form);

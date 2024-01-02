@@ -27,20 +27,21 @@
 				<enable>1</enable>
 				<cookie_lifetime>4</cookie_lifetime>
 				<sender_email_identity>sales</sender_email_identity>
-
+				<enable_withdrawl>1</enable_withdrawl>
 				<withdrawal_limits>200</withdrawal_limits>
 				<withdrawal_start>50</withdrawal_start>
-
 				<auto_create>0</auto_create>
+				<auto_active_account>1</auto_active_account>
+				<default_affilate_group>1</default_affilate_group>
+				<enable_referer>1</enable_referer>
 				<trackcode>trackcode</trackcode>
 				<order_status>complete</order_status>
-
-
 				<url_param>code</url_param>
 				<url_param_value>1</url_param_value>
-
 				<url_campaign_param>cam</url_campaign_param>
 				<url_campaign_param_value>1</url_campaign_param_value>
+				<expiry_date_commission_refer>7</expiry_date_commission_refer>
+				<times_used_refer_code>10</times_used_refer_code>
 			</general_settings>
 			<trackingcode_settings>
 				<use_customcode>0</use_customcode>

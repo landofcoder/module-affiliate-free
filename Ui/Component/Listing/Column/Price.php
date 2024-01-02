@@ -3,6 +3,7 @@
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace Lof\Affiliate\Ui\Component\Listing\Column;
 
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
@@ -54,7 +55,7 @@ class Price extends Column
                 $item[$this->getData('name')] = $this->priceFormatter->format(
                     $item[$this->getData('name')],
                     false,
-                    null,
+                    PriceCurrencyInterface::DEFAULT_PRECISION,
                     null,
                     $currencyCode
                 );

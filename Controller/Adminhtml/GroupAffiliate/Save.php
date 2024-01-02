@@ -1,30 +1,30 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Controller\Adminhtml\GroupAffiliate;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Save extends \Magento\Backend\App\Action
 {
-    
     /**
      * @var \Magento\Framework\Filesystem
      */
@@ -49,11 +49,12 @@ class Save extends \Magento\Backend\App\Action
      * @param \Magento\Backend\Helper\Js
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context, 
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Backend\Helper\Js $jsHelper,
         \Magento\Framework\Stdlib\DateTime\Timezone $_stdTimezone
-        ) {
+    )
+    {
         $this->_fileSystem = $filesystem;
         $this->jsHelper = $jsHelper;
         $this->_stdTimezone = $_stdTimezone;
@@ -75,11 +76,11 @@ class Save extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        $data = $this->getRequest()->getPostValue(); 
+        $data = $this->getRequest()->getPostValue();
         $dateTimeNow = $this->_stdTimezone->date()->format('Y-m-d H:i:s');
         $links = $this->getRequest()->getPost('links');
         $links = is_array($links) ? $links : [];
-        if(!empty($links)){
+        if (!empty($links)) {
             $posts = $this->jsHelper->decodeGridSerializedInput($links['posts']);
             $data['posts'] = $posts;
         }
@@ -96,27 +97,26 @@ class Save extends \Magento\Backend\App\Action
 
             /** @var \Magento\Framework\Filesystem\Directory\Read $mediaDirectory */
             $mediaDirectory = $this->_objectManager->get('Magento\Framework\Filesystem')
-            ->getDirectoryRead(DirectoryList::MEDIA);
+                ->getDirectoryRead(DirectoryList::MEDIA);
             $mediaFolder = 'lof/affiliate/';
             $path = $mediaDirectory->getAbsolutePath($mediaFolder);
 
             // Delete, Upload Image
             $imagePath = $mediaDirectory->getAbsolutePath($model->getImage());
-            if(isset($data['image']['delete']) && file_exists($imagePath)){
+            if (isset($data['image']['delete']) && file_exists($imagePath)) {
                 unlink($imagePath);
                 $data['image'] = '';
             }
-            if(isset($data['image']) && is_array($data['image'])){
+            if (isset($data['image']) && is_array($data['image'])) {
                 unset($data['image']);
             }
-            if($image = $this->uploadImage('image')){
+            if ($image = $this->uploadImage('image')) {
                 $data['image'] = $image;
             }
 
             $data['create_at'] = $dateTimeNow;
-
             $model->setData($data);
-            
+
             try {
                 $model->save();
                 $this->messageManager->addSuccess(__('You saved this Group Affiliate.'));
@@ -139,27 +139,29 @@ class Save extends \Magento\Backend\App\Action
         return $resultRedirect->setPath('*/*/');
     }
 
+    /**
+     * upload image
+     */
     public function uploadImage($fieldId = 'image')
     {
         $resultRedirect = $this->resultRedirectFactory->create();
 
-        if (isset($_FILES[$fieldId]) && $_FILES[$fieldId]['name']!='') 
-        {
+        if (isset($_FILES[$fieldId]) && $_FILES[$fieldId]['name'] != '') {
             $uploader = $this->_objectManager->create(
                 'Magento\Framework\File\Uploader',
                 array('fileId' => $fieldId)
-                );
+            );
 
             $mediaDirectory = $this->_objectManager->get('Magento\Framework\Filesystem')
-            ->getDirectoryRead(DirectoryList::MEDIA);
+                ->getDirectoryRead(DirectoryList::MEDIA);
             $mediaFolder = 'lof/affiliate/';
             try {
-                $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png')); 
+                $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
                 $uploader->setAllowRenameFiles(true);
                 $uploader->setFilesDispersion(false);
                 $result = $uploader->save($mediaDirectory->getAbsolutePath($mediaFolder)
-                    );
-                return $mediaFolder.$result['name'];
+                );
+                return $mediaFolder . $result['name'];
             } catch (\Exception $e) {
                 $this->_logger->critical($e);
                 $this->messageManager->addError($e->getMessage());

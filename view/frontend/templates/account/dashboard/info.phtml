@@ -20,8 +20,8 @@
             </strong>
             <div class="box-content">
                 <p>
-                    <?php echo $block->escapeHtml($block->getName()) ?><br>
-                    <?php echo $block->escapeHtml($block->getCustomer()->getEmail()) ?><br>
+                    <?= $block->escapeHtml($block->getName()) ?><br>
+                    <?= $block->escapeHtml($block->getCustomer()->getEmail()) ?><br>
                 </p>
             </div>
             <div class="box-actions">
@@ -47,7 +47,7 @@
                         <?php endif; ?>
                     </p>
                     <?php /* Extensions placeholder */ ?>
-                    <?php echo $block->getChildHtml('customer.account.dashboard.info.extra')?>
+                    <?= $block->getChildHtml('customer.account.dashboard.info.extra')?>
                 </div>
                 <div class="box-actions">
                     <a class="action edit" href="<?php /* @escapeNotVerified */ echo $block->getUrl('newsletter/manage') ?>"><span><?php /* @escapeNotVerified */ echo __('Edit') ?></span></a>

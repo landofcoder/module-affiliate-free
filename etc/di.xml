@@ -1,34 +1,37 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!-- <preference for="Magento\Catalog\Controller\Product\View" type="Lof\Affiliate\Controller\Product\View" />  -->
-    
+    <preference for="Lof\Affiliate\Api\Data\AccountInterface" type="Lof\Affiliate\Model\AccountAffiliate" />
+    <preference for="Lof\Affiliate\Api\Data\CampaignInterface" type="Lof\Affiliate\Model\CampaignAffiliate" />
+    <preference for="Lof\Affiliate\Api\AccountRepositoryInterface" type="Lof\Affiliate\Model\AccountAffiliateRepository" />
+
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
                 <item name="affiliate_accountaffiliate_listing_data_source" xsi:type="string">Lof\Affiliate\Model\ResourceModel\AccountAffiliate\Grid\Collection</item>
                 <item name="affiliate_transactionaffiliate_listing_data_source" xsi:type="string">Lof\Affiliate\Model\ResourceModel\TransactionAffiliate\Grid\Collection</item>
-                
+
                 <item name="affiliate_banneraffiliate_listing_data_source" xsi:type="string">Lof\Affiliate\Model\ResourceModel\BannerAffiliate\Grid\Collection</item>
 
                 <item name="affiliate_groupaffiliate_listing_data_source" xsi:type="string">Lof\Affiliate\Model\ResourceModel\GroupAffiliate\Grid\Collection</item>
@@ -94,7 +97,7 @@
         </arguments>
     </type>
 
-    
+
     <virtualType name="AffiliateGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
         <arguments>
             <argument name="appliers" xsi:type="array">
@@ -110,7 +113,7 @@
             <argument name="collection" xsi:type="object" shared="false">Lof\Affiliate\Model\ResourceModel\AccountAffiliate\Collection</argument>
             <argument name="filterPool" xsi:type="object" shared="false">AffiliateGirdFilterPool</argument>
         </arguments>
-    </virtualType>    
+    </virtualType>
     <virtualType name="TransactionAffiliateGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
         <arguments>
             <argument name="collection" xsi:type="object" shared="false">Lof\Affiliate\Model\ResourceModel\TransactionAffiliate\Collection</argument>

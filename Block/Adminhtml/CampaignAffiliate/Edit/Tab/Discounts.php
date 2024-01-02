@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Block\Adminhtml\CampaignAffiliate\Edit\Tab;
 
 class Discounts extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -78,14 +79,10 @@ class Discounts extends \Magento\Backend\Block\Widget\Form\Generic implements \M
         } else {
             $isElementDisabled = true;
         }
-
         $this->_eventManager->dispatch(
-        'lof_check_license',
-        ['obj' => $this,'ex'=>'Lof_Affiliate']
-        );
-        if(!$this->getData('is_valid') && !$this->getData('local_valid')){
-            $isElementDisabled = true;
-        }
+            'lof_check_license',
+            ['obj' => $this,'ex'=>'Lof_Affiliate']
+            );
 
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
@@ -124,28 +121,29 @@ class Discounts extends \Magento\Backend\Block\Widget\Form\Generic implements \M
         );
 
         $fieldset->addField(
-            'apply_to_shipping',
-            'select',
-            [
-                'name' => 'apply_to_shipping',
-                'label' => __('Apply to Shipping Amount'),
-                'title' => __('Apply to Shipping Amount'),
-                'required' => false,
-                'disabled' => $isElementDisabled,
-                'options' => $model->getYesNoField(),
-            ]
-        );
-        $fieldset->addField(
             'discount_description',
             'textarea',
             [
-                'name'     => 'discount_description',
-                'label'    => __('Commission Description'),
-                'title'    => __('Commission Description'),
+                'name' => 'discount_description',
+                'label' => __('Commission Description'),
+                'title' => __('Commission Description'),
                 'required' => false,
                 'disabled' => $isElementDisabled,
             ]
         );
+
+        /* $fieldset->addField(
+            'referred_customer_discount',
+            'text',
+            [
+                'name' => 'referred_customer_discount',
+                'label' => __('Referred Customer Discount for Subsequent Purchase'),
+                'title' => __('Referred Customer Discount for Subsequent Purchase'),
+                'note' => __("To change discounts (fixed amount 'x' or percentage 'y%') for subsequent customer orders, seperate discount with commas in field. Last figure will apply for all subsequent purchases. Ex 10%,5,0 for 10% discount on 1st purchase, $5 discount for 2nd purchase and no discount on subsequent purchases (until expiration date set in Campaign setting)"),
+                'required' => false,
+                'disabled' => $isElementDisabled,
+            ]
+        ); */
 
         $this->_eventManager->dispatch('adminhtml_affiliate_campaignaffiliate_edit_tab_detail_prepare_form', ['form' => $form]);
 
@@ -155,7 +153,8 @@ class Discounts extends \Magento\Backend\Block\Widget\Form\Generic implements \M
         return parent::_prepareForm();
     }
 
-    public function getCampaignCollection(){
+    public function getCampaignCollection()
+    {
         $model = $this->_coreRegistry->registry('affiliate_campaign');
         $collection = $this->_campaignCollection
             ->addFieldToFilter('campaign_id', array('neq' => $model->getId()));

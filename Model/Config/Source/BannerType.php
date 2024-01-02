@@ -1,24 +1,26 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Ves_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Model\Config\Source;
+
 use Magento\Framework\Data\OptionSourceInterface;
 
 class BannerType implements OptionSourceInterface//\Magento\Framework\Option\ArrayInterface
@@ -27,9 +29,8 @@ class BannerType implements OptionSourceInterface//\Magento\Framework\Option\Arr
     public function toOptionArray()
     {
         return [
-	        ['value' => '1', 'label' => __('Image')],
-	        // ['value' => 'flash', 'label' => __('Flash')],
-	        ['value' => '2', 'label' => __('Text')],
+            ['value' => '1', 'label' => __('Image')],
+            ['value' => '2', 'label' => __('Text')],
         ];
     }
 }

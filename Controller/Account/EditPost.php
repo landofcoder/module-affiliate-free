@@ -4,6 +4,7 @@
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace Lof\Affiliate\Controller\Account;
 
 use Magento\Framework\Data\Form\FormKey\Validator;
@@ -120,7 +121,6 @@ class EditPost extends \Magento\Customer\Controller\AbstractAccount
             return $this->emailNotification;
         }
     }
-
     /**
      * Change customer password action
      *
@@ -144,9 +144,9 @@ class EditPost extends \Magento\Customer\Controller\AbstractAccount
                 $currentCustomerDataObject
             );
             try {
-                
+
                 // 1.save data to table account_affiliate
-                $model = $this->_objectManager->create('Lof\Affiliate\Model\AccountAffiliate'); 
+                $model = $this->_objectManager->create('Lof\Affiliate\Model\AccountAffiliate');
                 $customerData = $this->getRequest()->getParams();
                 $model->updateAffiliateInformation($currentCustomerDataObject, $customerData);
 
@@ -159,7 +159,7 @@ class EditPost extends \Magento\Customer\Controller\AbstractAccount
                 $this->customerRepository->save($customerCandidateDataObject);
 
                 // send mail notification when success
-                if(isset($post['no_send_email']) && $post['no_send_email'] == 1) {
+                if (isset($post['no_send_email']) && $post['no_send_email'] == 1) {
                     $this->getEmailNotification()->credentialsChanged(
                         $customerCandidateDataObject,
                         $currentCustomerDataObject->getEmail(),
@@ -251,7 +251,8 @@ class EditPost extends \Magento\Customer\Controller\AbstractAccount
     private function populateNewCustomerDataObject(
         \Magento\Framework\App\RequestInterface $inputData,
         \Magento\Customer\Api\Data\CustomerInterface $currentCustomerData
-    ) {
+    )
+    {
         $customerDto = $this->customerExtractor->extract(self::FORM_DATA_EXTRACTOR_CODE, $inputData);
         $customerDto->setId($currentCustomerData->getId());
         if (!$customerDto->getAddresses()) {

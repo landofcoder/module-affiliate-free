@@ -1,29 +1,29 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
 namespace Lof\Affiliate\Setup;
 
+use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
-use Magento\Framework\DB\Adapter\AdapterInterface;
 
 class InstallSchema implements InstallSchemaInterface
 {
@@ -46,7 +46,6 @@ class InstallSchema implements InstallSchemaInterface
         $setup->getConnection()->dropTable($setup->getTable('lof_affiliate_lead'));
         $setup->getConnection()->dropTable($setup->getTable('lof_affiliate_ppc'));
         $setup->getConnection()->dropTable($setup->getTable('lof_affiliate_withdraw'));
-
 
         $eavTable = $installer->getTable('sales_order');
 
@@ -75,8 +74,7 @@ class InstallSchema implements InstallSchemaInterface
             $connection->addColumn($eavTable, $name, $definition);
         }
 
-
-        /** 
+        /**
          * table lof_affiliate_commission
          */
         $table = $installer->getConnection()->newTable(
@@ -88,7 +86,7 @@ class InstallSchema implements InstallSchemaInterface
             null,
             ['identity' => true, 'nullable' => false, 'primary' => true],
             'commission_id'
-        ) 
+        )
         ->addColumn(
             'campaign_code',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
@@ -105,14 +103,15 @@ class InstallSchema implements InstallSchemaInterface
         )
         ->addColumn(
             'affiliate_params',
-             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             255,
             ['nullable' => false],
             'Name'
         )
         ->addColumn(
             'commission',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'Commission Paid'
         )
@@ -125,7 +124,8 @@ class InstallSchema implements InstallSchemaInterface
         )
         ->addColumn(
             'price_order_total',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'price_order_total'
         )
@@ -141,7 +141,7 @@ class InstallSchema implements InstallSchemaInterface
         );
         $installer->getConnection()->createTable($table);
 
-        /** 
+        /**
          * table lof_affiliate_campaign
          */
         $table = $installer->getConnection()->newTable(
@@ -275,13 +275,15 @@ class InstallSchema implements InstallSchemaInterface
         )
         ->addColumn(
             'signup_commission',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'Commission for signup new account'
         )
         ->addColumn(
             'subscribe_commission',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'Commission for Subscribe newsletter'
         )
@@ -312,12 +314,19 @@ class InstallSchema implements InstallSchemaInterface
             null,
             ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
             'create_at'
+        )->addIndex(
+            $setup->getIdxName(
+                    $installer->getTable('lof_affiliate_campaign'),
+                    ['name','description','tracking_code'],
+                    AdapterInterface::INDEX_TYPE_FULLTEXT
+                ),
+            ['name','description','tracking_code'],
+            ['type' => AdapterInterface::INDEX_TYPE_FULLTEXT]
         )
         ->setComment(
             'Campaign - Campaign Table'
         );
         $installer->getConnection()->createTable($table);
-
 
         /**
          * Create table 'lof_affiliate_store'
@@ -356,7 +365,6 @@ class InstallSchema implements InstallSchemaInterface
         );
         $installer->getConnection()->createTable($table);
 
-
         /**
          * [$table lof_affiliate_group]
          */
@@ -393,7 +401,8 @@ class InstallSchema implements InstallSchemaInterface
         )
         ->addColumn(
             'commission',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'Commission'
         )
@@ -413,7 +422,8 @@ class InstallSchema implements InstallSchemaInterface
         )
         ->addColumn(
             'commission_ppl',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'Commission For PPL'
         )
@@ -423,6 +433,14 @@ class InstallSchema implements InstallSchemaInterface
             null,
             ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
             'create_at'
+        )->addIndex(
+            $setup->getIdxName(
+                $installer->getTable('lof_affiliate_group'),
+                ['name'],
+                AdapterInterface::INDEX_TYPE_FULLTEXT
+            ),
+            ['name'],
+            ['type' => AdapterInterface::INDEX_TYPE_FULLTEXT]
         )
         ->setComment(
             'Group - Group Table'
@@ -507,19 +525,22 @@ class InstallSchema implements InstallSchemaInterface
         )
         ->addColumn(
             'click_unique_commission',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'Commission Paid For Each Unique Click'
         )
         ->addColumn(
             'click_raw_commission',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'Commission Paid For Each Click'
         )
         ->addColumn(
             'expense',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'Expense'
         )
@@ -536,6 +557,14 @@ class InstallSchema implements InstallSchemaInterface
             null,
             ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
             'create_at'
+        )->addIndex(
+            $setup->getIdxName(
+                    $installer->getTable('lof_affiliate_banner'),
+                    ['title','link','type','image','rel_nofollow'],
+                    AdapterInterface::INDEX_TYPE_FULLTEXT
+                ),
+            ['title','link','type','image','rel_nofollow'],
+            ['type' => AdapterInterface::INDEX_TYPE_FULLTEXT]
         )
         ->setComment(
             'Banner - Banner Table'
@@ -603,13 +632,15 @@ class InstallSchema implements InstallSchemaInterface
         )
         ->addColumn(
             'balance',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'Balance'
         )
         ->addColumn(
             'commission_paid',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'Commission Paid'
         )
@@ -640,6 +671,18 @@ class InstallSchema implements InstallSchemaInterface
             null,
             ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
             'Create Time'
+        )->addIndex(
+            $setup->getIdxName(
+                    $installer->getTable('lof_affiliate_account'),
+                    [
+                        'firstname','lastname','fullname','email','tracking_code', 'paypal_email', 'skrill_email'
+                    ],
+                    AdapterInterface::INDEX_TYPE_FULLTEXT
+                ),
+            [
+                    'firstname','lastname','fullname','email','tracking_code', 'paypal_email', 'skrill_email'
+                ],
+            ['type' => AdapterInterface::INDEX_TYPE_FULLTEXT]
         )
         ->setComment(
             'Affiliate - Account Table'
@@ -675,9 +718,9 @@ class InstallSchema implements InstallSchemaInterface
         );
         $installer->getConnection()->createTable($table);
 
-         /**
-         * Create table 'lof_affiliate_transaction'
-         */
+        /**
+        * Create table 'lof_affiliate_transaction'
+        */
         $table = $installer->getConnection()->newTable(
             $installer->getTable('lof_affiliate_transaction')
         )
@@ -697,7 +740,8 @@ class InstallSchema implements InstallSchemaInterface
         )
         ->addColumn(
             'commission_total',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'Commission Total'
         )
@@ -724,7 +768,8 @@ class InstallSchema implements InstallSchemaInterface
         )
         ->addColumn(
             'order_total',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'Order Total'
         )
@@ -791,15 +836,23 @@ class InstallSchema implements InstallSchemaInterface
             null,
             ['nullable' => false],
             'Email Affiliate'
+        )->addIndex(
+            $setup->getIdxName(
+                    $installer->getTable('lof_affiliate_transaction'),
+                    ['description','affiliate_code','campaign_code','increment_id','base_currency_code','customer_email','email_aff'],
+                    AdapterInterface::INDEX_TYPE_FULLTEXT
+                ),
+            ['description','affiliate_code','campaign_code','increment_id','base_currency_code','customer_email','email_aff'],
+            ['type' => AdapterInterface::INDEX_TYPE_FULLTEXT]
         )
         ->setComment(
             'Affiliate - Transaction Table'
         );
         $installer->getConnection()->createTable($table);
 
-         /**
-         * Create table 'lof_affiliate_lead'
-         */
+        /**
+        * Create table 'lof_affiliate_lead'
+        */
         $table = $installer->getConnection()->newTable(
             $installer->getTable('lof_affiliate_lead')
         )
@@ -833,13 +886,15 @@ class InstallSchema implements InstallSchemaInterface
         )
         ->addColumn(
             'signup_commission',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'Commission Paid For Signup Account'
         )
         ->addColumn(
             'subscribe_commission',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'Commission Paid For Subscribe Newsletter'
         )
@@ -869,9 +924,9 @@ class InstallSchema implements InstallSchemaInterface
         );
         $installer->getConnection()->createTable($table);
 
-         /**
-         * Create table 'lof_affiliate_ppc'
-         */
+        /**
+        * Create table 'lof_affiliate_ppc'
+        */
         $table = $installer->getConnection()->newTable(
             $installer->getTable('lof_affiliate_ppc')
         )
@@ -912,7 +967,8 @@ class InstallSchema implements InstallSchemaInterface
         )
         ->addColumn(
             'commission',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'Commission'
         )
@@ -928,9 +984,9 @@ class InstallSchema implements InstallSchemaInterface
         );
         $installer->getConnection()->createTable($table);
 
-         /**
-         * Create table 'lof_affiliate_withdraw'
-         */
+        /**
+        * Create table 'lof_affiliate_withdraw'
+        */
         $table = $installer->getConnection()->newTable(
             $installer->getTable('lof_affiliate_withdraw')
         )
@@ -943,7 +999,8 @@ class InstallSchema implements InstallSchemaInterface
         )
         ->addColumn(
             'withdraw_amount',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, ('12,4'),
+            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+            ('12,4'),
             ['nullable' => false, 'default' => '0.0000'],
             'Withdraw Amount'
         )
@@ -960,7 +1017,7 @@ class InstallSchema implements InstallSchemaInterface
             null,
             ['nullable' => false, 'default' => '1'],
             'Status'
-            )
+        )
         ->addColumn(
             'account_id',
             \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,

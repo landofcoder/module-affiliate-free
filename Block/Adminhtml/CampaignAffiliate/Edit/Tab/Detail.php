@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Block\Adminhtml\CampaignAffiliate\Edit\Tab;
 
 class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -33,6 +34,11 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
     protected $_campaignCollection;
 
     /**
+     * @var \Lof\Affiliate\Model\ResourceModel\Group\Collection
+     */
+    protected $_groupCollection;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context
      * @param \Magento\Framework\Registry
      * @param \Magento\Framework\Data\FormFactory
@@ -46,10 +52,12 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\System\Store $systemStore,
         \Lof\Affiliate\Model\ResourceModel\CampaignAffiliate\Collection $campaignCollection,
+        \Lof\Affiliate\Model\ResourceModel\GroupAffiliate\Collection $groupCollection,
         array $data = []
     ) {
         $this->_systemStore = $systemStore;
         $this->_campaignCollection = $campaignCollection;
+        $this->_groupCollection = $groupCollection;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -71,14 +79,10 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
         } else {
             $isElementDisabled = true;
         }
-
         $this->_eventManager->dispatch(
-        'lof_check_license',
-        ['obj' => $this,'ex'=>'Lof_Affiliate']
-        );
-        if(!$this->getData('is_valid') && !$this->getData('local_valid')){
-            $isElementDisabled = true;
-        }
+            'lof_check_license',
+            ['obj' => $this,'ex'=>'Lof_Affiliate']
+            );
 
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
@@ -106,46 +110,37 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
             'description',
             'textarea',
             [
-                'name'     => 'description',
-                'label'    => __('Description'),
-                'title'    => __('Description'),
+                'name' => 'description',
+                'label' => __('Description'),
+                'title' => __('Description'),
                 'required' => false,
                 'disabled' => $isElementDisabled,
             ]
         );
 
-        $fieldset->addField(
-            'group_id',
-            'select',
+        $options = [];
+        foreach ($this->_groupCollection as $group) {
+            $options[] = ['label' => $group->getName(), 'value' => $group->getGroupId()];
+        }
+        $field = $fieldset->addField(
+            'groups',
+            'multiselect',
             [
-                'name' => 'group_id',
+                'name' => 'groups[]',
                 'label' => __('Affiliate Groups'),
                 'title' => __('Affiliate Groups'),
-                'required' => false,
+                'values' => $options,
                 'disabled' => $isElementDisabled,
-                'options' => $model->getGroupType(),
-            ]
-        );
-
-        $fieldset->addField(
-            'display',
-            'select',
-            [
-                'name' => 'display',
-                'label' => __('Display'),
-                'title' => __('Display'),
-                'required' => true,
-                'disabled' => $isElementDisabled,
-                'options' => $model->getDisplayField(),
+                'style' => 'width: 200px;'
             ]
         );
 
         $dateFormat = $this->_localeDate->getDateFormat(\IntlDateFormatter::SHORT);
         $fieldset->addField(
-            'form_date',
+            'from_date',
             'date',
             [
-                'name' => 'form_date',
+                'name' => 'from_date',
                 'label' => __('Active From Date'),
                 'title' => __('Active From Date'),
                 'date_format' => $dateFormat
@@ -178,9 +173,9 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
             'sort_order',
             'text',
             [
-                'name'     => 'sort_order',
-                'label'    => __('Sort Order'),
-                'title'    => __('Sort Order'),
+                'name' => 'sort_order',
+                'label' => __('Sort Order'),
+                'title' => __('Sort Order'),
                 'disabled' => $isElementDisabled
             ]
         );
@@ -192,11 +187,11 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'store_id',
                 'multiselect',
                 [
-                    'name'     => 'stores[]',
-                    'label'    => __('Store View'),
-                    'title'    => __('Store View'),
+                    'name' => 'stores[]',
+                    'label' => __('Store View'),
+                    'title' => __('Store View'),
                     'required' => true,
-                    'values'   => $this->_systemStore->getStoreValuesForForm(false, true),
+                    'values' => $this->_systemStore->getStoreValuesForForm(false, true),
                     'disabled' => $isElementDisabled
                 ]
             );
@@ -226,7 +221,8 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
         return parent::_prepareForm();
     }
 
-    public function getCampaignCollection(){
+    public function getCampaignCollection()
+    {
         $model = $this->_coreRegistry->registry('affiliate_campaign');
         $collection = $this->_campaignCollection
             ->addFieldToFilter('campaign_id', array('neq' => $model->getId()));

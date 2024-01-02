@@ -33,90 +33,90 @@
     <?php if ($this->checkExistAccount()){ ?>
 
     <div class="affiiate-page-title">
-        <h1><?php echo __('Create your own personal link')?></h1>
+        <h1><?= __('Create your own personal link')?></h1>
     </div>
 
     <?php if (!empty($listCampaigns)): ?>
     <div class="form-group">
-        <p><?php echo __('Choose campaign that you want:'); ?></p>
+        <p><?= __('Choose campaign that you want:'); ?></p>
         <select id="campaign-param-value">
             <?php foreach ($listCampaigns as $campaign): ?>
-            <option value="<?php echo $campaign['value']; ?>"><?php echo $campaign['name']; ?></option>   
+            <option value="<?= $campaign['value']; ?>"><?= $campaign['name']; ?></option>
             <?php endforeach ?>
         </select>
     </div>
     <?php endif ?>
 
-    <p><?php echo __('Please fill in one of the links from our store such as: product URL, category URL or other page\'s URL into the text box below:'); ?></p>
+    <p><?= __('Please fill in one of the links from our store such as: product URL, category URL or other page\'s URL into the text box below:'); ?></p>
 
     <div class="form-group">
         <input class="form-control" id="affiliate-page-link" name="affiliate-page-link" onkeyup="keyupChangeAffiliateLink(this, event)" type="text">
         <br/>
-        <button type="button" class="button button-config action primary" title="<?php echo __('Get Affiliate Link'); ?>" onclick="changeAffiliateLink();">
-            <span><?php echo __('Get Link'); ?></span>
+        <button type="button" class="button button-config action primary" title="<?= __('Get Affiliate Link'); ?>" onclick="changeAffiliateLink();">
+            <span><?= __('Get Link'); ?></span>
         </button>
     </div>
 
     <div class="form-group">
-        <p><?php echo __('Receive a unique affiliate link:'); ?></p>
-        <a id="affiliate-link" href="<?php echo $url_default.$default_params; ?>" rel="nofollow" title="<?php echo __('Affiliate Link'); ?>"><?php echo $url_default.$default_params; ?></a>
+        <p><?= __('Receive a unique affiliate link:'); ?></p>
+        <a id="affiliate-link" href="<?= $url_default.$default_params; ?>" rel="nofollow" title="<?= __('Affiliate Link'); ?>"><?= $url_default.$default_params; ?></a>
     </div>
 
     <div class="form-group">
-        <p><?php echo __('Register link:'); ?></p>
-        <a id="affiliate-link1" href="<?php echo $url_register . $default_params; ?>" rel="nofollow" title="<?php echo __('Register Link'); ?>"><?php echo $url_register.$default_params; ?></a>
+        <p><?= __('Register link:'); ?></p>
+        <a id="affiliate-link1" href="<?= $url_register . $default_params; ?>" rel="nofollow" title="<?= __('Register Link'); ?>"><?= $url_register.$default_params; ?></a>
     </div>
 
     <!-- Banner -->
     <?php if(!empty($banners)): ?>
     <div class="affiiate-page-title">
-        <h2><?php echo __('Banners')?></h2>
+        <h2><?= __('Banners')?></h2>
     </div>
-    <?php foreach ($banners as $banner): 
+    <?php foreach ($banners as $banner):
 
     $image = $_helperImage->resizeImage($banner['image'], $banner['width'], $banner['height']); ?>
-    
-    <p><strong><?php echo __("Title"); ?>: </strong><?php echo $banner['title']; ?></p>
 
-    <p><strong><?php echo __("Type"); ?>: </strong><?php echo ($banner['type'] == 1)?__('Image'):__('Text'); ?></p>
+    <p><strong><?= __("Title"); ?>: </strong><?= $banner['title']; ?></p>
 
-    <p><strong><?php echo __("Size"); ?>: </strong><?php echo $banner['width'].' x '.$banner['height']; ?></p>
+    <p><strong><?= __("Type"); ?>: </strong><?= ($banner['type'] == 1)?__('Image'):__('Text'); ?></p>
+
+    <p><strong><?= __("Size"); ?>: </strong><?= $banner['width'].' x '.$banner['height']; ?></p>
 
     <?php $banner_detail = $_helper->getBannerDetail($banner['banner_id'], $this->checkExistAccount()); ?>
-    <p><strong><?php echo __("Clicks (unique/raw)"); ?>: </strong><?php echo $banner_detail['unique'].'/'.$banner_detail['raw']; ?></p>
-    <p><strong><?php echo __("Commissions (unique/raw)"); ?>: </strong><?php echo $block->formatCurrency($banner['click_unique_commission']).'/'.$block->formatCurrency($banner['click_raw_commission']); ?></p>
-    <p><strong><?php echo __("Income"); ?>: </strong><?php echo $block->formatCurrency($banner_detail['income']); ?></p>
+    <p><strong><?= __("Clicks (unique/raw)"); ?>: </strong><?= $banner_detail['unique'].'/'.$banner_detail['raw']; ?></p>
+    <p><strong><?= __("Commissions (unique/raw)"); ?>: </strong><?= $block->formatCurrency($banner['click_unique_commission']).'/'.$block->formatCurrency($banner['click_raw_commission']); ?></p>
+    <p><strong><?= __("Income"); ?>: </strong><?= $block->formatCurrency($banner_detail['income']); ?></p>
 
     <?php $banner['rel_nofollow'] == 1 ? $rel = 'dofollow' : $rel = 'nofollow'; ?>
 
     <p>
-        <strong><?php echo __("Link"); ?>: </strong>
-        <a href='<?php echo $_helper->getBaseUrl().'affiliate/account/ppc?code='.$this->checkExistAccount().'&bannerid='.$banner['banner_id'].'&url='.$banner["link"];  ?>'" rel="<?php echo $rel; ?>"><?php echo $_helper->getBaseUrl().'affiliate/account/ppc?code='.$this->checkExistAccount().'&bannerid='.$banner['banner_id'].'&url='.$banner["link"];  ?></a>
+        <strong><?= __("Link"); ?>: </strong>
+        <a href='<?= $_helper->getBaseUrl().'affiliate/account/ppc?code='.$this->checkExistAccount().'&bannerid='.$banner['banner_id'].'&url='.$banner["link"];  ?>'" rel="<?= $rel; ?>"><?= $_helper->getBaseUrl().'affiliate/account/ppc?code='.$this->checkExistAccount().'&bannerid='.$banner['banner_id'].'&url='.$banner["link"];  ?></a>
     </p>
     <p>
-        <a href='<?php echo $_helper->getBaseUrl().'affiliate/account/ppc?code='.$this->checkExistAccount().'&bannerid='.$banner['banner_id'].'&url='.$banner["link"];  ?>' rel="<?php echo $rel; ?>"> 
-            <img src="<?php echo $image; ?>"/>
+        <a href='<?= $_helper->getBaseUrl().'affiliate/account/ppc?code='.$this->checkExistAccount().'&bannerid='.$banner['banner_id'].'&url='.$banner["link"];  ?>' rel="<?= $rel; ?>">
+            <img src="<?= $image; ?>"/>
         </a>
     </p>
 
     <div class="form-group">
-        <p><?php echo __('Copy and paste this source code into your website or forum.'); ?></p>
-        <textarea readonly="true" onclick="this.select();" class="banner-share-url" rows="4" style="width:100%">&lt;a href='<?php echo $_helper->getBaseUrl().'affiliate/account/ppc?code='.$this->checkExistAccount().'&bannerid='.$banner['banner_id'].'&url='.$banner["link"];  ?>' target="_blank"&gt;&lt;img src="<?php echo $image; ?>" title="<?php echo $banner['title']; ?>" width="<?php echo $banner['width']; ?>" height="<?php echo $banner['height']; ?>" rel="<?php echo $rel; ?>" /&gt;&lt;/a&gt;</textarea>
+        <p><?= __('Copy and paste this source code into your website or forum.'); ?></p>
+        <textarea readonly="true" onclick="this.select();" class="banner-share-url" rows="4" style="width:100%">&lt;a href='<?= $_helper->getBaseUrl().'affiliate/account/ppc?code='.$this->checkExistAccount().'&bannerid='.$banner['banner_id'].'&url='.$banner["link"];  ?>' target="_blank"&gt;&lt;img src="<?= $image; ?>" title="<?= $banner['title']; ?>" width="<?= $banner['width']; ?>" height="<?= $banner['height']; ?>" rel="<?= $rel; ?>" /&gt;&lt;/a&gt;</textarea>
     </div>
 
     <?php endforeach ?>
     <?php endif ?>
     <?php }else { ?>
-    <h3><?php echo __('You are not affiliation'); ?></h3>
+    <h3><?= __('You are not affiliation'); ?></h3>
     <div class="col-button col-lg-4 col-md-4 col-sm-4 col-xs-12">
-        <button class="form-button btn-contact" onclick="location.href='<?php echo $_helper->getBaseUrl().'affiliate/account/create';  ?>'">
+        <button class="form-button btn-contact" onclick="location.href='<?= $_helper->getBaseUrl().'affiliate/account/create';  ?>'">
             <span>Join Now</span>
         </button>
     </div>
-    <?php } ?> 
+    <?php } ?>
 </div>
 <script type="text/javascript">
-    
+
     function keyupChangeAffiliateLink(src, event) {
         if (event.keyCode == 13) {
             changeAffiliateLink();
@@ -128,11 +128,11 @@
 
         var linkConfig = {
             storeCode: '',
-            code: '<?php echo $url_code_value; ?>',
-            baseUrl: '<?php echo $baseUrl; ?>',
-            shortUrl: '<?php echo $shortUrl; ?>',
-            replaceUrl: '<?php echo $replaceUrl; ?>',
-            campaignCode : '<?php echo $campaignCode;?>',
+            code: '<?= $url_code_value; ?>',
+            baseUrl: '<?= $baseUrl; ?>',
+            shortUrl: '<?= $shortUrl; ?>',
+            replaceUrl: '<?= $replaceUrl; ?>',
+            campaignCode : '<?= $campaignCode;?>',
         };
         var customLink = '' + src.value;
         customLink.replace(' ', '');
@@ -149,7 +149,7 @@
             queryParams = getQueryParams(customLink);
         if (linkConfig.storeCode && queryParams['___store'] == undefined)
             queryParams['___store'] = linkConfig.storeCode;
-        queryParams['<?php echo $code; ?>'] = linkConfig.code;
+        queryParams['<?= $code; ?>'] = linkConfig.code;
 
 
         var affLink = customLink;

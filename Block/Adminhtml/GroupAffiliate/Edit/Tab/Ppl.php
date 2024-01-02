@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Block\Adminhtml\GroupAffiliate\Edit\Tab;
 
 class Ppl extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -78,14 +79,10 @@ class Ppl extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento
         } else {
             $isElementDisabled = true;
         }
-
         $this->_eventManager->dispatch(
-        'lof_check_license',
-        ['obj' => $this,'ex'=>'Lof_Affiliate']
-        );
-        if(!$this->getData('is_valid') && !$this->getData('local_valid')){
-            $isElementDisabled = true;
-        }
+            'lof_check_license',
+            ['obj' => $this,'ex'=>'Lof_Affiliate']
+            );
 
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
@@ -107,6 +104,7 @@ class Ppl extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento
                 'label' => __('Apply'),
                 'title' => __('Apply'),
                 'options' => $model->getCommissionAction(),
+                'note' => __('Condition: Customer (who sign up new account under referal link) have 1 completed order.'),
                 'disabled' => $isElementDisabled
             ]
         );
@@ -119,25 +117,12 @@ class Ppl extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento
                 'label' => __('Commission For Each Completed Order'),
                 'title' => __('PPL Commission'),
                 'required' => true,
+                'class' => 'validate-number',
+                'note' => __('Set value is 0 if you want to disable PAY PER LEAD.'),
                 'disabled' => $isElementDisabled
             ]
         );
 
-       $fieldset->addField(
-            'enable_ppl',
-            'select',
-            [
-                'name' => 'enable_ppl',
-                'label' => __('Enable Per Per Lead'),
-                'title' => __('Enable Per Per Lead'),
-                'options' => $model->getAvailableStatuses(),
-                'disabled' => $isElementDisabled
-            ]
-        );
-        if (!$model->getId()) {
-            $model->setData('enable_ppl', $isElementDisabled ? '0' : '1');
-        }
-        
         $this->_eventManager->dispatch('adminhtml_affiliate_groupaffiliate_edit_tab_detail_prepare_form', ['form' => $form]);
 
         $form->setValues($model->getData());

@@ -3,6 +3,7 @@
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace Lof\Affiliate\Model;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
@@ -11,6 +12,7 @@ use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Customer\Model\Config\Share;
 use Magento\Customer\Model\CustomerFactory;
 use Magento\Customer\Model\ResourceModel\Customer as ResourceCustomer;
+use Magento\Customer\Model\Context;
 
 /**
  * Customer session model
@@ -104,31 +106,7 @@ class Session extends \Magento\Framework\Session\SessionManager
      */
     protected $response;
 
-    /**
-     * @param \Magento\Framework\App\Request\Http $request
-     * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
-     * @param \Magento\Framework\Session\Config\ConfigInterface $sessionConfig
-     * @param \Magento\Framework\Session\SaveHandlerInterface $saveHandler
-     * @param \Magento\Framework\Session\ValidatorInterface $validator
-     * @param \Magento\Framework\Session\StorageInterface $storage
-     * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
-     * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
-     * @param \Magento\Framework\App\State $appState
-     * @param Share $configShare
-     * @param \Magento\Framework\Url\Helper\Data $coreUrl
-     * @param \Magento\Customer\Model\Url $customerUrl
-     * @param ResourceCustomer $customerResource
-     * @param CustomerFactory $customerFactory
-     * @param \Magento\Framework\UrlFactory $urlFactory
-     * @param \Magento\Framework\Session\Generic $session
-     * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param CustomerRepositoryInterface $customerRepository
-     * @param GroupManagementInterface $groupManagement
-     * @param \Magento\Framework\App\Response\Http $response
-     * @throws \Magento\Framework\Exception\SessionException
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     */
+
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
@@ -191,7 +169,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     /**
      * Set customer object and setting customer id in session
      *
-     * @param   CustomerData $customer
+     * @param CustomerData $customer
      * @return  $this
      */
     public function setCustomerData(CustomerData $customer)
@@ -251,7 +229,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     /**
      * Set customer model and the customer id in session
      *
-     * @param   Customer $customerModel
+     * @param Customer $customerModel
      * @return  $this
      * use setCustomerId() instead
      */
@@ -307,8 +285,8 @@ class Session extends \Magento\Framework\Session\SessionManager
     /**
      * Retrieve customer id from current session
      *
-     * @api
      * @return int|null
+     * @api
      */
     public function getCustomerId()
     {
@@ -373,8 +351,8 @@ class Session extends \Magento\Framework\Session\SessionManager
     /**
      * Checking customer login status
      *
-     * @api
      * @return bool
+     * @api
      */
     public function isLoggedIn()
     {
@@ -438,9 +416,9 @@ class Session extends \Magento\Framework\Session\SessionManager
     /**
      * Authorization customer by identifier
      *
-     * @api
-     * @param   int $customerId
+     * @param int $customerId
      * @return  bool
+     * @api
      */
     public function loginById($customerId)
     {
@@ -456,8 +434,8 @@ class Session extends \Magento\Framework\Session\SessionManager
     /**
      * Logout customer
      *
-     * @api
      * @return $this
+     * @api
      */
     public function logout()
     {
@@ -472,7 +450,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     /**
      * Authenticate controller action by login customer
      *
-     * @param   bool|null $loginUrl
+     * @param bool|null $loginUrl
      * @return  bool
      */
     public function authenticate($loginUrl = null)

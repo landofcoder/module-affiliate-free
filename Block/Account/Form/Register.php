@@ -3,6 +3,7 @@
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace Lof\Affiliate\Block\Account\Form;
 
 /**
@@ -68,7 +69,7 @@ class Register extends \Magento\Directory\Block\Data
             $data
         );
         $this->_isScopePrivate = false;
-        
+
     }
 
     /**
@@ -83,25 +84,23 @@ class Register extends \Magento\Directory\Block\Data
     }
 
     /**
-     * @return $this
+     * @inheritdoc
      */
     protected function _prepareLayout()
     {
         $this->pageConfig->getTitle()->set(__('Create New Affiliate Account'));
-
         $this->_addBreadcrumbs();
         return parent::_prepareLayout();
     }
 
     protected function _addBreadcrumbs()
     {
-
         $breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs');
         $baseUrl = $this->_storeManager->getStore()->getBaseUrl();
         $page_title = 'Register';
         $show_breadcrumbs = true;
 
-        if($show_breadcrumbs && $breadcrumbsBlock){
+        if ($show_breadcrumbs && $breadcrumbsBlock) {
             $breadcrumbsBlock->addCrumb(
                 'home',
                 [
@@ -109,13 +108,13 @@ class Register extends \Magento\Directory\Block\Data
                     'title' => __('Go to Home Page'),
                     'link' => $baseUrl
                 ]
-             );
+            );
             $breadcrumbsBlock->addCrumb(
                 'list',
                 [
                     'label' => __('Affiliate'),
                     'title' => __('Return to Affiliate'),
-                    'link' => $baseUrl.'affiliate'
+                    'link' => $baseUrl . 'affiliate'
                 ]
             );
 
@@ -126,7 +125,7 @@ class Register extends \Magento\Directory\Block\Data
                     'title' => $page_title,
                     'link' => ''
                 ]
-             );
+            );
         }
     }
 
@@ -234,9 +233,12 @@ class Register extends \Magento\Directory\Block\Data
 
         return $this;
     }
-    public function checkAccountExist($email){
+
+    public function checkAccountExist($email)
+    {
         return $this->_affiliateAccount->checkAccountExist($email);
     }
+
     public function getCheckEmailUrl()
     {
         return $this->_affiliateUrl->getCheckEmailUrl();

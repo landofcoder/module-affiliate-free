@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * Venustheme
+ * Landofcoder
  * 
  * NOTICE OF LICENSE
  * 
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
+ * https://landofcoder.com/license
  * 
  * DISCLAIMER
  * 
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
  * 
- * @category   Venustheme
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
 -->
 <listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
@@ -44,7 +44,11 @@
             <argument name="requestFieldName" xsi:type="string">id</argument>
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
                     <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">campaign_id</item>
+                    </item>
                 </item>
             </argument>
         </argument>
@@ -241,7 +245,7 @@
                 </item>
             </argument>
         </column>
-        <column name="to_date" class="Magento\Ui\Component\Listing\Columns\Date">
+        <column name="to_date" class="Lof\Affiliate\Ui\Component\Listing\Column\Date">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">dateRange</item>
@@ -252,7 +256,7 @@
                 </item>
             </argument>
         </column>
-        <column name="from_date" class="Magento\Ui\Component\Listing\Columns\Date">
+        <column name="from_date" class="Lof\Affiliate\Ui\Component\Listing\Column\Date">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">dateRange</item>
@@ -263,20 +267,6 @@
                 </item>
             </argument>
         </column>
-        <!-- <column name="display">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="editor" xsi:type="array">
-                        <item name="editorType" xsi:type="string">text</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
-                        </item>
-                    </item>
-                    <item name="label" xsi:type="string" translate="true">Display</item>
-                </item>
-            </argument>
-        </column> -->
         <column name="is_active">
             <argument name="data" xsi:type="array">
                 <item name="options" xsi:type="object">Magento\Cms\Model\Page\Source\IsActive</item>
@@ -303,77 +293,6 @@
                 </item>
             </argument>
         </column>
-        <!-- <column name="discount_action">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="editor" xsi:type="array">
-                        <item name="editorType" xsi:type="string">text</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
-                        </item>
-                    </item>
-                    <item name="label" xsi:type="string" translate="true">Discount Action</item>
-                </item>
-            </argument>
-        </column> -->
-        <!-- <column name="discount_amount">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="editor" xsi:type="array">
-                        <item name="editorType" xsi:type="string">text</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
-                        </item>
-                    </item>
-                    <item name="label" xsi:type="string" translate="true">Discount Amount</item>
-                </item>
-            </argument>
-        </column> -->
-        <!-- <column name="apply_to_shipping">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="editor" xsi:type="array">
-                        <item name="editorType" xsi:type="string">text</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
-                        </item>
-                    </item>
-                    <item name="label" xsi:type="string" translate="true">Apply to Shipping</item>
-                </item>
-            </argument>
-        </column> -->
-
-        <!-- <column name="conditions">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="editor" xsi:type="array">
-                        <item name="editorType" xsi:type="string">text</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
-                        </item>
-                    </item>
-                    <item name="label" xsi:type="string" translate="true">Conditions</item>
-                </item>
-            </argument>
-        </column>
-        <column name="commission">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="editor" xsi:type="array">
-                        <item name="editorType" xsi:type="string">text</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
-                        </item>
-                    </item>
-                    <item name="label" xsi:type="string" translate="true">Commission</item>
-                </item>
-            </argument>
-        </column> -->
 
         <column name="tracking_code">
             <argument name="data" xsi:type="array">
@@ -390,21 +309,6 @@
             </argument>
         </column>
 
-        <!-- <column name="group_id">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="editor" xsi:type="array">
-                        <item name="editorType" xsi:type="string">text</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
-                        </item>
-                    </item>
-                    <item name="label" xsi:type="string" translate="true">Group ID</item>
-                </item>
-            </argument>
-        </column> -->
-
         <column name="store_id" class="Magento\Store\Ui\Component\Listing\Column\Store">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -415,19 +319,6 @@
             </argument>
         </column>
 
-
-        <!-- <column name="create_at" class="Magento\Ui\Component\Listing\Columns\Date">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">dateRange</item>
-                    <item name="dataType" xsi:type="string">date</item>
-                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
-                    <item name="label" xsi:type="string" translate="true">Create Time</item>
-                    <item name="sortOrder" xsi:type="number">100</item>
-                </item>
-            </argument>
-        </column> -->
-        
         <actionsColumn name="actions" class="Lof\Affiliate\Ui\Component\Listing\Column\CampaignAffiliateActions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">

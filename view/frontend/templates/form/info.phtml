@@ -1,22 +1,170 @@
-<form role="form" action="<?php echo $this->getInfoPostLink(); ?>">
-    <div class="affiiate-page-title">
-        <h3><?php echo __('Hi '); echo $fullname.' !'; ?> </h3>
-    </div>
-    <fieldset class="fieldset create account" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>">
-        <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Payment Information') ?></span></legend><br>
+<?php
+// helper data
+$_helper = $this->getAffiliateHelper();
 
-        <div class="field paypal_email required">
-            <label for="paypal_email" class="label"><span><?php /* @escapeNotVerified */ echo __('Paypal Email') ?></span></label>
-            <div class="control">
-                <input type="text" name="paypal_email" id="paypal_email" title="<?php /* @escapeNotVerified */ echo __('Paypal Email') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}" autocomplete="off">
-            </div>
+// javascript params
+$code = $_helper->getParamCode();
+
+// get list campaign by group affiliate. + code
+$campaignCode = $_helper->getCampaignParamCode();
+$listCampaigns = $_helper->getListCampaignsByGroupID();
+$affiliateAccount = $_helper->getAffiliateAccount();
+$campaignAccount = $affiliateAccount->getCampaign_code();
+$default_params = '';
+$affiliateGroup = $this->getAffiliateGroup();
+if (!empty($listCampaigns)) {
+    $default_params = '&' . $campaignCode . '=' . $listCampaigns[0]['value'];
+}
+$enable_withdrawl = $_helper->getConfig("general_settings/enable_withdrawl");
+?>
+<div class="aff-main-content col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+    <?php if ($this->checkExistAccount()) { ?>
+        <?php $account_tracking_code = $affiliateAccount->getTracking_code(); ?>
+        <div class="affiiate-page-title">
+            <h1><?= __('Hi ') . $fullname ?></h1>
         </div>
-    </fieldset>
-    <div class="affiliateplus-account-bottom">
+        <?php if (!empty($listCampaigns)): ?>
+            <form action="<?= $this->getUrl('affiliate/account/saveInfo'); ?>" method="POST">
+                <fieldset class="fieldset info">
+                    <input name="form_key" type="hidden" value="YLnbWas0NDO1lRVH">
+                    <input type="hidden" name="affiliate_account_id" value="<?=$affiliateAccount->getId()?>">
+
+                    <div class="field field-affiliate-name">
+                        <label class="label"><span>Affiliate Name</span></label>
+                        <div class="control">
+                            <input type="text" name="affiliate_name" value="<?= $affiliateAccount->getFullName() ?>"
+                                   title="Affiliate Name" disabled
+                                   class="input-text required-entry" data-validate="{required:true}"
+                                   aria-required="true">
+                        </div>
+                    </div>
+                    <div class="field field-affiliate-account">
+                        <label class="label"><span>Affiliate Account</span></label>
+                        <div class="control">
+                            <input type="text" name="affiliate_account" value="<?= $affiliateAccount->getEmail() ?>"
+                                   title="Affiliate Account" disabled
+                                   class="input-text required-entry" data-validate="{required:true}"
+                                   aria-required="true">
+                        </div>
+                    </div>
+                    <div class="field field-group-name">
+                        <label class="label"><span>Group Name</span></label>
+                        <div class="control">
+                            <select name="group_name" title="Group Name" disabled>
+                                <?php foreach ($affiliateGroup as $itemGroup) { ?>
+                                    <?php $selected = $itemGroup['group_id'] == $affiliateAccount->getGroupId(); ?>
+                                    <option value="<?= $itemGroup['group_id']?>" <?=$selected?> >
+                                        <?= $itemGroup['name'] ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field field-refer-code">
+                        <label class="label"><span>Referral Code</span></label>
+                        <div class="control">
+                            <input type="text" name="refer_code" value="<?= $affiliateAccount->getTrackingCode() ?>"
+                                   title="Referral Code" disabled
+                                   class="input-text required-entry" data-validate="{required:true}"
+                                   aria-required="true">
+                        </div>
+                    </div>
+                    <div class="field field-status">
+                        <label class="label"><span>Status</span></label>
+                        <div class="control">
+                            <input type="text" name="status" value="<?= $affiliateAccount->getState() ?>"
+                                   title="Status" disabled
+                                   class="input-text required-entry" data-validate="{required:true}"
+                                   aria-required="true">
+                        </div>
+                    </div>
+                    <?php if($enable_withdrawl){ ?>
+                    <div class="field field-payment-method required">
+                        <label class="label"><span>Default Payment Method</span></label>
+                        <div class="control">
+                            <select name="default_payment_method" title="Default Payment Method">
+                                <?php foreach($_helper->getPaymentMethod() as $itemPaymentMethod) { ?>
+                                    <?php $selected = $affiliateAccount->getDefaultPaymentMethod() == $itemPaymentMethod['value'] ? 'selected' : ''?>
+                                    <option <?=$selected?> value="<?= $itemPaymentMethod['value']; ?>"><?= $itemPaymentMethod['label']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field field-withdrawal-method required">
+                        <label class="label"><span>Withdrawal Auto</span></label>
+                        <div class="control">
+                            <select name="withdrawal_auto" title="Payment Method">
+                                <?php if($affiliateAccount->getWithdrawalAuto() == 1) { ?>
+                                    <option value="0"><?= __("No"); ?></option>
+                                    <option selected value="1"><?= __("Yes"); ?></option>
+                                <?php } else { ?>
+                                    <option selected value="0"><?= __("No"); ?></option>
+                                    <option value="1"><?= __("Yes"); ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field field-status">
+                        <label class="label"><span>Auto Payment When Account Balance Reaches</span></label>
+                        <div class="control">
+                            <input type="text" name="auto_payment_balance_reaches" value="<?=$affiliateAccount->getAutoPaymentBalanceReaches()?>"
+                                   title="Auto Payment When Account Balance Reaches"
+                                   class="input-text required-entry"
+                                   aria-required="true">
+                        </div>
+                    </div>
+                    <div class="field field-reserve-level">
+                        <label class="label"><span>Reserve Level (To Be Kept In Account)</span></label>
+                        <div class="control">
+                            <input type="text" name="reserve_level" value="<?=$affiliateAccount->getReserveLevel()?>"
+                                   title="Reserve Level"
+                                   class="input-text required-entry"
+                                   aria-required="true">
+                        </div>
+                    </div>
+                    <div class="field field-paypal-email required">
+                        <label class="label"><span>Paypal Email</span></label>
+                        <div class="control">
+                            <input type="text" name="paypal_email" value="<?= $affiliateAccount->getPaypalEmail() ?>"
+                                   title="Paypal Email"
+                                   class="input-text required-entry" data-validate="{required:true}"
+                                   aria-required="true">
+                        </div>
+                    </div>
+                    <div class="field field-commission-paid">
+                        <label class="label"><span>Commission Paid</span></label>
+                        <div class="control">
+                            <input type="text" name="commission_paid" value="<?= $affiliateAccount->getCommissionPaid() ?>"
+                                   title="Commission Paid" disabled
+                                   class="input-text required-entry" data-validate="{required:true}"
+                                   aria-required="true">
+                        </div>
+                    </div>
+                    <?php } ?>
+                    <div class="field field-balance">
+                        <label class="label"><span>Current Balance</span></label>
+                        <div class="control">
+                            <input type="text" name="balance" value="<?= $affiliateAccount->getBalance() ?>"
+                                   title="balance" disabled
+                                   class="input-text required-entry" data-validate="{required:true}"
+                                   aria-required="true">
+                        </div>
+                    </div>
+                    <input class="btn btn-info" type="submit" value="Save">
+                </fieldset>
+            </form>
+        <?php endif ?>
+
+        <!-- Banner -->
+
+    <?php } else { ?>
+        <h3><?= __('You are not affiliation'); ?></h3>
         <div class="col-button col-lg-4 col-md-4 col-sm-4 col-xs-12">
-            <button class='form-button btn-info' type="submit">
-              <span><?php echo __("Create Account");?></span>
+            <button class="form-button btn-contact"
+                    onclick="location.href='<?= $_helper->getBaseUrl() . 'affiliate/account/create'; ?>'">
+                <span><?= __("Join Now"); ?></span>
             </button>
         </div>
-    </div>
-</form>
+    <?php } ?>
+</div>
