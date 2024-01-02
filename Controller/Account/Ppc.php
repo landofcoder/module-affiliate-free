@@ -4,6 +4,7 @@
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace Lof\Affiliate\Controller\Account;
 
 use Magento\Customer\Model\Registration;
@@ -60,9 +61,9 @@ class Ppc extends \Magento\Framework\App\Action\Action
     public function execute()
     {
         $param_code = $this->helper->getParamCode();
-        if(isset($_REQUEST[$param_code]) && isset($_REQUEST['bannerid']) && isset($_REQUEST['url'])) {
+        if (isset($_REQUEST[$param_code]) && isset($_REQUEST['bannerid']) && isset($_REQUEST['url'])) {
             $this->helper->countedClickBanner($_REQUEST['bannerid'], $_REQUEST[$param_code]);
-            
+
             /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
             $resultRedirect = $this->resultRedirectFactory->create();
             $resultRedirect->setPath($_REQUEST['url']);

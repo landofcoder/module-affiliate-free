@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Model;
 
 use Magento\Customer\Model\Session;
@@ -41,20 +42,20 @@ class ReferingcustomerAffiliate extends \Magento\Framework\Model\AbstractModel
      * @var Session
      */
     protected $session;
-    
+
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Lof\Affiliate\Model\ResourceModel\ReferingcustomerAffiliate $resource = null,
-        \Lof\Affiliate\Model\ResourceModel\ReferingcustomerAffiliate\Collection $resourceCollection = null,
         \Lof\Affiliate\Model\ResourceModel\ReferingcustomerAffiliate\CollectionFactory $accountFactory,
         \Magento\Framework\UrlInterface $url,
         Session $customerSession,
         \Magento\Framework\App\ResourceConnection $resourceModel,
+        \Lof\Affiliate\Model\ResourceModel\ReferingcustomerAffiliate $resource = null,
+        \Lof\Affiliate\Model\ResourceModel\ReferingcustomerAffiliate\Collection $resourceCollection = null,
         array $data = []
-        ) {
-        $this->_url = $url;
+    ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_url = $url;
         $this->_resource = $resource;
         $this->_accountFactory = $accountFactory;
         $this->_resourceModel = $resourceModel;
@@ -66,7 +67,7 @@ class ReferingcustomerAffiliate extends \Magento\Framework\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('Lof\Affiliate\Model\ResourceModel\ReferingcustomerAffiliate');
+        $this->_init(\Lof\Affiliate\Model\ResourceModel\ReferingcustomerAffiliate::class);
     }
 
     /**
@@ -78,12 +79,13 @@ class ReferingcustomerAffiliate extends \Magento\Framework\Model\AbstractModel
     public function beforeSave()
     {
         $needle = 'id="' . $this->getId() . '"';
-        if (false == strstr($this->getContent(), $needle)) {
+        $content = $this->getContent();
+        if (empty($content) || (!empty($content) && false == @strstr($content, $needle))) {
             return parent::beforeSave();
         }
         throw new \Magento\Framework\Exception\LocalizedException(
             __('Make sure that category content does not reference the block itself.')
-            );
+        );
     }
 
     public function loadByAttribute($attribute, $value)

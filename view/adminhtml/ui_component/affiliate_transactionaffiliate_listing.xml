@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * Venustheme
+ * Landofcoder
  * 
  * NOTICE OF LICENSE
  * 
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
+ * https://landofcoder.com/license
  * 
  * DISCLAIMER
  * 
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
  * 
- * @category   Venustheme
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
 -->
 <listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
@@ -29,10 +29,6 @@
         <item name="spinner" xsi:type="string">affiliate_transactionaffiliate_columns</item>
         <item name="buttons" xsi:type="array">
             <item name="add" xsi:type="array">
-                <!-- <item name="name" xsi:type="string">add</item>
-                <item name="label" xsi:type="string" translate="true">Add New Transaction Affiliate</item>
-                <item name="class" xsi:type="string">primary</item>
-                <item name="url" xsi:type="string">*/*/new</item> -->
             </item>
         </item>
     </argument>
@@ -44,7 +40,11 @@
             <argument name="requestFieldName" xsi:type="string">id</argument>
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
                     <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">transaction_id</item>
+                    </item>
                 </item>
             </argument>
         </argument>
@@ -213,6 +213,20 @@
                 </item>
             </argument>
         </column>
+        <column name="account_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">Affiliate Account Id</item>
+                </item>
+            </argument>
+        </column>
         <column name="affiliate_code">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -301,6 +315,21 @@
                 </item>
             </argument>
         </column>
+        <column name="reason">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                    <item name="label" xsi:type="string" translate="true">Reason</item>
+                </item>
+            </argument>
+        </column>
         <column name="transaction_stt">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -312,6 +341,20 @@
                         </item>
                     </item>
                     <item name="label" xsi:type="string" translate="true">Status</item>
+                </item>
+            </argument>
+        </column>
+        <column name="email_aff">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">Email Affiliate</item>
                 </item>
             </argument>
         </column>

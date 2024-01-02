@@ -15,10 +15,10 @@ interface AffiliateHelperInterface
      * Configuration
      */
     const CONFIG_ACTIVE = 'lofaffiliate/general_settings/enable';
-    const CONFIG_COOKIE_LIFETIME     = 'lofaffiliate/general_settings/cookie_lifetime';
+    const CONFIG_COOKIE_LIFETIME = 'lofaffiliate/general_settings/cookie_lifetime';
     const CONFIG_COOKIE_LIFETIME_MIN = 4;
     const CONFIG_COOKIE_LIFETIME_MAX = 6240;
-    const CONFIG_COOKIE_LIFETIME_MP  = 604800;
+    const CONFIG_COOKIE_LIFETIME_MP = 604800;
 
     /**
      * @return bool

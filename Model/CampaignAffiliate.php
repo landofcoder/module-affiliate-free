@@ -1,27 +1,31 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Model;
 
-class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
+use Lof\Affiliate\Api\Data\CampaignInterface;
+
+class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel implements CampaignInterface
 {
+
 
     /**
      * Store rule combine conditions model
@@ -78,8 +82,6 @@ class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
 
     protected $session;
 
-
-
     /**
      * Rule type actions
      */
@@ -94,7 +96,6 @@ class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
     const CART_FIXED_ACTION = 'cart_fixed';
 
     const BUY_X_GET_Y_ACTION = 'buy_x_get_y';
-
 
     /**
      * Prefix of model events names
@@ -111,7 +112,6 @@ class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
      * @var string
      */
     protected $_eventObject = 'rule';
-    
 
     /**
      * @var \Magento\SalesRule\Model\Rule\Condition\CombineFactory
@@ -130,7 +130,6 @@ class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
      */
     protected $_validatedAddresses = [];
 
-
     /**
      * Form factory
      *
@@ -145,48 +144,32 @@ class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
      */
     protected $_localeDate;
 
-
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-
-        \Lof\Affiliate\Model\ResourceModel\CampaignAffiliate $resource = null,
         \Magento\Framework\App\ResourceConnection $resourceModel,
-
-        \Lof\Affiliate\Model\ResourceModel\CampaignAffiliate\Collection $resourceCollection = null,
         \Lof\Affiliate\Model\ResourceModel\CampaignAffiliate\CollectionFactory $campaignFactory,
         \Lof\Affiliate\Helper\Data $campaignlHelper,
-
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\UrlInterface $url,
-
         \Magento\SalesRule\Model\Rule\Condition\CombineFactory $condCombineFactory,
         \Magento\SalesRule\Model\Rule\Condition\Product\CombineFactory $condProdCombineF,
-
         \Magento\Customer\Model\Session $customerSession,
-
+        \Lof\Affiliate\Model\ResourceModel\CampaignAffiliate $resource = null,
+        \Lof\Affiliate\Model\ResourceModel\CampaignAffiliate\Collection $resourceCollection = null,
         array $data = []
-        ) {
+    ) {
         $this->_resource = $resource;
         $this->_resourceModel = $resourceModel;
-
-        // $this->_formFactory = $formFactory;
-        // $this->_localeDate = $localeDate;
-
         $this->_campaignlHelper = $campaignlHelper;
         $this->_campaignFactory = $campaignFactory;
-
         $this->_storeManager = $storeManager;
         $this->_url = $url;
-
         $this->_condCombineFactory = $condCombineFactory;
         $this->_condProdCombineF = $condProdCombineF;
-
         $this->session = $customerSession;
-
         parent::__construct(
             $context,
             $registry,
@@ -204,11 +187,9 @@ class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Lof\Affiliate\Model\ResourceModel\CampaignAffiliate');
+        $this->_init(\Lof\Affiliate\Model\ResourceModel\CampaignAffiliate::class);
         $this->setIdFieldName('campaign_id');
     }
-
-    
 
     /**
      * Initialize rule model data from array.
@@ -247,6 +228,7 @@ class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
     {
         return $this->_condProdCombineF->create();
     }
+
     /**
      * Get sales rule customer group Ids
      *
@@ -295,6 +277,7 @@ class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
 
         return $this->_getData('store_labels');
     }
+
     /**
      * @return string
      */
@@ -364,11 +347,7 @@ class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
         return $address;
     }
 
-
-
     //--My FUNCTION ================================================================================
-
-
 
     /**
      * Prevent blocks recursion
@@ -379,19 +358,20 @@ class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
     public function beforeSave()
     {
         $needle = 'campaign_id="' . $this->getId() . '"';
-        if (false == strstr($this->getContent(), $needle)) {
+        $content = $this->getContent();
+        if (empty($content) || (!empty($content) && false == @strstr($content, $needle))) {
             return parent::beforeSave();
         }
         throw new \Magento\Framework\Exception\LocalizedException(
             __('Make sure that category content does not reference the block itself.')
-            );
+        );
     }
 
     /**
      * [loadByAttribute]
      * @param  [type] $attribute
-     * @param  [type] $value    
-     * @return [type]           
+     * @param  [type] $value
+     * @return [type]
      */
     public function loadByAttribute($attribute, $value)
     {
@@ -399,18 +379,18 @@ class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
         return $this;
     }
 
-    public function loadListByAttribute($display_is_guest, $group_id = 0){
-
-        $rows = array();
+    public function loadListByAttribute($display_is_guest, $group_id = 0)
+    {
+        $rows = [];
         $table_name = $this->_resourceModel->getTableName('lof_affiliate_campaign');
         $connection = $this->_resource->getConnection();
-        $select = $connection->select()->from( ['ca' => $table_name] );
+        $select = $connection->select()->from(['ca' => $table_name]);
 
-        if($display_is_guest == '1') {
+        if ($display_is_guest == '1') {
             // Allow Guest see
             $select->where('ca.display = ?', $display_is_guest);
         } else {
-            $select->where('ca.display = ?', $display_is_guest)->where( 'ca.group_id = ?', $group_id );
+            $select->where('ca.display = ?', $display_is_guest)->where('ca.group_id = ?', $group_id);
         }
 
         $rows = $connection->fetchAll($select);
@@ -435,7 +415,8 @@ class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
      * [getYesNoField]
      * @return [array]
      */
-    public function getYesNoField(){
+    public function getYesNoField()
+    {
         return [self::STATUS_ENABLED => __('Yes'), self::STATUS_DISABLED => __('No')];
     }
 
@@ -443,15 +424,18 @@ class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
      * [getDiscountField]
      * @return [array]
      */
-    public function getDiscountField(){
-        return ['by_percent' => __('Percent of current cart total'), 'cart_fixed' => __('Fixed Amount Commission For Whole Cart')];
+    public function getDiscountField()
+    {
+        return ['by_percent' => __('Percent of current cart total'),
+            'cart_fixed' => __('Fixed Amount Commission For Whole Cart')];
     }
 
     /**
      * [getDisplayField]
      * @return [array]
      */
-    public function getDisplayField(){
+    public function getDisplayField()
+    {
         return [self::STATUS_ENABLED => __('Allow Guest'), self::STATUS_DISABLED => __('Affiliate Member Only')];
     }
 
@@ -461,15 +445,14 @@ class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
      */
     public function getGroupType()
     {
-
-        $data = array();
+        $data = [];
 
         $table_name = $this->_resourceModel->getTableName('lof_affiliate_group');
         $connection = $this->_resource->getConnection();
         $select = $connection->select()->from(
-                ['ce' => $table_name],
-                ['group_id', 'name']
-            );
+            ['ce' => $table_name],
+            ['group_id', 'name']
+        );
         $rows = $connection->fetchAll($select);
 
         foreach ($rows as $key => $result) {
@@ -485,17 +468,17 @@ class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
     /**
      * [getListCampaigns]
      * @param  [int] $group_id
-     * @return [array]          
+     * @return [array]
      */
-    public function getListCampaigns($group_id){
-
+    public function getListCampaigns($group_id)
+    {
         $table_name = $this->_resourceModel->getTableName('lof_affiliate_campaign');
         $connection = $this->_resource->getConnection();
         $select = $connection->select()->from(
-                ['ca' => $table_name]
-            );
+            ['ca' => $table_name]
+        );
         $select->where('ca.group_id = ?', $group_id)
-        ->where('ca.is_active=?',1);
+            ->where('ca.is_active=?', 1);
 
         $rows = $connection->fetchAll($select);
 
@@ -504,19 +487,148 @@ class CampaignAffiliate extends \Magento\Rule\Model\AbstractModel
         return $rows;
     }
 
-    public function getListCampaignsByDate($campaign_code, $currentDate){
-
+    public function getListCampaignsByDate($campaign_code, $currentDate)
+    {
         $table_name = $this->_resourceModel->getTableName('lof_affiliate_campaign');
         $connection = $this->_resource->getConnection();
         $select = $connection->select()->from(
-                ['ca' => $table_name]
-            );
-        $select->where('ca.to_date >= "'.$currentDate.'"');
-        $select->where('ca.from_date < "'.$currentDate.'"');
+            ['ca' => $table_name]
+        );
+        $select->where('ca.to_date >= "' . $currentDate . '"');
+        $select->where('ca.from_date < "' . $currentDate . '"');
         $select->where('ca.tracking_code = ?', $campaign_code);
 
         $rows = $connection->fetchRow($select);
 
         return $rows;
+    }
+
+    public function getId()
+    {
+        return $this->getData(self::CAMPAIGN_ID);
+    }
+
+    public function setId($id)
+    {
+        return $this->setData(self::CAMPAIGN_ID, $id);
+    }
+
+    public function getName()
+    {
+        return $this->getData(self::NAME);
+    }
+
+    public function setName($name)
+    {
+        return $this->setData(self::NAME, $name);
+    }
+
+    public function getDescription()
+    {
+        return $this->getData(self::DESCRIPTION);
+    }
+
+    public function setDescription($description)
+    {
+        return $this->setData(self::DESCRIPTION, $description);
+    }
+
+    public function getDisplay()
+    {
+        return $this->getData(self::DISPLAY);
+    }
+
+    public function setDisplay($display)
+    {
+        return $this->setData(self::DISPLAY, $display);
+    }
+    public function setFromDate($from_date)
+    {
+        return $this->setData(self::FROM_DATE, $from_date);
+    }
+
+    public function setToDate($to_date)
+    {
+        return $this->setData(self::TO_DATE, $to_date);
+    }
+
+    public function getDiscountAction()
+    {
+        return $this->getData(self::DISCOUNT_ACTION);
+    }
+
+    public function setDiscountAction($discount_action)
+    {
+        return $this->setData(self::DISCOUNT_ACTION, $discount_action);
+    }
+
+    public function getDiscountAmount()
+    {
+        return $this->getData(self::DISCOUNT_AMOUNT);
+    }
+
+    public function setDiscountAmount($discount_amount)
+    {
+        return $this->setData(self::DISCOUNT_AMOUNT, $discount_amount);
+    }
+
+    public function getCommission()
+    {
+        return $this->getData(self::COMMISSION);
+    }
+
+    public function setCommission($commission)
+    {
+        return $this->setData(self::COMMISSION, $commission);
+    }
+
+    public function getTrackingCode()
+    {
+        return $this->getData(self::TRACKING_CODE);
+    }
+
+    public function setTrackingCode($tracking_code)
+    {
+        return $this->setData(self::TRACKING_CODE, $tracking_code);
+    }
+
+    public function getGroupId()
+    {
+        return $this->getData(self::GROUP_ID);
+    }
+
+    public function setGroupId($group_id)
+    {
+        return $this->setData(self::GROUP_ID, $group_id);
+    }
+
+    public function getSignupCommission()
+    {
+        return $this->getData(self::SIGNUP_COMMISSION);
+    }
+
+    public function setSignupCommission($signup_commission)
+    {
+        return $this->setData(self::SIGNUP_COMMISSION, $signup_commission);
+    }
+
+    public function getLimitAccount()
+    {
+        return $this->getData(self::LIMIT_ACCOUNT);
+    }
+
+    public function setLimitAccount($limit_account)
+    {
+        return $this->setData(self::LIMIT_ACCOUNT, $limit_account);
+    }
+
+    public function getLimitBalance()
+    {
+        return $this->getData(self::LIMIT_BALANCE);
+    }
+
+    public function setLimitBalance($limit_balance)
+    {
+        return $this->setData(self::LIMIT_BALANCE, $limit_balance);
     }
 }

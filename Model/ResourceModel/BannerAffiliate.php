@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Model\ResourceModel;
 
 class BannerAffiliate extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
@@ -29,7 +30,7 @@ class BannerAffiliate extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     public function __construct(
         \Magento\Framework\Model\ResourceModel\Db\Context $context,
         $connectionName = null
-        ) {
+    ) {
         parent::__construct($context, $connectionName);
     }
 
@@ -42,4 +43,4 @@ class BannerAffiliate extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     {
         $this->_init('lof_affiliate_banner', 'banner_id');
     }
-};
+}

@@ -1,24 +1,27 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Block\Adminhtml\WithdrawAffiliate\Request\Edit\Tab;
+
+use Magento\Framework\UrlInterface;
 
 class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
@@ -38,6 +41,10 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
     protected $_withdrawtCollection;
 
     protected $_dataHelper;
+    /**
+     * @var UrlInterface
+     */
+    protected $_urlBuilder;
 
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
@@ -47,12 +54,14 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Lof\Affiliate\Model\ResourceModel\WithdrawAffiliate\Collection $withdrawCollection,
         \Lof\Affiliate\Helper\Data $dataHelper,
+        UrlInterface $urlBuilder,
         array $data = []
     ) {
         $this->_systemStore = $systemStore;
         $this->_wysiwygConfig = $wysiwygConfig;
         $this->_withdrawCollection = $withdrawCollection;
         $this->_dataHelper = $dataHelper;
+        $this->_urlBuilder = $urlBuilder;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -66,6 +75,7 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
     {
         /* @var $model \Magento\Cms\Model\Page */
         $model = $this->_coreRegistry->registry('affiliate_withdraw');
+
         /*
          * Checking if user have permissions to save information
          */
@@ -74,13 +84,12 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
         } else {
             $isElementDisabled = true;
         }
-
-        $this->_eventManager->dispatch(
-        'lof_check_license',
-        ['obj' => $this,'ex'=>'Lof_Affiliate']
-        );
-        if(!$this->getData('is_valid') && !$this->getData('local_valid')){
-            $isElementDisabled = true;
+        $payment_method = "";
+        if ($model->getId()) {
+            $payment_method = $model->getPaymentMethod();
+        } else {
+            $model->setData('tracking_code', $tracking_code);
+            $model->setData('is_active', $isElementDisabled ? '0' : '1');
         }
 
         /** @var \Magento\Framework\Data\Form $form */
@@ -93,7 +102,9 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
         if ($model->getId()) {
             $fieldset->addField('withdraw_id', 'hidden', ['name' => 'withdraw_id']);
         }
+
         $tracking_code = $this->_dataHelper->getAffiliateTrackingCode();
+
         $fieldset->addField(
             'affiliate_email',
             'label',
@@ -101,12 +112,23 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'name' => 'affiliate_email',
                 'label' => __('Email Affiliate'),
                 'title' => __('EMail Affiliate'),
-                // 'href' => $this->getUrl('affiliate/AccountAffiliate/edit', ['id' => $model->getId()]),
-                // 'required' => true,
                 'disabled' => $isElementDisabled
             ]
         );
 
+        if ($payment_method == "paypal") {
+            $fieldset->addField(
+                'paypal_email',
+                'label',
+                [
+                    'name' => 'paypal_email',
+                    'label' => __('Paypal Email'),
+                    'title' => __('Paypal Email'),
+                    'bold' => true,
+                    'disabled' => $isElementDisabled
+                ]
+            );
+        }
         $fieldset->addField(
             'withdraw_amount',
             'label',
@@ -115,7 +137,6 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'label' => __('Withdraw Amount'),
                 'title' => __('Withdraw Amount'),
                 'bold' => true,
-                // 'required' => true,
                 'disabled' => $isElementDisabled
             ]
         );
@@ -126,7 +147,6 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'name' => 'payment_method',
                 'label' => __('Payment Method'),
                 'title' => __('Payment Method'),
-                // 'required' => true,
                 'disabled' => true
             ]
         );
@@ -137,13 +157,14 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'name' => 'date_request',
                 'label' => __('Date Request'),
                 'title' => __('date_request'),
-                // 'required' => true,
                 'disabled' => true
             ]
         );
-        $payment_status = 'Pending';
-        if ($model->getData()['status'] == 1) {
-            $payment_status = 'Completed';
+
+        $payment_status = __('Pending');
+        $status = $model->getStatus();
+        if ($status == 1) {
+            $payment_status = __('Completed');
         }
         $fieldset->addField(
             'payment',
@@ -153,17 +174,153 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'label' => __('Status'),
                 'title' => __('Status'),
                 'text' => __($payment_status),
-                // 'required' => true,
                 'disabled' => true
             ]
         );
-        
-        
 
-        if (!$model->getId()) {
-            $model->setData('tracking_code', $tracking_code);
-            $model->setData('is_active', $isElementDisabled ? '0' : '1');
+        if ($payment_method == "banktransfer") {
+            $bank_data = $model->getBanktransferData();
+            $bank_data_array = unserialize($bank_data);
+            if ($bank_data_array) {
+                foreach ($bank_data_array as $key => $value) {
+                    $model->setData($key, $value);
+                }
+                $fieldset->addField(
+                    'bank_account_name',
+                    'text',
+                    [
+                        'name' => 'bank_account_name',
+                        'label' => __("Bank Account Holder's Name"),
+                        'title' => __("Bank Account Holder's Name"),
+                        'required' => true,
+                        'note' => __("Your full name that appears on your bank account statement")
+                    ]
+                );
+                $fieldset->addField(
+                    'bank_account_number',
+                    'text',
+                    [
+                        'name' => 'bank_account_number',
+                        'label' => __("Bank Account Number/IBAN"),
+                        'title' => __("Bank Account Number/IBAN"),
+                        'required' => true,
+                        'note' => __("Up to 34 letters and numbers. Australian account numbers should include the BSB number.")
+                    ]
+                );
+                $fieldset->addField(
+                    'swift_code',
+                    'text',
+                    [
+                        'name' => 'swift_code',
+                        'label' => __("SWIFT Code"),
+                        'title' => __("SWIFT Code"),
+                        'required' => true,
+                        'note' => __("either 8 or 11 characters e.g. ABNAUS33 or 1234567891")
+                    ]
+                );
+                $fieldset->addField(
+                    'bank_name',
+                    'text',
+                    [
+                        'name' => 'bank_name',
+                        'label' => __("Bank Name in Full"),
+                        'title' => __("Bank Name in Full"),
+                        'required' => true,
+                        'note' => __("Up to 30 letters, numbers or spaces.")
+                    ]
+                );
+                $fieldset->addField(
+                    'bank_branch_city',
+                    'text',
+                    [
+                        'name' => 'bank_branch_city',
+                        'label' => __("Bank Branch City"),
+                        'title' => __("Bank Branch City"),
+                        'required' => true,
+                        'note' => __("Up to 12 letters, numbers or spaces.")
+                    ]
+                );
+                $fieldset->addField(
+                    'bank_branch_country_code',
+                    'text',
+                    [
+                        'name' => 'bank_branch_country_code',
+                        'label' => __("Bank Branch Country"),
+                        'title' => __("Bank Branch Country"),
+                        'required' => true,
+                        'note' => __("Country code")
+                    ]
+                );
+                $fieldset->addField(
+                    'intermediary_bank_code',
+                    'text',
+                    [
+                        'name' => 'intermediary_bank_code',
+                        'label' => __("Intermediary Bank - Bank Code"),
+                        'title' => __("Intermediary Bank - Bank Code"),
+                        'required' => false,
+                        'note' => __("either 8 or 11 characters e.g. ABNAUS33 or 1234567891")
+                    ]
+                );
+                $fieldset->addField(
+                    'intermediary_bank_name',
+                    'text',
+                    [
+                        'name' => 'intermediary_bank_name',
+                        'label' => __("Intermediary Bank - Name"),
+                        'title' => __("Intermediary Bank - Name"),
+                        'required' => false,
+                        'note' => __("e.g. Citibank")
+                    ]
+                );
+                $fieldset->addField(
+                    'intermediary_bank_city',
+                    'text',
+                    [
+                        'name' => 'intermediary_bank_city',
+                        'label' => __("Intermediary Bank - City"),
+                        'title' => __("Intermediary Bank - City"),
+                        'required' => false,
+                        'note' => __("Up to 12 letters, numbers or spaces.")
+                    ]
+                );
+                $fieldset->addField(
+                    'intermediary_bank_country_code',
+                    'text',
+                    [
+                        'name' => 'intermediary_bank_country_code',
+                        'label' => __("Intermediary Bank - Country"),
+                        'title' => __("Intermediary Bank - Country"),
+                        'required' => false,
+                        'note' => __("Bank Country Code")
+                    ]
+                );
+
+                $fieldset->addField(
+                    'transaction_data',
+                    'textarea',
+                    [
+                        'name' => 'transaction_data',
+                        'label' => __("Offline Transaction Note"),
+                        'title' => __("Offline Transaction Note"),
+                        'required' => false,
+                        'note' => __("Input the transaction id, payed date time,...")
+                    ]
+                );
+
+                $fieldset->addField(
+                    'attachment',
+                    'image',
+                    [
+                        'name' => 'attachment',
+                        'label' => __('Attachments'),
+                        'required' => false,
+                        'note' => __("Attach document file. File type: JPG, JPEG, PNG, GIF")
+                    ]
+                );
+            }
         }
+
 
         $this->_eventManager->dispatch('adminhtml_affiliate_accountaffiliate_edit_tab_detail_prepare_form', ['form' => $form]);
 
@@ -173,7 +330,8 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
         return parent::_prepareForm();
     }
 
-    public function getWithdrawCollection(){
+    public function getWithdrawCollection()
+    {
         $model = $this->_coreRegistry->registry('affiliate_withdraw');
         $collection = $this->_accountCollection
             ->addFieldToFilter('accountaffiliate_id', array('neq' => $model->getId()));

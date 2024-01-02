@@ -27,16 +27,6 @@
                 </arguments>
             </block>
         </referenceBlock>
-        <!--
-        <referenceBlock name="catalog.topnav">
-            <block class="Magento\Framework\View\Element\Html\Link" name="affiliate-navigation-link" ifconfig="lofaffiliate/general_settings/enable">
-                <arguments>
-                    <argument name="label" xsi:type="string" translate="true">Affiliate</argument>
-                    <argument name="path" xsi:type="string" translate="true">affiliate/index/</argument>
-                </arguments>
-            </block>
-        </referenceBlock>
-    -->
     </body>
 </page>
 

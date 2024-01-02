@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Block\Adminhtml\WithdrawAffiliate;
 
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
@@ -56,33 +57,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         parent::_construct();
 
-        // if ($this->_isAllowedAction('Lof_Affiliate::save')) {
-        //     $this->buttonList->update('save', 'label', __('Save Account'));
-        //     $this->buttonList->add(
-        //         'saveandcontinue',
-        //         [
-        //             'label' => __('Save and Continue Edit'),
-        //             'class' => 'save',
-        //             'data_attribute' => [
-        //                 'mage-init' => [
-        //                     'button' => ['event' => 'saveAndContinueEdit', 'target' => '#edit_form'],
-        //                 ],
-        //             ]
-        //         ],
-        //         -100
-        //     );
-        // } else {
-        //     $this->buttonList->remove('save');
-        // }
-
-        // if ($this->_isAllowedAction('Lof_Affiliate::accountaffiliate_delete')) {
-        //     $this->buttonList->update('delete', 'label', __('Delete Account'));
-        // } else {
-            $this->buttonList->remove('delete');
-            $this->buttonList->remove('reset');
-            $this->buttonList->remove('save');
-        // }
-
+        $this->buttonList->remove('delete');
+        $this->buttonList->remove('reset');
+        $this->buttonList->remove('save');
     }
 
     /**

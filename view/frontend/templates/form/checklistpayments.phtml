@@ -7,20 +7,20 @@
 		<div class="field check-list-payments">
                 <label for="payment_method" class="label"><span><?php /* @escapeNotVerified */ echo __('Payment Method') ?></span></label>
                 <div class="control">
-                    <?php foreach($payments as $payment){ 
+                    <?php foreach($payments as $payment){
                     	if(isset($payment['enabled']) && !$payment['enabled'])
                     		continue;
                     	$checked = (isset($payment['checked']) && $payment['checked'])?' checked="checked"':'';
                    	?>
                     <div class="radio">
-	                    <label><input type="radio" name="payment" value="<?php echo $payment['name']; ?>" <?php echo $checked; ?>><?php echo $payment['title']; ?></label>
+	                    <label><input type="radio" name="payment" value="<?= $payment['name']; ?>" <?= $checked; ?>><?= $payment['title']; ?></label>
 	                </div>
                     <?php } ?>
-                    <?php echo $this->getChildHtml(); ?>
+                    <?= $this->getChildHtml(); ?>
                 </div>
         </div>
 
-        <script type="text/javascript"><!--
+        <script type="text/javascript">
         require([
 		    'jquery',
 		    'mage/mage'
@@ -34,7 +34,7 @@
 
 			$('input[name=\'payment\']:checked').trigger('change');
 		})
-		//--></script>
+		</script>
 		<?php
 	}
 ?>

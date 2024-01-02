@@ -24,11 +24,18 @@
     <update handle="customer_account"/>
     <body>
         <referenceBlock name="customer_account_navigation" remove="true"/>
-        <referenceBlock name="customer_account_navigation_block">
+        <referenceContainer name="sidebar.main">
+            <block class="Magento\Framework\View\Element\Html\Links" name="customer_affiliate_navigation" before="-" template="Lof_Affiliate::affiliate/navigation.phtml">
                 <block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-account-link">
                     <arguments>
                         <argument name="label" xsi:type="string" translate="true">Account Dashboard</argument>
                         <argument name="path" xsi:type="string">customer/account</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="affiliate-general-info">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">General information</argument>
+                        <argument name="path" xsi:type="string">affiliate/account/info</argument>
                     </arguments>
                 </block>
                 <block class="Magento\Framework\View\Element\Html\Link\Current" name="home-affiliate">
@@ -43,6 +50,12 @@
                         <argument name="path" xsi:type="string">affiliate/account/link</argument>
                     </arguments>
                 </block>
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="campaign-affiliate-with-account">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">Refer Code</argument>
+                        <argument name="path" xsi:type="string">affiliate/account/refercode</argument>
+                    </arguments>
+                </block>
                 <block class="Magento\Framework\View\Element\Html\Link\Current" name="lead-details">
                     <arguments>
                         <argument name="label" xsi:type="string" translate="true">Lead Details</argument>
@@ -55,12 +68,30 @@
                         <argument name="path" xsi:type="string">affiliate/account/transaction</argument>
                     </arguments>
                 </block>
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="invitation-history">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">Invitation History</argument>
+                        <argument name="path" xsi:type="string">affiliate/account/invitationhistory</argument>
+                    </arguments>
+                </block>
                 <block class="Magento\Framework\View\Element\Html\Link\Current" name="campaign-affiliate-link">
                     <arguments>
                         <argument name="label" xsi:type="string" translate="true">Commission</argument>
                         <argument name="path" xsi:type="string">affiliate/account/campaign</argument>
                     </arguments>
                 </block>
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="campaign-affiliate-programs">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">Affiliate Programs</argument>
+                        <argument name="path" xsi:type="string">affiliate/account/programs</argument>
+                    </arguments>
+                </block>
+<!--                <block class="Magento\Framework\View\Element\Html\Link\Current" name="campaign-affiliate-websites">-->
+<!--                    <arguments>-->
+<!--                        <argument name="label" xsi:type="string" translate="true">Affiliate Websites</argument>-->
+<!--                        <argument name="path" xsi:type="string">affiliate/account/websites</argument>-->
+<!--                    </arguments>-->
+<!--                </block>-->
                 <block class="Magento\Framework\View\Element\Html\Link\Current" name="payment-affiliate-link">
                     <arguments>
                         <argument name="label" xsi:type="string" translate="true">Withdrawals</argument>
@@ -79,7 +110,8 @@
                         <argument name="path" xsi:type="string">affiliate/account/logout</argument>
                     </arguments>
                 </block>
-            </referenceBlock>
+            </block>
+        </referenceContainer>
         <move element="page.main.title" destination="content.top" before="-"/>
     </body>
 </page>

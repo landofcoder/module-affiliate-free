@@ -2,20 +2,20 @@
 <!--
 /**
  * Landofcoder
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the landofcoder.com license that is
  * available through the world-wide-web at this URL:
  * http://landofcoder.com/license
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Landofcoder
- * @package    Lof_FAQ
+ * @package    Lof_Affiliate
  * @copyright  Copyright (c) 2016 Landofcoder (http://www.landofcoder.com/)
  * @license    http://www.landofcoder.com/LICENSE-1.0.html
  */
@@ -26,71 +26,99 @@
             <class>separator-top</class>
             <label>Affiliate</label>
             <tab>landofcoder</tab>
-            <resource>Lof_Affiliate::config_affiliate</resource>
+            <resource>Lof_Affiliate::configuration</resource>
             <group id="general_settings" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>General Settings</label>
-                <field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="cookie_lifetime" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label comment" type="text">
+                <field id="cookie_lifetime" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label comment" type="text" canRestore="1">
                     <label>Cookie lifetime</label>
                     <comment>Cookie lifetime in weeks (2 - 6240)</comment>
                     <validate>validate-digits validate-not-negative-number</validate>
                 </field>
-                <field id="sender_email_identity" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="sender_email_identity" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Email Sender</label>
                     <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
                 </field>
-                
 
-                <field id="withdrawal_start" translate="label" type="text" sortOrder="40" showInDefault="1" showInStore="1" showInWebsite="1">
+                <field id="enable_withdrawl" translate="label comment" sortOrder="35" type="select" showInDefault="1" >
+                    <label>Enable Withdrawl</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="withdrawal_start" translate="label" type="text" sortOrder="40" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
                     <label>Withdrawal Min</label>
                     <comment>Min transaction to withdrawal</comment>
                 </field>
 
-                <field id="withdrawal_limits" translate="label" type="text" sortOrder="45" showInDefault="1" showInStore="1" showInWebsite="1">
+                <field id="withdrawal_limits" translate="label" type="text" sortOrder="45" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
                     <label>Withdrawal limits</label>
                     <comment>Limit transaction to withdrawal</comment>
                 </field>
 
-
-
-                <field id="auto_create" translate="label comment" type="select" sortOrder='50' showInWebsite="1" showInStore="1" showInDefault="1">
+                <field id="auto_create" translate="label comment" type="select" sortOrder='50' showInWebsite="1" showInStore="1" showInDefault="1" canRestore="1">
                     <label>Auto create Affiliate account when customer register</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
 
-                <field id="order_status" translate="label" type="text" sortOrder="55" showInDefault="1" showInStore="1" showInWebsite="1">
+                <field id="auto_active_account" translate="label comment" type="select" sortOrder='52' showInWebsite="1" showInStore="1" showInDefault="1" canRestore="1">
+                    <label>Auto Active when create Affiliate account </label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="default_affilate_group" translate="label" type="select" sortOrder="53" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
+                    <label>Default Affiliate Group When Create New Account</label>
+                    <comment>Set Default Affiliate Group When Create New Account On Frontend</comment>
+                    <source_model>Lof\Affiliate\Model\Config\Source\GroupAccount</source_model>
+                </field>
+
+                <field id="order_status" translate="label" type="select" sortOrder="55" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
                     <label>Order Status</label>
                     <comment>Order Status to calculate commission</comment>
+                    <source_model>Lof\Affiliate\Model\Config\Source\OrderStatus</source_model>
+                </field>
+
+                <field id="expiry_date_commission_refer" translate="label" type="text" sortOrder="56" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
+                    <label>Expiry Date Commission Refer</label>
+                    <comment>Enter the number of days the refer code can be applied to receipt commission.</comment>
+                </field>
+
+                <field id="times_used_refer_code" translate="label" type="text" sortOrder="58" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
+                    <label>Times Used For Refer Code</label>
+                </field>
+
+                <field id="enable_referer" translate="label comment" sortOrder="59" type="select" showInDefault="1" >
+                    <label>Enable Referer Affiliate on Customer Dashboard</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enter Referer affiliate account on customer dashboard which was created by Pay Per Lead campaign.</comment>
                 </field>
 
                 <!-- url_heading -->
-                <field id="url_heading" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="url_heading" translate="label comment" type="text" sortOrder="68" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Affiliate URL</label>
                     <frontend_model>Lof\Affiliate\Block\Adminhtml\System\Config\Form\Field\Heading</frontend_model>
                 </field>
 
-                <field id="url_param" translate="label" type="text" sortOrder="70" showInDefault="1" showInStore="1" showInWebsite="1">
+                <field id="url_param" translate="label" type="text" sortOrder="70" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
                     <label>Parameter</label>
                     <comment>Please don't use parameter as id because it will overried default parameter of system. Leave blank for default value (code).</comment>
                 </field>
-                <field id="url_param_value" translate="label comment" type="select" sortOrder='80' showInWebsite="1" showInStore="1" showInDefault="1">
+                <field id="url_param_value" translate="label comment" type="select" sortOrder='80' showInWebsite="1" showInStore="1" showInDefault="1" canRestore="1">
                     <label>Value</label>
                     <source_model>Lof\Affiliate\Model\Config\Source\UrlParam</source_model>
                 </field>
 
                 <!-- url_heading -->
-                <field id="url_heading_campaign" translate="label comment" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="url_heading_campaign" translate="label comment" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Campaign URL</label>
                     <frontend_model>Lof\Affiliate\Block\Adminhtml\System\Config\Form\Field\Heading</frontend_model>
                 </field>
-                <field id="url_campaign_param" translate="label" type="text" sortOrder="91" showInDefault="1" showInStore="1" showInWebsite="1">
+                <field id="url_campaign_param" translate="label" type="text" sortOrder="91" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
                     <label>Parameter</label>
                     <comment>Please don't use parameter as id because it will overried default parameter of system. Leave blank for default value (code).</comment>
                 </field>
-                <field id="url_campaign_param_value" translate="label comment" type="select" sortOrder='92' showInWebsite="1" showInStore="1" showInDefault="1">
+                <field id="url_campaign_param_value" translate="label comment" type="select" sortOrder='92' showInWebsite="1" showInStore="1" showInDefault="1" canRestore="1">
                     <label>Value</label>
                     <source_model>Lof\Affiliate\Model\Config\Source\UrlCampaignParam</source_model>
                 </field>
@@ -102,7 +130,7 @@
             </group>
             <group id="trackingcode_settings" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Tracking Code Settings</label>
-                <field id="use_customcode" translate="label comment" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="use_customcode" translate="label comment" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Use custom tracking code?</label>
                     <comment>Enable to use custom tracking code, Disabled to use default php function uniqid() to generate code.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

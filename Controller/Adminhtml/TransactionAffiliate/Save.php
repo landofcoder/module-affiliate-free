@@ -1,30 +1,31 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Controller\Adminhtml\TransactionAffiliate;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Save extends \Magento\Backend\App\Action
 {
-    
+
     /**
      * @var \Magento\Framework\Filesystem
      */
@@ -42,21 +43,27 @@ class Save extends \Magento\Backend\App\Action
      */
     protected $_stdTimezone;
 
+    protected $helper;
+
     /**
      * @param \Magento\Backend\App\Action\Context
      * @param \Magento\Framework\ObjectManagerInterface
      * @param \Magento\Framework\Filesystem
      * @param \Magento\Backend\Helper\Js
+     * @param \Lof\Affiliate\Helper\Data
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context, 
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Backend\Helper\Js $jsHelper,
-        \Magento\Framework\Stdlib\DateTime\Timezone $_stdTimezone
-        ) {
+        \Magento\Framework\Stdlib\DateTime\Timezone $_stdTimezone,
+        \Lof\Affiliate\Helper\Data $helperData
+    )
+    {
         $this->_fileSystem = $filesystem;
         $this->jsHelper = $jsHelper;
         $this->_stdTimezone = $_stdTimezone;
+        $this->helper = $helperData;
         parent::__construct($context);
     }
 
@@ -75,11 +82,11 @@ class Save extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        $data = $this->getRequest()->getPostValue(); 
+        $data = $this->getRequest()->getPostValue();
         $dateTimeNow = $this->_stdTimezone->date()->format('Y-m-d H:i:s');
         $links = $this->getRequest()->getPost('links');
         $links = is_array($links) ? $links : [];
-        if(!empty($links)){
+        if (!empty($links)) {
             $posts = $this->jsHelper->decodeGridSerializedInput($links['posts']);
             $data['posts'] = $posts;
         }
@@ -96,7 +103,17 @@ class Save extends \Magento\Backend\App\Action
 
             /** @var \Magento\Framework\Filesystem\Directory\Read $mediaDirectory */
             $data['create_at'] = $dateTimeNow;
-            
+
+            $transactionStatus = $model->getTransactionStt();
+            if (isset($data['transaction_stt']) && $data['transaction_stt'] == 'complete' && $transactionStatus != $data['transaction_stt']) {
+                if (!empty($model->getData())) {
+                    $affiliateCode = $model->getAffiliateCode();
+                    $commissionTotal = $model->getCommissionTotal();
+                    $orderTotal = $model->getOrderTotal();
+                    $this->helper->saveDataCommissionComplete($affiliateCode, $orderTotal, $commissionTotal);
+                }
+            }
+
             $model->setData($data);
             try {
                 $model->save();

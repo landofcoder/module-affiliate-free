@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Block\Adminhtml\AccountAffiliate\Edit\Tab;
 
 class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -37,25 +38,16 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
      */
     protected $_accountCollection;
 
-    protected $_objectManager;
-
     protected $_dataHelper;
-
 
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Store\Model\System\Store $systemStore,
-        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Lof\Affiliate\Model\ResourceModel\AccountAffiliate\Collection $accountCollection,
-        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Lof\Affiliate\Helper\Data $dataHelper,
         array $data = []
     ) {
-        $this->_objectManager= $objectManager;
-        $this->_systemStore = $systemStore;
-        $this->_wysiwygConfig = $wysiwygConfig;
         $this->_accountCollection = $accountCollection;
         $this->_dataHelper = $dataHelper;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -79,14 +71,10 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
         } else {
             $isElementDisabled = true;
         }
-
         $this->_eventManager->dispatch(
-        'lof_check_license',
-        ['obj' => $this,'ex'=>'Lof_Affiliate']
-        );
-        if(!$this->getData('is_valid') && !$this->getData('local_valid')){
-            $isElementDisabled = true;
-        }
+            'lof_check_license',
+            ['obj' => $this,'ex'=>'Lof_Affiliate']
+            );
 
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
@@ -98,6 +86,7 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
         if ($model->getId()) {
             $fieldset->addField('accountaffiliate_id', 'hidden', ['name' => 'accountaffiliate_id']);
         }
+
         $tracking_code = $this->_dataHelper->getAffiliateTrackingCode();
         $fieldset->addField(
             'group_id',
@@ -111,19 +100,6 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'options' => $model->getGroupType(),
             ]
         );
-        /*
-        $fieldset->addField(
-            'status',
-            'select',
-            [
-                'label' => __('Status'),
-                'title' => __('Status'),
-                'name' => 'status',
-                'options' => $model->getAvailableStatuses(),
-                'disabled' => $isElementDisabled
-            ]
-        );
-        */
 
         $fieldset->addField(
             'firstname',
@@ -160,7 +136,7 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                     'label' => __('Customer Account'),
                     'title' => __('Customer Acount'),
                     // 'bold' => true,
-                    'href' => $this->getUrl('customer/index/edit', ['id' => $model->getCustomerid()]),
+                    'href' => $this->getUrl('customer/index/edit', ['id' => $model->getCustomerId()]),
                     // 'required' => true,
                     'disabled' => $isElementDisabled
                 ]
@@ -176,7 +152,7 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                     'disabled' => $isElementDisabled
                 ]
             );
-            
+
             $fieldset->addField(
                 'tracking_code',
                 'note',
@@ -190,8 +166,10 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 ]
             );
 
+
+
         } else {
-            $fieldset->addType('customer','Lof\Affiliate\Block\Adminhtml\AccountAffiliate\Edit\Tab\Form\Customer');
+            $fieldset->addType('customer', 'Lof\Affiliate\Block\Adminhtml\AccountAffiliate\Edit\Tab\Form\Customer');
             $fieldset->addField(
                 'customer',
                 'customer',
@@ -215,7 +193,7 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                     'disabled' => $isElementDisabled
                 ]
             );
-            
+
             $fieldset->addField(
                 'tracking_code',
                 'text',
@@ -246,10 +224,33 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
             ]
         );
 
-        
+        $fieldset->addField(
+            'campaign_code',
+            'text',
+            [
+                'name' => 'campaign_code',
+                'label' => __('Default Campaign Code'),
+                'title' => __('Default Campaign Code'),
+                'bold' => true,
+                'disabled' => $isElementDisabled,
+                'description' => 'Default campaign code for the account.'
+            ]
+        );
+
+        $fieldset->addField(
+            'is_active',
+            'select',
+            [
+                'name' => 'is_active',
+                'label' => __('Status'),
+                'title' => __('Status'),
+                'options' => $model->getAvailableStatuses(),
+                'disabled' => $isElementDisabled
+            ]
+        );
 
         if (!$model->getId()) {
-            $model->setData('tracking_code',$tracking_code);
+            $model->setData('tracking_code', $tracking_code);
             $model->setData('is_active', $isElementDisabled ? '0' : '1');
         }
 
@@ -261,7 +262,8 @@ class Detail extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
         return parent::_prepareForm();
     }
 
-    public function getAccountCollection(){
+    public function getAccountCollection()
+    {
         $model = $this->_coreRegistry->registry('affiliate_account');
         $collection = $this->_accountCollection
             ->addFieldToFilter('accountaffiliate_id', array('neq' => $model->getId()));

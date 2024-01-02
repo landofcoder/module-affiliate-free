@@ -70,4 +70,17 @@
     height: 35px;
 }
 
-
+@media (min-width: 768px), print{
+.affiliatesavecart-button {
+    width: 75%;
+    float: left;
+    -ms-flex-order: 1;
+    -webkit-order: 1;
+    order: 1;
+    border: 0;
+    box-sizing: border-box;
+    padding-right: 4%;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+}
+}

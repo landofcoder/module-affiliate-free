@@ -17,22 +17,17 @@ class Lead extends \Magento\Framework\View\Element\Template
     /**
     * @var Lof\Affiliate\Model\ResourceModel\LeadAffiliate\Collection
     */
-    protected $_leadCollectionFactory; 
+    protected $_leadCollectionFactory;
 
     /**
     * @var Lof\Affiliate\Model\ResourceModel\AccountAffiliate\CollectionFactory
     */
-    protected $_accountCollectionFactory; 
+    protected $_accountCollectionFactory;
 
     /**
      * @var Session
      */
     protected $session;
-    /**
-     * \Magento\Framework\App\ResourceConnection
-     * @var [type]
-     */
-    protected $_resource;
     /**
      * @var PriceCurrencyInterface
      */
@@ -45,15 +40,13 @@ class Lead extends \Magento\Framework\View\Element\Template
         \Lof\Affiliate\Model\ResourceModel\LeadAffiliate\Collection $leadCollectionFactory,
         \Lof\Affiliate\Model\AccountAffiliateFactory $accountCollectionFactory,
         Session $customerSession,
-        \Magento\Framework\App\ResourceConnection $resource,
         \Lof\Affiliate\Helper\Data $helper,
         PriceCurrencyInterface $priceCurrency,
         array $data = []
-        ) {
+    ) {
         $this->_leadCollectionFactory = $leadCollectionFactory;
         $this->_accountCollectionFactory = $accountCollectionFactory;
         $this->session = $customerSession;
-        $this->_resource = $resource;
         $this->priceCurrency = $priceCurrency;
         $this->_helper = $helper;
         parent::__construct($context, $data);

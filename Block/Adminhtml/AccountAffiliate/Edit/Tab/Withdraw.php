@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Block\Adminhtml\AccountAffiliate\Edit\Tab;
 
 class Withdraw extends \Magento\Backend\Block\Widget\Grid\Extended
@@ -49,6 +50,9 @@ class Withdraw extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -71,9 +75,9 @@ class Withdraw extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->addColumn(
             'withdraw_id',
             [
-                'header'           => __('ID'),
-                'sortable'         => true,
-                'index'            => 'withdraw_id',
+                'header' => __('ID'),
+                'sortable' => true,
+                'index' => 'withdraw_id',
                 'header_css_class' => 'col-id',
                 'column_css_class' => 'col-id'
             ]
@@ -82,7 +86,7 @@ class Withdraw extends \Magento\Backend\Block\Widget\Grid\Extended
             'withdraw_amount',
             [
                 'header' => __('Withdraw Amount'),
-                'sortable'         => true,
+                'sortable' => true,
                 'index' => 'withdraw_amount',
                 'type' => 'currency',
                 'currency' => 'base_currency_code'
@@ -96,8 +100,8 @@ class Withdraw extends \Magento\Backend\Block\Widget\Grid\Extended
 
     public function getGridUrl()
     {
-        return  $this->getUrl(
-            'affiliate/*/withdraw/account_id/'.$this->_coreRegistry->registry('affiliate_account')->getId(),
+        return $this->getUrl(
+            'affiliate/*/withdraw/account_id/' . $this->_coreRegistry->registry('affiliate_account')->getId(),
             ['_current' => true]
         );
     }

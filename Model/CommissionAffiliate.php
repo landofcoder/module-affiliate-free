@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Model;
 
 class CommissionAffiliate extends \Magento\Framework\Model\AbstractModel
@@ -26,17 +27,17 @@ class CommissionAffiliate extends \Magento\Framework\Model\AbstractModel
     protected $_helper;
     protected $_resource;
     protected $_resourceModel;
-   
+
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Lof\Affiliate\Model\ResourceModel\CommissionAffiliate $resource = null,
-        \Lof\Affiliate\Model\ResourceModel\CommissionAffiliate\Collection $resourceCollection = null,
         \Magento\Framework\UrlInterface $url,
         \Lof\Affiliate\Helper\Data $helper,
-         \Magento\Framework\App\ResourceConnection $resourceModel,
+        \Magento\Framework\App\ResourceConnection $resourceModel,
+        \Lof\Affiliate\Model\ResourceModel\CommissionAffiliate $resource = null,
+        \Lof\Affiliate\Model\ResourceModel\CommissionAffiliate\Collection $resourceCollection = null,
         array $data = []
-        ) {
+    ) {
         $this->_resource = $resource;
         $this->_url = $url;
         $this->_helper = $helper;
@@ -49,7 +50,7 @@ class CommissionAffiliate extends \Magento\Framework\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('Lof\Affiliate\Model\ResourceModel\CommissionAffiliate');
+        $this->_init(\Lof\Affiliate\Model\ResourceModel\CommissionAffiliate::class);
     }
 
     /**
@@ -61,13 +62,15 @@ class CommissionAffiliate extends \Magento\Framework\Model\AbstractModel
     public function beforeSave()
     {
         $needle = 'commission_id="' . $this->getId() . '"';
-        if (false == strstr($this->getContent(), $needle)) {
+        $content = $this->getContent();
+        if (empty($content) || (!empty($content) && false == @strstr($content, $needle))) {
             return parent::beforeSave();
         }
         throw new \Magento\Framework\Exception\LocalizedException(
             __('Make sure that category content does not reference the block itself.')
-            );
+        );
     }
+
     public function loadByAttribute($attribute, $value)
     {
         $this->load($value, $attribute);

@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Block\Adminhtml\AccountAffiliate;
 
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
@@ -89,8 +90,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        if ($this->_coreRegistry->registry('affiliate_account')->getId()) {
-            return __("Edit Account '%1'", $this->escapeHtml($this->_coreRegistry->registry('affiliate_account')->getTitle()));
+        $model = $this->_coreRegistry->registry('affiliate_account');
+        if ($model->getId()) {
+            return __("Edit Account '%1'", $this->escapeHtml($model->getFirstname()." ".$model->getLastname()));
         } else {
             return __('New Account Affiliate');
         }
@@ -125,29 +127,6 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     protected function _prepareLayout()
     {
-
-        // $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        // $customers = $objectManager->create('Lof\Affiliate\Model\AccountAffiliate');
-        // $customers = $customers->getAllCustomers();
-
-
-        // $html = 'var source = [';
-        //     $i=0; $count = count($customers);
-        //     foreach ($customers as $customer) { $i++;
-        //         $html .= '{ "label": "'.$customer['label'].'", "value": "'.$customer['label'].'" },';
-        //         if ($i == $count) {
-        //             $html .= '{ "label": "'.$customer['label'].'", "value": "'.$customer['label'].'" }';
-        //         }
-        //     }
-        // $html .= '];';
-
-        // require([ 'jquery', 'jquery/ui' ], function($){
-        //         $( '#text-accountaffiliate_customer' ).autocomplete({
-        //             source: source,
-        //             minLength: 0
-        //         });
-        //     });
-
         $this->_formScripts[] = "
             function toggleEditor() {
                 if (tinyMCE.getInstanceById('page_content') == null) {

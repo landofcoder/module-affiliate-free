@@ -4,6 +4,7 @@
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace Lof\Affiliate\Controller\Account;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
@@ -14,7 +15,7 @@ use Magento\Framework\App\Action\Context;
 
 class Edit extends \Magento\Customer\Controller\AbstractAccount
 {
-    /** @var CustomerRepositoryInterface  */
+    /** @var CustomerRepositoryInterface */
     protected $customerRepository;
 
     /** @var DataObjectHelper */

@@ -3,6 +3,7 @@
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace Lof\Affiliate\Controller\Account;
 
 use Magento\Customer\Model\Account\Redirect as AccountRedirect;
@@ -73,7 +74,7 @@ class CreatePost extends \Magento\Customer\Controller\AbstractAccount
     /** @var \Magento\Framework\UrlInterface */
     protected $urlModel;
 
-    /** @var DataObjectHelper  */
+    /** @var DataObjectHelper */
     protected $dataObjectHelper;
 
     /**
@@ -101,6 +102,9 @@ class CreatePost extends \Magento\Customer\Controller\AbstractAccount
     protected $_stdTimezone;
     protected $_accountAffiliate;
     protected $_affiliateData;
+    protected $scopeConfig;
+    protected $storeManager;
+
     /**
      * @param Context $context
      * @param Session $customerSession
@@ -142,7 +146,6 @@ class CreatePost extends \Magento\Customer\Controller\AbstractAccount
         CustomerExtractor $customerExtractor,
         DataObjectHelper $dataObjectHelper,
         AccountRedirect $accountRedirect,
-        
         Timezone $stdTimezone,
         AccountAffiliate $accountAffiliate,
         AffiliateData $affiliateData
@@ -164,7 +167,6 @@ class CreatePost extends \Magento\Customer\Controller\AbstractAccount
         $this->urlModel = $urlFactory->create();
         $this->dataObjectHelper = $dataObjectHelper;
         $this->accountRedirect = $accountRedirect;
-
         $this->_stdTimezone = $stdTimezone;
         $this->_accountAffiliate = $accountAffiliate;
         $this->_affiliateData = $affiliateData;
@@ -174,8 +176,8 @@ class CreatePost extends \Magento\Customer\Controller\AbstractAccount
     /**
      * Retrieve cookie manager
      *
-     * @deprecated
      * @return \Magento\Framework\Stdlib\Cookie\PhpCookieManager
+     * @deprecated
      */
     private function getCookieManager()
     {
@@ -190,8 +192,8 @@ class CreatePost extends \Magento\Customer\Controller\AbstractAccount
     /**
      * Retrieve cookie metadata factory
      *
-     * @deprecated
      * @return \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
+     * @deprecated
      */
     private function getCookieMetadataFactory()
     {
@@ -274,10 +276,9 @@ class CreatePost extends \Magento\Customer\Controller\AbstractAccount
         $checkAccountExist = $this->_accountAffiliate->checkAccountExist($emailCustomer);
         if ($this->session->isLoggedIn() && $checkAccountExist == '0') {
             $customerData = $this->session->getCustomer();
-            
-            
+
             $this->_affiliateData->createAffiliateAccount($data, $customerData);
-            
+
             $resultRedirect->setPath('*/*/edit');
             return $resultRedirect;
         }
@@ -289,7 +290,6 @@ class CreatePost extends \Magento\Customer\Controller\AbstractAccount
         }
 
         $this->session->regenerateId();
-
 
         try {
             $address = $this->extractAddress();

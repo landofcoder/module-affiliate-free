@@ -1,0 +1,88 @@
+<?php
+// helper data
+$_helper = $this->getAffiliateHelper();
+
+// javascript params
+$code = $_helper->getParamCode();
+
+// get list campaign by group affiliate. + code
+$campaignCode = $_helper->getCampaignParamCode();
+$listCampaigns = $_helper->getListCampaignsByGroupID();
+$affiliateAccount = $_helper->getAffiliateAccount();
+$campaignAccount = $affiliateAccount->getCampaign_code();
+$default_params = '';
+if (!empty($listCampaigns)) {
+    $default_params = '&' . $campaignCode . '=' . $listCampaigns[0]['value'];
+}
+?>
+<div class="aff-main-content col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+    <?php if ($this->checkExistAccount()) { ?>
+        <?php $account_tracking_code = $affiliateAccount->getTracking_code();?>
+        <div class="affiiate-page-title">
+            <h1><?= __('There available affiliate campaigns with your account') ?></h1>
+        </div>
+        <div class="default-refer-code">
+            <strong><?= __("Account Refer Code: "). $account_tracking_code;?></strong>
+        </div>
+        <?php if (!empty($listCampaigns)): ?>
+            <div class="list-campaigns">
+                <div class="form-group">
+                    <p>
+                        <?= __('Choose campaign that you want:'); ?>
+                    </p>
+                    <div class="campaign-items">
+                        <?php $i = 1; foreach ($listCampaigns as $campaign): ?>
+                            <div class="campaign-item-<?= $i; ?>">
+                                <p><label for="item-campagn-<?= $i; ?>"><?= "<strong>".__("Campaign %1: ",$i)."</strong>".$campaign['name']; ?></label></p>
+                                <p><input disabled type="text" id="item-campagn-<?= $i; ?>" value="<?= $campaign['value']; ?>">
+                                <i style="font-size: 13px;"><?= __('Use the link to refer to friend:') ?></i><br/>
+                                <input disabled type="text" id="item-campagn-<?= $i; ?>" value="<?= $_helper->getBaseUrl().'customer/account/create/'; echo __('?code=%1&cam=%2',$account_tracking_code, $campaign['value']); ?>">
+                                </p>
+                            </div>
+                        <?php $i++; endforeach ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p>
+                        <?= __('Your Account Refer Code:'); ?>
+                    </p>
+                    <input disabled type="text" value="<?= $account_tracking_code; ?>">
+                    <br><i style="font-size: 13px;"><?= __('(When customers register and enter your referral code, with each registered customer you will receive a commission when customers register successfully and have successful orders.)') ?></i>
+                </div>
+            </div>
+            <form action="<?= $this->getUrl('affiliate/account/refercode'); ?>" method="POST">
+                <div class="form-group">
+                    <h2><?= __('Choose default campaign that you want'); ?></h2>
+                    <select name="campaign_code" id="campaign-param-value">
+                        <?php foreach ($listCampaigns as $campaign): ?>
+                            <?php $selected = $campaignAccount == $campaign['value'] ? "selected" : "" ?>
+                            <option value="<?= $campaign['value']; ?>" <?= $selected ?> >
+                                <?= $campaign['name']; ?>
+                            </option>
+                        <?php endforeach ?>
+                    </select>
+                    <br><i style="font-size: 13px;"><?= __('(The selected campaign will be applied when a customer registers a new account using your refer code)') ?></i>
+                    <input name="account_affiliate_id" type="hidden" value="<?= $affiliateAccount->getId() ?>">
+                </div>
+                <div class="form-group">
+                    <br/>
+                    <button type="submit" class="button button-config action primary" title="<?= __('Save'); ?>">
+                        <span><?= __('Save'); ?></span>
+                    </button>
+                </div>
+            </form>
+        <?php endif ?>
+
+        <!-- Banner -->
+
+    <?php } else { ?>
+        <h3><?= __('You are not affiliation'); ?></h3>
+        <div class="col-button col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <button class="form-button btn-contact"
+                    onclick="location.href='<?= $_helper->getBaseUrl() . 'affiliate/account/create'; ?>'">
+                <span><?= __("Join Now");?></span>
+            </button>
+        </div>
+    <?php } ?>
+</div>

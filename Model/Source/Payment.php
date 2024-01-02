@@ -3,22 +3,23 @@
  * Copyright © 2015 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace Lof\Affiliate\Model\Source;
 
 use Magento\Framework\DB\Ddl\Table;
 
 class Payment extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
-    const STATUS_PENDING		= 0;
-    const STATUS_COMPLETED		= 1;
-    
+    const STATUS_PENDING = 0;
+    const STATUS_COMPLETED = 1;
+
     /**
      * Options array
      *
      * @var array
      */
     protected $_options = null;
-    
+
     /**
      * Retrieve all options array
      *
@@ -28,8 +29,8 @@ class Payment extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     {
         if ($this->_options === null) {
             $this->_options = [
-                ['label' => __('Pending'), 'value'      => self::STATUS_PENDING],
-                ['label' => __('Completed'), 'value'     => self::STATUS_COMPLETED],
+                ['label' => __('Pending'), 'value' => self::STATUS_PENDING],
+                ['label' => __('Completed'), 'value' => self::STATUS_COMPLETED],
             ];
         }
         return $this->_options;
@@ -48,8 +49,8 @@ class Payment extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
         }
         return $_options;
     }
-    
-    
+
+
     /**
      * Get options as array
      *

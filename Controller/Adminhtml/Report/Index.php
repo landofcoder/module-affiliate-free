@@ -39,10 +39,12 @@ class Index extends \Magento\Backend\App\Action
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory
-    ) {
+    )
+    {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
     }
+
     /**
      * Check the permission to run it
      *

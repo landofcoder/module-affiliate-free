@@ -1,11 +1,10 @@
-<?php 
+<?php
+$helper = $this->helper('Lof\Affiliate\Helper\Data');
 $collections = $this->getCommissionCollection();
-
-//echo "<pre>"; print_r($collections->getData()); die;
-
+$accountInfo = $helper->getLoadAccountInfo();
 ?>
 <div class="aff-main-content col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
+<?= $block->getChildHtml("affiliate.campaign.before") ?>
 <?php if ($collections && count($collections)): ?>
     <div class="affiliate-order">
          <table class="data table table-order-items history" id="my-orders-table">
@@ -19,22 +18,23 @@ $collections = $this->getCommissionCollection();
                 </tr>
             </thead>
             <tbody>
-            <?php 
+            <?php
             $total = 0;
             foreach ($collections as $_collection) : ?>
                 <tr>
-                    <td data-th="<?php echo $block->escapeHtml(__('Date')) ?>" class="col date"><?php /* @escapeNotVerified */ echo $_collection->getCreateAt() ?></td>
-                    <td data-th="<?php echo $block->escapeHtml(__('Commission Total')) ?>" class="col commission"><?php /* @escapeNotVerified */ echo $block->formatCurrency($_collection->getCommission()) ?></td>
-                    <td data-th="<?php echo $block->escapeHtml(__('Order Total')) ?>" class="col order-total"><?php /* @escapeNotVerified */ echo $_collection->getOrderTotal() ?></td>
-                    <td data-th="<?php echo $block->escapeHtml(__('Price total of Orders')) ?>" class="col price"><?php /* @escapeNotVerified */ echo $block->formatCurrency($_collection->getPriceOrderTotal()) ?></td>
+                    <td data-th="<?= $block->escapeHtml(__('Date')) ?>" class="col date"><?php /* @escapeNotVerified */ echo $_collection->getCreateAt() ?></td>
+                    <td data-th="<?= $block->escapeHtml(__('Commission Total')) ?>" class="col commission"><?php /* @escapeNotVerified */ echo $block->formatCurrency($_collection->getCommission()) ?></td>
+                    <td data-th="<?= $block->escapeHtml(__('Order Total')) ?>" class="col order-total"><?php /* @escapeNotVerified */ echo $_collection->getOrderTotal() ?></td>
+                    <td data-th="<?= $block->escapeHtml(__('Price total of Orders')) ?>" class="col price"><?php /* @escapeNotVerified */ echo $block->formatCurrency($_collection->getPriceOrderTotal()) ?></td>
                 </tr>
                 <?php $total += $_collection->getCommission();?>
             <?php endforeach; ?>
             </tbody>
         </table>
-        <div><strong>Total: <?php echo $block->formatCurrency($total);?></strong></div>
+        <div><strong><?= __("All Campaigns Commission Total:");?> <?= $block->formatCurrency($total);?></strong></div>
+        <div><strong><?= __("Your Account Available Balance Total:");?> <?= $block->formatCurrency($accountInfo->getBalance());?></strong></div>
     </div>
-    
+    <?= $block->getChildHtml("affiliate.campaign.after") ?>
 <?php else: ?>
     <div class="message info empty"><span><?php /* @escapeNotVerified */ echo __('You have placed no commission.'); ?></span></div>
 <?php endif ?>

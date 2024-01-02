@@ -1,4 +1,5 @@
 <?php
+
 namespace Lof\Affiliate\Observer\Checkout;
 
 use Magento\Sales\Api\OrderRepositoryInterface;
@@ -38,20 +39,23 @@ class SubmitAllAfter
     /**
      * @param Lof\Affiliate\Helper\Data
      */
-        protected $_helper;
+    protected $_helper;
 
-        protected $affiliateHelper;
+    protected $affiliateHelper;
 
     protected $logger;
+
+    protected $_accountAffilite;
+
+    protected $_objectManager;
+
     /**
      * @param Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Quote\Model\Quote $quote,
-
         \Lof\Affiliate\Model\TransactionAffiliate $transactionAffiliate,
         \Lof\Affiliate\Model\ResourceModel\AccountAffiliate\CollectionFactory $accountAffilite,
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -63,7 +67,7 @@ class SubmitAllAfter
         \Lof\Affiliate\Helper\AffiliateHelper $affiliateHelper,
         \Psr\Log\LoggerInterface $logger
 
-    ){
+    ) {
         $this->scopeConfig = $scopeConfig;
         $this->catalogSession = $catalogSession;
         $this->transactionAffiliate = $transactionAffiliate;
@@ -71,7 +75,7 @@ class SubmitAllAfter
         $this->_resource = $resource;
         $this->_accountAffilite = $accountAffilite;
         $this->_collection = $collection;
-        $this->_objectManager= $objectManager;
+        $this->_objectManager = $objectManager;
         $this->_customerSession = $customerSession;
         $this->_helper = $helper;
         $this->affiliateHelper = $affiliateHelper;
@@ -79,6 +83,9 @@ class SubmitAllAfter
         $this->logger = $logger;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function beforeSave(OrderRepositoryInterface $repository, Order $order)
     {
         $this->execute($order);
@@ -92,21 +99,15 @@ class SubmitAllAfter
      */
     public function execute(Order $order)
     {
-        $this->logger->info('kc_submit');
+        //$this->logger->info('kc_submit');
 
-        if(!$this->_helper->getConfig('general_settings/enable')) return;
+        if (!$this->_helper->getConfig('general_settings/enable')) return;
 
         if ($order->getEntityId() || $order->getAffiliateCode()) {
             return;
         }
-        $this->logger->info('pass');
+        //$this->logger->info('pass');
 
-        // check all order id and compare with conditions config
-        // $order = $observer->getEvent()->getOrder();
-//        $orderIds = $order->getId();
-        // if (!$orderIds || is_array($orderIds)) {
-        //     return $this;
-        // }
         $order_id = $order->getEntityId();
         $orderSubTotal = $order->getSubtotal();
         $incrementId = $order->getIncrementId();
@@ -116,7 +117,7 @@ class SubmitAllAfter
             if ($group['is_active'] == 1 && $group['commission_ppl'] > 0) {
 
                 if ($group['commission_ppl_action'] == 1) {
-                    $order_commission = $orderSubTotal*$group['commission_ppl']/100;
+                    $order_commission = $orderSubTotal * $group['commission_ppl'] / 100;
                 } else {
                     $order_commission = $group['commission_ppl'];
                 }
@@ -126,7 +127,6 @@ class SubmitAllAfter
                 $data['affiliate_code'] = $account_data['tracking_code'];
                 $data['email_aff'] = $account_data['email'];
                 $data['campaign_code'] = '';
-//                $data['order_id'] = $order_id;
                 $data['order_total'] = $orderSubTotal;
                 $data['order_status'] = $order->getStatus();
                 $data['transaction_stt'] = $order->getStatus();
@@ -137,38 +137,34 @@ class SubmitAllAfter
             }
         }
 
-
         $affiliateCode = $this->affiliateHelper->getTracking('affiliate_code');
-        $this->logger->info($affiliateCode);
-        if($affiliateCode == '') return;
-        if(!$this->_helper->checkSalesAffiliateCode($affiliateCode)) return;
+        //$this->logger->info($affiliateCode);
+        if ($affiliateCode == '') return;
+        if (!$this->_helper->checkSalesAffiliateCode($affiliateCode)) return;
         $campaignCode = $this->affiliateHelper->getTracking('campaign_code');
         $affiliateParams = '';
 
 
-
         /** @var $order \Magento\Sales\Model\Order */
         $quote_id = $order->getQuoteId();
-        $quote = $this->_quote->load($quote_id);
+        //$quote = $this->_quote->load($quote_id);
 
-        $trackingcode = array(
+        /* $trackingcode = array(
             'affiliate_code' => $affiliateCode,
             'campaign_code' => $campaignCode,
             'affiliate_params' => $affiliateParams
-        );
+        ); */
         $affiliate_email = $this->_helper->getEmailAffiliateByCode($affiliateCode);
         $affiliate_id = $this->_helper->getAffiliateIdByCode($affiliateCode);
-        $customer_id = $this->_customerSession->getCustomerId();
+        //$customer_id = $this->_customerSession->getCustomerId();
         $orderSubTotal = $order->getSubtotal();
-//        $order_id = $order->getEntityId();
-//        $this->_helper->saveTrackingFromSalesOrder($order->getIncrementId(), $trackingcode);
 
         if ($campaignCode != '') {
             $campaign = $this->_helper->getCampaignByTrackingCode($campaignCode);
             $discount_action = $campaign->getDiscountAction();
             $discount_amount = $campaign->getDiscountAmount();
             if ($discount_action == 'by_percent') {
-                $orderCommission = $orderSubTotal*$discount_amount/100;
+                $orderCommission = $orderSubTotal * $discount_amount / 100;
             } else {
                 $orderCommission = $discount_amount;
             }
@@ -193,7 +189,7 @@ class SubmitAllAfter
                 $groupData['commission_action'] == 1 ? $discount_action = 'by_percent' : $discount_action = '';
                 $discount_amount = $groupData['commission'];
                 if ($discount_action == 'by_percent') {
-                    $order_commission = $orderSubTotal*$discount_amount/100;
+                    $order_commission = $orderSubTotal * $discount_amount / 100;
                 } else {
                     $order_commission = $discount_amount;
                 }

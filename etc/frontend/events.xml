@@ -20,16 +20,16 @@
         <observer name="lof_affiliate_checkout_success" instance="Lof\Affiliate\Observer\CheckoutSuccess"  />
     </event>
 
+    <event name="sales_order_save_after">
+        <observer name="lof_affiliate_place_after" instance="Lof\Affiliate\Observer\PlaceAfter" />
+    </event>
+    
     <!-- <event name="checkout_submit_all_after">
         <observer instance="Lof\Affiliate\Observer\Checkout\SubmitAllAfter" name="lof_affiliate_observer_checkout_submitallafter_checkout_submit_all_after"/>
     </event> -->
 
     <!-- <event name="checkout_cart_add_product_complete">
         <observer name="lof_affiliate_checkout_cart_add" instance="Lof\Affiliate\Observer\CheckoutCartAddComplete" />
-    </event> -->
-
-    <!-- <event name="controller_action_postdispatch_newsletter_manage_save">
-        <observer name="lof_affiliate_controller_action_postdispatch_newsletter_manage_save" instance="Lof\Affiliate\Observer\PostdispatchNewsletter" />
     </event> -->
 
 </config>

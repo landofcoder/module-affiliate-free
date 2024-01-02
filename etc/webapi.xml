@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/lof-affiliate/customer" method="POST">
+        <service class="Lof\Affiliate\Api\AccountRepositoryInterface" method="useReferCode"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/lof-affiliate/after-checkout/" method="POST">
+        <service class="Lof\Affiliate\Api\AccountRepositoryInterface" method="createTransaction"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/lof-affiliate/complete-order" method="POST">
+        <service class="Lof\Affiliate\Api\AccountRepositoryInterface" method="completeOrder"/>
+        <resources>
+            <resource ref="Magento_Sales::sales"/>
+        </resources>
+    </route>
+    <route url="/V1/lof-affiliate/saveCampaign" method="POST">
+        <service class="Lof\Affiliate\Api\AccountRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Lof_Affiliate::campaign"/>
+        </resources>
+    </route>
+    <route url="/V1/lof-affiliate/getCampaginbyd/:campaignId" method="GET">
+        <service class="Lof\Affiliate\Api\AccountRepositoryInterface" method="getById"/>
+        <resources>
+            <resource ref="Lof_Affiliate::campaign"/>
+        </resources>
+    </route>
+    <route url="/V1/lof-affiliate/getcustomerrefercode" method="GET">
+        <service class="Lof\Affiliate\Api\AccountRepositoryInterface" method="getReferCode"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+</routes>

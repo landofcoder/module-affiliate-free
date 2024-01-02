@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
 -->
 <listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
@@ -60,66 +60,9 @@
                 <item name="sticky" xsi:type="boolean">true</item>
             </item>
         </argument>
-        <bookmark name="bookmarks">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="storageConfig" xsi:type="array">
-                        <item name="namespace" xsi:type="string">affiliate_groupaffiliate_listing</item>
-                    </item>
-                </item>
-            </argument>
-        </bookmark>
-        <columnsControls name="columns_controls">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="columnsData" xsi:type="array">
-                        <item name="provider" xsi:type="string">affiliate_groupaffiliate_listing.affiliate_groupaffiliate_listing.affiliate_groupaffiliate_columns</item>
-                    </item>
-                    <item name="component" xsi:type="string">Magento_Ui/js/grid/controls/columns</item>
-                    <item name="displayArea" xsi:type="string">dataGridActions</item>
-                </item>
-            </argument>
-        </columnsControls>
-        <filterSearch name="fulltext">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="provider" xsi:type="string">affiliate_groupaffiliate_listing.affiliate_groupaffiliate_listing_data_source</item>
-                    <item name="chipsProvider" xsi:type="string">affiliate_groupaffiliate_listing.affiliate_groupaffiliate_listing.listing_top.listing_filters_chips</item>
-                    <item name="storageConfig" xsi:type="array">
-                        <item name="provider" xsi:type="string">affiliate_groupaffiliate_listing.affiliate_groupaffiliate_listing.listing_top.bookmarks</item>
-                        <item name="namespace" xsi:type="string">current.search</item>
-                    </item>
-                </item>
-            </argument>
-        </filterSearch>
-        <filters name="listing_filters">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="columnsProvider" xsi:type="string">affiliate_groupaffiliate_listing.affiliate_groupaffiliate_listing.affiliate_groupaffiliate_columns</item>
-                    <item name="storageConfig" xsi:type="array">
-                        <item name="provider" xsi:type="string">affiliate_groupaffiliate_listing.affiliate_groupaffiliate_listing.listing_top.bookmarks</item>
-                        <item name="namespace" xsi:type="string">current.filters</item>
-                    </item>
-                    <item name="templates" xsi:type="array">
-                        <item name="filters" xsi:type="array">
-                            <item name="select" xsi:type="array">
-                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
-                                <item name="template" xsi:type="string">ui/grid/filters/elements/ui-select</item>
-                            </item>
-                        </item>
-                    </item>
-                    <item name="childDefaults" xsi:type="array">
-                        <item name="provider" xsi:type="string">affiliate_groupaffiliate_listing.affiliate_groupaffiliate_listing.listing_top.listing_filters</item>
-                        <item name="imports" xsi:type="array">
-                            <item name="visible" xsi:type="string">affiliate_groupaffiliate_listing.affiliate_groupaffiliate_listing.affiliate_groupaffiliate_columns.${ $.index }:visible</item>
-                        </item>
-                    </item>
-                </item>
-                <item name="observers" xsi:type="array">
-                    <item name="column" xsi:type="string">column</item>
-                </item>
-            </argument>
-        </filters>
+        <bookmark name="bookmarks"/>
+		<columnsControls name="columns_controls"/>
+        <filters name="listing_filters"/>
         <massaction name="listing_massaction">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -159,17 +102,7 @@
                 </argument>
             </action>
         </massaction>
-        <paging name="listing_paging">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="storageConfig" xsi:type="array">
-                        <item name="provider" xsi:type="string">affiliate_groupaffiliate_listing.affiliate_groupaffiliate_listing.listing_top.bookmarks</item>
-                        <item name="namespace" xsi:type="string">current.paging</item>
-                    </item>
-                    <item name="selectProvider" xsi:type="string">affiliate_groupaffiliate_listing.affiliate_groupaffiliate_listing.affiliate_groupaffiliate_columns.ids</item>
-                </item>
-            </argument>
-        </paging>
+        <paging name="listing_paging"/>
     </listingToolbar>
     <columns name="affiliate_groupaffiliate_columns">
         <argument name="data" xsi:type="array">
@@ -268,7 +201,7 @@
                 </item>
             </argument>
         </column>
-        
+
         <actionsColumn name="actions" class="Lof\Affiliate\Ui\Component\Listing\Column\GroupAffiliateActions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -278,7 +211,6 @@
                 </item>
             </argument>
         </actionsColumn>
-
 
     </columns>
 </listing>

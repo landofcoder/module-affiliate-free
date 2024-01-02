@@ -87,40 +87,6 @@ require([
         });
         cardValidate();
 
-        /*Payment Form */
-        // $("#paymentForm").submit(function() { 
-        //     var datastring = $(this).serialize();
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "<?php //echo $data['callback']; ?>",
-        //         data: datastring,
-        //         dataType: "json",
-        //         beforeSend: function(){  
-        //             $("#paymentButton").val('Processing..');
-        //         },
-        //         complete: function(data) {
-        //             $.each(data.OrderStatus, function(i,data){
-        //                 var HTML;
-        //                 if(data){
-        //                     $("#paymentGrid").slideUp("slow");  
-        //                     $("#orderInfo").fadeIn("slow");
-
-        //                     if(data.status == '1'){
-        //                         HTML="Order <span>"+data.orderID+"</span> has been created successfully."; 
-        //                     }else if(data.status == '2'){
-        //                         HTML="Transaction has been failed, please use other card."; 
-        //                     }else{
-        //                         HTML="Card number is not valid, please use other card."; 
-        //                     }
-
-        //                     $("#orderInfo").html(HTML);
-        //                 }
-        //             });
-        //         },
-        //         error: function(){ alert('error handing here'); }
-        //         });
-        //     return false;
-        // });
         $("#paymentForm").submit(function(event) { 
             event.preventDefault();
             var $form = $(this),

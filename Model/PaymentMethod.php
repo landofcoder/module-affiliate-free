@@ -3,6 +3,7 @@
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace Lof\Affiliate\Model;
 
 //use Magento\Braintree\Model\Adapter\BraintreeCreditCard;
@@ -16,18 +17,19 @@ use Magento\Sales\Model\Order\Payment\Transaction;
 use Magento\Sales\Model\ResourceModel\Order\Payment\Transaction\CollectionFactory as TransactionCollectionFactory;
 use Magento\Sales\Model\Order\Payment\Transaction as PaymentTransaction;
 use Magento\Payment\Model\InfoInterface;
+
 /**
-* 
-*/
+ *
+ */
 class PaymentMethod extends \Magento\Payment\Model\Method\Cc
 {
-    
-     const CAPTURE_ON_INVOICE        = 'invoice';
-    const CAPTURE_ON_SHIPMENT       = 'shipment';
-    const CHANNEL_NAME              = 'Magento';
-    const METHOD_CODE               = 'braintree';
-    const REGISTER_NAME             = 'braintree_save_card';
-    const CONFIG_MASKED_FIELDS      = 'masked_fields';
+
+    const CAPTURE_ON_INVOICE = 'invoice';
+    const CAPTURE_ON_SHIPMENT = 'shipment';
+    const CHANNEL_NAME = 'Magento';
+    const METHOD_CODE = 'braintree';
+    const REGISTER_NAME = 'braintree_save_card';
+    const CONFIG_MASKED_FIELDS = 'masked_fields';
 
     /**
      * @var string
@@ -42,52 +44,52 @@ class PaymentMethod extends \Magento\Payment\Model\Method\Cc
     /**
      * @var string
      */
-    protected $_code                    = self::METHOD_CODE;
+    protected $_code = self::METHOD_CODE;
 
     /**
      * @var bool
      */
-    protected $_isGateway               = true;
+    protected $_isGateway = true;
 
     /**
      * @var bool
      */
-    protected $_canAuthorize            = true;
+    protected $_canAuthorize = true;
 
     /**
      * @var bool
      */
-    protected $_canCapture              = true;
+    protected $_canCapture = true;
 
     /**
      * @var bool
      */
-    protected $_canCapturePartial       = true;
+    protected $_canCapturePartial = true;
 
     /**
      * @var bool
      */
-    protected $_canRefund               = true;
+    protected $_canRefund = true;
 
     /**
      * @var bool
      */
-    protected $_canVoid                 = true;
+    protected $_canVoid = true;
 
     /**
      * @var bool
      */
-    protected $_canUseInternal          = true;
+    protected $_canUseInternal = true;
 
     /**
      * @var bool
      */
-    protected $_canUseCheckout          = true;
+    protected $_canUseCheckout = true;
 
     /**
      * @var bool
      */
-    protected $_canSaveCc               = false;
+    protected $_canSaveCc = false;
 
     /**
      * @var bool
@@ -97,17 +99,17 @@ class PaymentMethod extends \Magento\Payment\Model\Method\Cc
     /**
      * @var string
      */
-    protected $merchantAccountId       = '';
+    protected $merchantAccountId = '';
 
     /**
      * @var bool
      */
-    protected $allowDuplicates         = true;
+    protected $allowDuplicates = true;
 
     /**
      * @var array|null
      */
-    protected $requestMaskedFields     = null;
+    protected $requestMaskedFields = null;
 
     /**
      * @var \Magento\Braintree\Model\Config\Cc
@@ -159,31 +161,7 @@ class PaymentMethod extends \Magento\Payment\Model\Method\Cc
      */
     protected $orderRepository;
 
-    /**
-     * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\Api\ExtensionAttributesFactory $extensionFactory
-     * @param \Magento\Framework\Api\AttributeValueFactory $customAttributeFactory
-     * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Payment\Model\Method\Logger $logger
-     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
-     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Braintree\Model\Config\Cc $config
-     * @param BraintreeTransaction $braintreeTransaction
-     * @param BraintreeCreditCard $braintreeCreditCard
-     * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Braintree\Helper\Data $braintreeHelper
-     * @param \Magento\Braintree\Helper\Error $errorHelper
-     * @param TransactionCollectionFactory $salesTransactionCollectionFactory
-     * @param \Magento\Framework\App\ProductMetadataInterface $productMetaData
-     * @param \Magento\Directory\Model\RegionFactory $regionFactory
-     * @param \Magento\Framework\Model\ResourceModel\AbstractResource $resource
-     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     * @param \Magento\Framework\Data\Collection\AbstractDb $resourceCollection
-     * @param array $data
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     */
+
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
@@ -194,13 +172,7 @@ class PaymentMethod extends \Magento\Payment\Model\Method\Cc
         \Magento\Payment\Model\Method\Logger $logger,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        //\Magento\Braintree\Model\Config\Cc $config,
-        //Vault $vault,
-        //BraintreeTransaction $braintreeTransaction,
-        //BraintreeCreditCard $braintreeCreditCard,
         \Magento\Framework\App\RequestInterface $request,
-        //\Magento\Braintree\Helper\Data $braintreeHelper,
-        //\Magento\Braintree\Helper\Error $errorHelper,
         TransactionCollectionFactory $salesTransactionCollectionFactory,
         \Magento\Framework\App\ProductMetadataInterface $productMetaData,
         \Magento\Directory\Model\RegionFactory $regionFactory,
@@ -223,13 +195,9 @@ class PaymentMethod extends \Magento\Payment\Model\Method\Cc
             $resourceCollection,
             $data
         );
-        //s$this->config = $config;
-        $this->vault = $vault;
-        //$this->braintreeTransaction = $braintreeTransaction;
-        //$this->braintreeCreditCard = $braintreeCreditCard;
+        //$this->vault = $vault;
         $this->request = $request;
-        //$this->braintreeHelper = $braintreeHelper;
-        $this->errorHelper = $errorHelper;
+        //$this->errorHelper = $errorHelper;
         $this->salesTransactionCollectionFactory = $salesTransactionCollectionFactory;
         $this->productMetaData = $productMetaData;
         $this->regionFactory = $regionFactory;

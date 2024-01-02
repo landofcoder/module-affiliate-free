@@ -3,12 +3,10 @@
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace Lof\Affiliate\Block\Account\Form;
 
-use Magento\Customer\Api\AccountManagementInterface;
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\Session;
-// use Lof\Affiliate\Model\ResourceModel\AccountAffiliate\CollectionFactory;
 
 /**
  * Customer edit form block
@@ -17,16 +15,6 @@ use Magento\Customer\Model\Session;
  */
 class Edit extends \Magento\Customer\Block\Account\Dashboard
 {
-    /**
-     * @var Session
-     */
-    // protected $session;
-
-    // public function __construct(
-    //     Session $customerSession
-    //     ){
-    //     $this->session = $customerSession;
-    // } 
     /**
      * Retrieve form data
      *
@@ -82,12 +70,11 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
     {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $customer_id = $this->customerSession->getCustomer()->getId();
-        // die($customer_id);
         $model = $objectManager->create('Lof\Affiliate\Model\AccountAffiliate');
-        $model->loadByAttribute('customer_id',$customer_id);
-        // die($model->getEmail());
+        $model->loadByAttribute('customer_id', $customer_id);
         return $model;
     }
+
     /**
      * Prepare Layout
      *
@@ -96,31 +83,31 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
      */
     public function _prepareLayout()
     {
-
         $page_title = 'Edit Account';
         $meta_description = 'Edit Account';
         $meta_keywords = 'Edit Account';
 
         $this->_addBreadcrumbs();
 
-        if($page_title){
-            $this->pageConfig->getTitle()->set($page_title);   
+        if ($page_title) {
+            $this->pageConfig->getTitle()->set($page_title);
         }
-        if($meta_keywords){
-            $this->pageConfig->setKeywords($meta_keywords);   
+        if ($meta_keywords) {
+            $this->pageConfig->setKeywords($meta_keywords);
         }
-        if($meta_description){
-            $this->pageConfig->setDescription($meta_description);   
+        if ($meta_description) {
+            $this->pageConfig->setDescription($meta_description);
         }
 
         return parent::_prepareLayout();
     }
+
     /**
      * Prepare breadcrumbs
      *
      * @param \Magento\Cms\Model\Page $brand
-     * @throws \Magento\Framework\Exception\LocalizedException
      * @return void
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     protected function _addBreadcrumbs()
     {
@@ -130,7 +117,7 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
         $page_title = 'Edit Account';
         $show_breadcrumbs = true;
 
-        if($show_breadcrumbs && $breadcrumbsBlock){
+        if ($show_breadcrumbs && $breadcrumbsBlock) {
             $breadcrumbsBlock->addCrumb(
                 'home',
                 [
@@ -138,13 +125,13 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
                     'title' => __('Go to Home Page'),
                     'link' => $baseUrl
                 ]
-             );
+            );
             $breadcrumbsBlock->addCrumb(
                 'list',
                 [
                     'label' => __('Affiliate'),
                     'title' => __('Return to Affiliate'),
-                    'link' => $baseUrl.'affiliate'
+                    'link' => $baseUrl . 'affiliate'
                 ]
             );
 
@@ -155,7 +142,7 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
                     'title' => $page_title,
                     'link' => ''
                 ]
-             );
+            );
         }
     }
 }

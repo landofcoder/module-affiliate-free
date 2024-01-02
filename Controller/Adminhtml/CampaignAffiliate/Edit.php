@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Controller\Adminhtml\CampaignAffiliate;
 
 use Magento\Backend\App\Action;
@@ -91,9 +92,6 @@ class Edit extends \Magento\Backend\App\Action
         // 2. Initial checking
         if ($id) {
             $model->load($id);
-
-            //echo "<pre>"; print_r($model->getId()); exit;
-
             if (!$model->getId()) {
                 $this->messageManager->addError(__('This Affiliate Campaign no longer exists.'));
                 /** \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
@@ -108,8 +106,6 @@ class Edit extends \Magento\Backend\App\Action
         if (!empty($data)) {
             $model->setData($data);
         }
-
-        //$model->getConditions()->setJsFormObject('rule_conditions_fieldset');
 
         // 4. Register model to use later in blocks
         $this->_coreRegistry->register('affiliate_campaign', $model);

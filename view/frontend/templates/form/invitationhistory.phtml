@@ -1,0 +1,42 @@
+<?php
+$_helper = $this->getHelper();
+$collection  = $block->getReferingCustomerCollection();
+$count       = $collection->count();
+$size        = $collection->getSize();
+$limit       = $block->getLimit();
+$currentPage = $block->getCurrentPage();
+$start       = $size - (($currentPage - 1) * $limit);
+?>
+<div class="aff-main-content col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+    <?php if ($collection && count($collection)): ?>
+        <div class="affiliate-order">
+            <table class="data table table-invitation-history-items history" id="my-invitation-history-table">
+                <caption class="table-caption"><?php /* @escapeNotVerified */ echo __('Invitation History') ?></caption>
+                <thead>
+                <tr>
+                    <th scope="col" class="col id"><?php /* @escapeNotVerified */ echo __('Id') ?></th>
+                    <th scope="col" class="col customer_email_address"><?php /* @escapeNotVerified */ echo __('Customer Email Address') ?></th>
+                    <th scope="col" class="col expiry_date_commission"><?php /* @escapeNotVerified */ echo __('Expiry Date Commission') ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                $total = 0;
+                foreach ($collection as $_collection) : ?>
+                    <tr>
+                        <td data-th="<?= $block->escapeHtml(__('Id')) ?>" class="col id"><?php /* @escapeNotVerified */ echo $_collection->getId() ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Customer Email Address')) ?>" class="col customer_email_address"><?php /* @escapeNotVerified */ echo $_collection->getReferingCustomerEmail() ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Expiry Date Commission')) ?>" class="col expiry_date_commission"><?= $_collection->getExpiryDateCommission(); ?></td>
+                    </tr>
+                    <?php $total += $_collection->getCommissionTotal();?>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+            <?= $block->getChildHtml('toolbar'); ?>
+        </div>
+
+    <?php else: ?>
+        <div class="message info empty"><span><?php /* @escapeNotVerified */ echo __('You have placed no invitation history.'); ?></span></div>
+    <?php endif ?>
+</div>

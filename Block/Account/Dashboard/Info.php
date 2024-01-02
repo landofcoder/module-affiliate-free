@@ -3,6 +3,7 @@
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace Lof\Affiliate\Block\Account\Dashboard;
 
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -109,7 +110,7 @@ class Info extends \Magento\Framework\View\Element\Template
      * @return bool
      *
      * @SuppressWarnings(PHPMD.BooleanGetMethodName)
-     */ 
+     */
     public function getIsSubscribed()
     {
         return $this->getSubscriptionObject()->isSubscribed();
@@ -140,6 +141,7 @@ class Info extends \Magento\Framework\View\Element\Template
     {
         return $this->currentCustomer->getCustomerId() ? parent::_toHtml() : '';
     }
+
     /**
      * Prepare Layout
      *
@@ -149,30 +151,31 @@ class Info extends \Magento\Framework\View\Element\Template
     public function _prepareLayout()
     {
 
-        $page_title = 'Affiliate Account';
-        $meta_description = 'Affiliate Account';
-        $meta_keywords = 'Affiliate Account';
+        $page_title = __('Affiliate Account');
+        $meta_description = __('Affiliate Account');
+        $meta_keywords = __('Affiliate Account');
 
         $this->_addBreadcrumbs();
 
-        if($page_title){
-            $this->pageConfig->getTitle()->set($page_title);   
+        if ($page_title) {
+            $this->pageConfig->getTitle()->set($page_title);
         }
-        if($meta_keywords){
-            $this->pageConfig->setKeywords($meta_keywords);   
+        if ($meta_keywords) {
+            $this->pageConfig->setKeywords($meta_keywords);
         }
-        if($meta_description){
-            $this->pageConfig->setDescription($meta_description);   
+        if ($meta_description) {
+            $this->pageConfig->setDescription($meta_description);
         }
 
         return parent::_prepareLayout();
     }
+
     /**
      * Prepare breadcrumbs
      *
      * @param \Magento\Cms\Model\Page $brand
-     * @throws \Magento\Framework\Exception\LocalizedException
      * @return void
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     protected function _addBreadcrumbs()
     {
@@ -182,7 +185,7 @@ class Info extends \Magento\Framework\View\Element\Template
         $page_title = 'Account Information';
         $show_breadcrumbs = true;
 
-        if($show_breadcrumbs && $breadcrumbsBlock){
+        if ($show_breadcrumbs && $breadcrumbsBlock) {
             $breadcrumbsBlock->addCrumb(
                 'home',
                 [
@@ -190,13 +193,13 @@ class Info extends \Magento\Framework\View\Element\Template
                     'title' => __('Go to Home Page'),
                     'link' => $baseUrl
                 ]
-             );
+            );
             $breadcrumbsBlock->addCrumb(
                 'list',
                 [
                     'label' => __('Affiliate'),
                     'title' => __('Return to Affiliate'),
-                    'link' => $baseUrl.'affiliate'
+                    'link' => $baseUrl . 'affiliate'
                 ]
             );
 
@@ -207,7 +210,7 @@ class Info extends \Magento\Framework\View\Element\Template
                     'title' => $page_title,
                     'link' => ''
                 ]
-             );
+            );
         }
     }
 }

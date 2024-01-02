@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="affiliate_customer_account"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Lof\Affiliate\Block\Account\Form\Websites" name="affiliate_account_websites" template="form/websites.phtml" cacheable="false">
+                <arguments>
+                    <argument name="limit" xsi:type="string">10</argument>
+                </arguments>
+                <block class="Lof\Affiliate\Block\Toolbar" name="lof_toolbar" template="toolbar.phtml">
+                    <block class="Magento\Theme\Block\Html\Pager" name="lof_pager"/>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

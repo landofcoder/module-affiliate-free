@@ -1,24 +1,26 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Controller\Adminhtml\WithdrawAffiliate;
+
 use Magento\Backend\App\Action\Context;
 
 class Callback extends \Magento\Backend\App\Action
@@ -50,7 +52,8 @@ class Callback extends \Magento\Backend\App\Action
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Magento\Framework\Registry $registry,
         \Lof\Affiliate\Model\WithdrawAffiliate $withdrawModel
-    ) {
+    )
+    {
         $this->resultPageFactory = $resultPageFactory;
         $this->_coreRegistry = $registry;
         $this->_withdrawModel = $withdrawModel;
@@ -76,16 +79,16 @@ class Callback extends \Magento\Backend\App\Action
 
         try {
             $transaction_data = "";
-            if(is_array($request)){
+            if (is_array($request)) {
                 $transaction_data = serialize($request);
                 $model->setData("transaction_data", $transaction_data);
             }
-            
+
             $model->save();
             $this->messageManager->addSuccess(
-                    __('You payout success.')
-                );            
-            
+                __('You payout success.')
+            );
+
         } catch (Exception $e) {
             $this->messageManager->addException($e, __('You can\'t payout.'));
         }
@@ -93,5 +96,5 @@ class Callback extends \Magento\Backend\App\Action
         $resultRedirect->setPath('*/withdrawaffiliate/index');
         return $resultRedirect;
     }
-    
+
 }

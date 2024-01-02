@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Controller\Adminhtml\WithdrawAffiliate;
 
 use Magento\Backend\App\Action;
@@ -43,7 +44,8 @@ class Select extends \Magento\Backend\App\Action
         Action\Context $context,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Magento\Framework\Registry $registry
-    ) {
+    )
+    {
         $this->resultPageFactory = $resultPageFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($context);
@@ -79,8 +81,7 @@ class Select extends \Magento\Backend\App\Action
      * @return \Magento\Backend\Model\View\Result\Forward
      */
     public function execute()
-       {
-        // die('minh');
+    {
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('accountaffiliate_id');
         $model = $this->_objectManager->create('Lof\Affiliate\Model\AccountAffiliate');
@@ -110,8 +111,8 @@ class Select extends \Magento\Backend\App\Action
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->_initAction();
         $resultPage->addBreadcrumb(
-             __('Add New Payment'),
-             __('Add New Payment')
+            __('Add New Payment'),
+            __('Add New Payment')
         );
         $resultPage->getConfig()->getTitle()->prepend(__('Affiliate'));
         $resultPage->getConfig()->getTitle()

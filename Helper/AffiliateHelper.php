@@ -58,32 +58,32 @@ class AffiliateHelper extends AbstractHelper implements AffiliateHelperInterface
     /**
      * AffiliateHelper constructor.
      *
-     * @param \Magento\Framework\App\Helper\Context             $context
-     * @param \Lof\Affiliate\Cookie\TrackingCookie           $trackingCookie
-     * @param \Magento\Customer\Model\Session                   $customerSession
-     * @param \Magento\Checkout\Model\Session                   $checkoutSession
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Lof\Affiliate\Cookie\TrackingCookie $trackingCookie
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-     * @param \Magento\Quote\Api\CartRepositoryInterface        $quoteRepository
-     * @param \Magento\Sales\Api\OrderRepositoryInterface       $orderRepository
+     * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
+     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      */
     public function __construct(
-        Context                     $context,
-        TrackingCookie              $trackingCookie,
-        CustomerSession             $customerSession,
-        CheckoutSession             $checkoutSession,
+        Context $context,
+        TrackingCookie $trackingCookie,
+        CustomerSession $customerSession,
+        CheckoutSession $checkoutSession,
         CustomerRepositoryInterface $customerRepository,
-        CartRepositoryInterface     $quoteRepository,
-        OrderRepositoryInterface    $orderRepository
+        CartRepositoryInterface $quoteRepository,
+        OrderRepositoryInterface $orderRepository
     ) {
         parent::__construct($context);
 
-        $this->_scopeConfig        = $context->getScopeConfig();
-        $this->_trackingCookie     = $trackingCookie;
-        $this->_customerSession    = $customerSession;
-        $this->_checkoutSession    = $checkoutSession;
+        $this->_scopeConfig = $context->getScopeConfig();
+        $this->_trackingCookie = $trackingCookie;
+        $this->_customerSession = $customerSession;
+        $this->_checkoutSession = $checkoutSession;
         $this->_customerRepository = $customerRepository;
-        $this->_quoteRepository    = $quoteRepository;
-        $this->_orderRepository    = $orderRepository;
+        $this->_quoteRepository = $quoteRepository;
+        $this->_orderRepository = $orderRepository;
     }
 
     /**
@@ -102,7 +102,7 @@ class AffiliateHelper extends AbstractHelper implements AffiliateHelperInterface
      */
     public function getConfigActive()
     {
-        return (bool) $this->getConfig(self::CONFIG_ACTIVE);
+        return (bool)$this->getConfig(self::CONFIG_ACTIVE);
     }
 
     /**
@@ -144,7 +144,7 @@ class AffiliateHelper extends AbstractHelper implements AffiliateHelperInterface
     }
 
     /**
-     * @param string   $tracking
+     * @param string $tracking
      */
     public function setTracking($tracking, $cookie_name)
     {

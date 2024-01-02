@@ -3,6 +3,7 @@
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace Lof\Affiliate\Controller\Account;
 
 use Magento\Customer\Model\Account\Redirect as AccountRedirect;
@@ -38,6 +39,8 @@ class LoginPost extends \Magento\Customer\Controller\AbstractAccount
 
     /** @var \Magento\Framework\UrlInterface */
     protected $urlModel;
+
+    protected $customerUrl;
 
     /**
      * @param Context $context

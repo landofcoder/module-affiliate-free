@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Block\Adminhtml\TransactionAffiliate;
 
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
@@ -55,49 +56,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $this->_controller = 'adminhtml_transactionAffiliate';
 
         parent::_construct();
-        $this->buttonList->remove('save');
+//        $this->buttonList->remove('save');
         $this->buttonList->remove('delete');
         $this->buttonList->remove('reset');
-
-        // if ($this->_isAllowedAction('Lof_Affiliate::save')) {
-        //     $this->buttonList->update('save', 'label', __('Save Transaction'));
-        //     $this->buttonList->add(
-        //         'saveandcontinue',
-        //         [
-        //             'label' => __('Save and Continue Edit'),
-        //             'class' => 'save',
-        //             'data_attribute' => [
-        //                 'mage-init' => [
-        //                     'button' => ['event' => 'saveAndContinueEdit', 'target' => '#edit_form'],
-        //                 ],
-        //             ]
-        //         ],
-        //         -100
-        //     );
-           
-        // } else {
-        //     $this->buttonList->remove('save');
-        // }
-        // if ($this->_isAllowedAction('Lof_Affiliate::transactionaffiliate_delete')) {
-        //     $this->buttonList->update('delete', 'label', __('Delete Transaction'));
-        // } else {
-        //     $this->buttonList->remove('delete');
-        // }
-        // if ($this->_coreRegistry->registry('affiliate_transaction')->getId()) {
-        //     $payUrl = $this->getUrl('*/*/pay',["transaction_id" => $this->_coreRegistry->registry('affiliate_transaction')->getId()]);
-        //     $this->buttonList->add(
-        //         'pay',
-        //         [
-        //             'label' => __('Pay'),
-        //             'onclick' => 'setLocation(\'' .$payUrl. '\')',
-        //             'class' => 'pay'
-                    
-        //         ],
-        //         -1
-        //         );
-        // }else{
-        //     $this->buttonList->remove('pay');
-        // }
     }
 
     /**

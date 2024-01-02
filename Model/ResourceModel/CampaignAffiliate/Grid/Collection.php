@@ -1,23 +1,24 @@
 <?php
 /**
- * Venustheme
- * 
+ * Landofcoder
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the venustheme.com license that is
  * available through the world-wide-web at this URL:
- * http://venustheme.com/license
- * 
+ * https://landofcoder.com/license
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
- * @category   Venustheme
+ *
+ * @category   Landofcoder
  * @package    Lof_Affiliate
- * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
- * @license    http://www.venustheme.com/LICENSE-1.0.html
+ * @copyright  Copyright (c) 2016 Landofcoder (https://landofcoder.com)
+ * @license    https://landofcoder.com/LICENSE-1.0.html
  */
+
 namespace Lof\Affiliate\Model\ResourceModel\CampaignAffiliate\Grid;
 
 use Magento\Framework\Api\Search\SearchResultInterface;
@@ -44,7 +45,8 @@ class Collection extends CampaignCollection implements SearchResultInterface
         $model = 'Magento\Framework\View\Element\UiComponent\DataProvider\Document',
         $connection = null,
         \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null
-    ) {
+    )
+    {
         parent::__construct(
             $entityFactory,
             $logger,
@@ -146,6 +148,7 @@ class Collection extends CampaignCollection implements SearchResultInterface
     {
         return $this;
     }
+
     /**
      * Create all ids retrieving select with limitation
      * Backward compatibility with EAV collection

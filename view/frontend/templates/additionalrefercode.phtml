@@ -1,0 +1,28 @@
+<?php
+$helper = $this->helper("Lof\Affiliate\Helper\Data");
+$refer_cam = $this->getRequest()->getParam("cam");
+$refer_code = $this->getRequest()->getParam("code");
+$refer_code = $block->escapeHtmlAttr($refer_code);
+$refer_cam = $block->escapeHtmlAttr($refer_cam);
+if(!$refer_code){
+    $refer_code = $helper->getCurrentAffiliateCode();
+}
+if(!$refer_cam){
+    $refer_cam = $helper->getCurrentAffiliateCampaignCode();
+}
+?>
+<fieldset class="fieldset create">
+    <legend class="legend"><span><?= $block->escapeHtml(__("Affiliate"));?></span></legend>
+    <br>
+    <div class="field affiliate_code">
+        <label class="label" for="refer_code">
+            <span><?= $block->escapeHtml(__('Refer Code')) ?></span>
+        </label>
+        <div class="control">
+            <input type="hidden" name="refer_cam" id="refer_cam" value="<?= $refer_cam; ?>"
+                   title="<?= $block->escapeHtmlAttr(__('Refer Campaign ID')) ?>" class="input-text" autocomplete="off" readonly>
+            <input type="text" name="refer_code" id="refer_code" value="<?= $refer_code; ?>"
+                   title="<?= $block->escapeHtmlAttr(__('Refer Code')) ?>" class="input-text" <?= $refer_code?' autocomplete="off" readonly':'' ?>>
+        </div>
+    </div>
+</fieldset>
